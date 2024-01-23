@@ -4,7 +4,7 @@ public enum Message {
 
     CONFIGURATION_ERROR("There is a problem with settings file."),
 
-    TITLE_EMPTY_ERROR("Title cannot be empty");
+    TITLE_EMPTY_ERROR("Title cannot be empty.");
 
     private final String content;
 
