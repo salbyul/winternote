@@ -10,8 +10,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.winternote.winternote.WinterNoteApplication;
 
-import java.io.IOException;
-
 import static org.winternote.winternote.property.PrivateProperty.*;
 import static org.winternote.winternote.property.PublicProperty.*;
 
@@ -31,20 +29,22 @@ public class StarterController extends AbstractController {
     }
 
     @FXML
-    private void onNewButtonClick() throws IOException {
-        Stage stage = CreationController.generateCreationStage();
+    private void onNewButtonClick() {
+        Stage stage = CreationController.generateStage();
         stage.show();
     }
 
-    protected static Stage generateStarterStage() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(WinterNoteApplication.class.getResource("winter-note-starter.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), DISPLAY_WIDTH / 3, DISPLAY_HEIGHT / 2);
-        Stage newStage = new Stage();
-        newStage.setScene(scene);
-        newStage.setTitle(APPLICATION_NAME);
+    protected static Stage generateStage() {
+        return AbstractController.generateStage(() -> {
+            FXMLLoader fxmlLoader = new FXMLLoader(WinterNoteApplication.class.getResource("winter-note-starter.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), DISPLAY_WIDTH / 3, DISPLAY_HEIGHT / 2);
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.setTitle(APPLICATION_NAME);
 
-        Controller controller = fxmlLoader.getController();
-        controller.setStage(newStage);
-        return newStage;
+            Controller controller = fxmlLoader.getController();
+            controller.setStage(newStage);
+            return newStage;
+        });
     }
 }
