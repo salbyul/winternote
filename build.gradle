@@ -26,7 +26,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'org.winternote.winternote'
-    mainClass = 'org.winternote.winternote.HelloApplication'
+    mainClass = 'org.winternote.winternote.WinterNoteApplication'
 }
 
 javafx {
