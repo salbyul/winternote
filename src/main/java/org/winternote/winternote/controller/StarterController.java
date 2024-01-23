@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static org.winternote.winternote.property.PrivateProperty.*;
+
 public class StarterController {
 
     @FXML
@@ -30,7 +32,7 @@ public class StarterController {
     @FXML
     private void onNewButtonClick() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("creation-note.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Scene scene = new Scene(fxmlLoader.load(), DISPLAY_WIDTH / 5, DISPLAY_HEIGHT / 4);
         Stage newStage = new Stage();
         newStage.setScene(scene);
         newStage.initModality(Modality.APPLICATION_MODAL);
