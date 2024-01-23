@@ -13,6 +13,7 @@ import java.io.IOException;
 
 import static javafx.scene.control.Alert.AlertType.*;
 import static org.winternote.winternote.controller.utils.message.Message.*;
+import static org.winternote.winternote.property.PrivateProperty.*;
 
 public class NoteController {
 
@@ -26,17 +27,19 @@ public class NoteController {
     protected static Stage generateNoteStage(final String title) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(NoteController.class.getResource("note.fxml"));
 
-        NoteController controller = fxmlLoader.getController();
-        controller.setTitle(title);
 
-        Scene scene = new Scene(fxmlLoader.load());
+        Scene scene = new Scene(fxmlLoader.load(), DISPLAY_WIDTH, DISPLAY_HEIGHT);
         Stage stage = new Stage();
         stage.setScene(scene);
+
+        NoteController controller = fxmlLoader.getController();
+        controller.setTitle(title);
         stage.setOnCloseRequest(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(WinterNoteApplication.class.getResource("winter-note-starter.fxml"));
                 Stage newStage = new Stage();
-                newStage.setScene(new Scene(loader.load()));
+                Scene newScene = new Scene(loader.load(), DISPLAY_WIDTH / 3, DISPLAY_HEIGHT / 2);
+                newStage.setScene(newScene);
                 newStage.show();
             } catch (IOException | IllegalStateException e) {
                 AlertUtils.showAlert(ERROR, CONFIGURATION_ERROR);
