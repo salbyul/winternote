@@ -3,7 +3,7 @@ package org.winternote.winternote.controller.utils;
 import javafx.scene.control.Alert;
 import org.winternote.winternote.controller.utils.message.Message;
 
-public class AlertUtils {
+public final class AlertUtils {
 
     private AlertUtils() {}
 

@@ -4,7 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-public class WindowUtils {
+public final class WindowUtils {
 
     private WindowUtils() {}
 
