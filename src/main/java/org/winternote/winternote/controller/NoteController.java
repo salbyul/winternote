@@ -2,7 +2,6 @@ package org.winternote.winternote.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -26,12 +25,11 @@ public class NoteController {
 
     protected static Stage generateNoteStage(final String title) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(NoteController.class.getResource("note.fxml"));
-        Parent load = fxmlLoader.load();
 
         NoteController controller = fxmlLoader.getController();
         controller.setTitle(title);
 
-        Scene scene = new Scene(load);
+        Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setOnCloseRequest(event -> {
