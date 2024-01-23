@@ -11,11 +11,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.winternote.winternote.controller.utils.AlertUtils;
 import org.winternote.winternote.controller.utils.WindowUtils;
 
 import java.io.IOException;
 
+import static javafx.scene.control.Alert.AlertType.*;
 import static org.winternote.winternote.controller.NoteController.generateNoteStage;
+import static org.winternote.winternote.controller.utils.message.Message.*;
 import static org.winternote.winternote.property.PrivateProperty.DISPLAY_HEIGHT;
 import static org.winternote.winternote.property.PrivateProperty.DISPLAY_WIDTH;
 
@@ -38,8 +41,20 @@ public class CreationController extends AbstractController {
     @FXML
     private void onCreateButtonClick() throws IOException {
         Stage stage = generateNoteStage(title.getText());
-        WindowUtils.closeAllWindows();
-        stage.show();
+        try {
+            validateTitle();
+            WindowUtils.closeAllWindows();
+            stage.show();
+        } catch (IllegalArgumentException e) {
+            AlertUtils.showAlert(WARNING, TITLE_EMPTY_ERROR);
+        }
+    }
+
+    private void validateTitle() {
+        String text = title.getText();
+        if (text.isEmpty()) {
+            throw new IllegalArgumentException("Title cannot be empty");
+        }
     }
 
     @FXML
