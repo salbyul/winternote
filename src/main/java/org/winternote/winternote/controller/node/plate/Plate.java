@@ -3,7 +3,7 @@ package org.winternote.winternote.controller.node.plate;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
-import org.winternote.winternote.controller.node.TextFootprint;
+import org.winternote.winternote.controller.node.text.TextFootprint;
 
 public class Plate extends VBox {
 
