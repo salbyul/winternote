@@ -10,8 +10,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.winternote.winternote.WinterNoteApplication;
 
-import static org.winternote.winternote.property.PrivateProperty.*;
-import static org.winternote.winternote.property.PublicProperty.*;
+import static org.winternote.winternote.model.property.PrivateProperty.*;
+import static org.winternote.winternote.model.property.PublicProperty.*;
 
 public class StarterController extends AbstractController {
 

@@ -11,8 +11,8 @@ import org.winternote.winternote.model.ApplicationManager;
 
 import java.io.IOException;
 
-import static org.winternote.winternote.property.PrivateProperty.*;
-import static org.winternote.winternote.property.PublicProperty.*;
+import static org.winternote.winternote.model.property.PrivateProperty.*;
+import static org.winternote.winternote.model.property.PublicProperty.*;
 
 public class WinterNoteApplication extends Application {
 

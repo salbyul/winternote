@@ -1,7 +1,7 @@
 package org.winternote.winternote.model;
 
 import org.winternote.winternote.model.exception.UnknownException;
-import org.winternote.winternote.property.PrivateProperty;
+import org.winternote.winternote.model.property.PrivateProperty;
 
 import java.io.File;
 

@@ -6,8 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.winternote.winternote.property.PrivateProperty.*;
-import static org.winternote.winternote.property.PrivateProperty.isMac;
+import static org.winternote.winternote.model.property.PrivateProperty.*;
+import static org.winternote.winternote.model.property.PrivateProperty.isMac;
 
 public class ApplicationManager {
 

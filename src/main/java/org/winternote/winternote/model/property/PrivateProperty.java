@@ -1,4 +1,4 @@
-package org.winternote.winternote.property;
+package org.winternote.winternote.model.property;
 
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;

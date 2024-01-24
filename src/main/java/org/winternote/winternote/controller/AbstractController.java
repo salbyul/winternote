@@ -8,7 +8,7 @@ import java.io.IOException;
 import static javafx.scene.control.Alert.AlertType.ERROR;
 import static javafx.scene.control.Alert.AlertType.WARNING;
 import static org.winternote.winternote.controller.utils.message.Message.*;
-import static org.winternote.winternote.property.PublicProperty.LOCATION_IS_NOT_SET;
+import static org.winternote.winternote.model.property.PublicProperty.LOCATION_IS_NOT_SET;
 
 public abstract class AbstractController implements Controller {
 
