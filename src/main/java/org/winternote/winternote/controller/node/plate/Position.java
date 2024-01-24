@@ -2,14 +2,14 @@ package org.winternote.winternote.controller.node.plate;
 
 public enum Position {
 
-    FORWARD, BACKWARD, MIDDLE;
+    LAST, FIRST, MIDDLE;
 
-    public boolean isForward() {
-        return this == FORWARD;
+    public boolean isLast() {
+        return this == LAST;
     }
 
-    public boolean isBackward() {
-        return this == BACKWARD;
+    public boolean isFirst() {
+        return this == FIRST;
     }
 
     public boolean isMiddle() {
