@@ -11,4 +11,9 @@ public final class AlertUtils {
         Alert alert = new Alert(type, message.getContent());
         alert.showAndWait();
     }
+
+    public static void showAlert(final Alert.AlertType type, final String message) {
+        Alert alert = new Alert(type, message);
+        alert.showAndWait();
+    }
 }

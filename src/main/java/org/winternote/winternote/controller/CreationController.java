@@ -17,8 +17,8 @@ import org.winternote.winternote.controller.utils.WindowUtils;
 
 import static javafx.scene.control.Alert.AlertType.*;
 import static org.winternote.winternote.controller.utils.message.Message.*;
-import static org.winternote.winternote.property.PrivateProperty.DISPLAY_HEIGHT;
-import static org.winternote.winternote.property.PrivateProperty.DISPLAY_WIDTH;
+import static org.winternote.winternote.model.property.PrivateProperty.DISPLAY_HEIGHT;
+import static org.winternote.winternote.model.property.PrivateProperty.DISPLAY_WIDTH;
 
 public class CreationController extends AbstractController {
 
@@ -68,7 +68,7 @@ public class CreationController extends AbstractController {
 
     protected static Stage generateStage() {
         return AbstractController.generateStage(() -> {
-            FXMLLoader fxmlLoader = new FXMLLoader(CreationController.class.getResource("creat1ion-note.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(CreationController.class.getResource("creation-note.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), DISPLAY_WIDTH / 5, DISPLAY_HEIGHT / 4);
             Stage newStage = new Stage();
             newStage.setScene(scene);

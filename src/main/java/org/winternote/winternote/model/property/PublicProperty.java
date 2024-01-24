@@ -1,4 +1,4 @@
-package org.winternote.winternote.property;
+package org.winternote.winternote.model.property;
 
 public abstract class PublicProperty {
 
