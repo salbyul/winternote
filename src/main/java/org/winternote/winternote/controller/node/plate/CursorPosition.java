@@ -1,6 +1,6 @@
 package org.winternote.winternote.controller.node.plate;
 
-public enum Position {
+public enum CursorPosition {
 
     LAST, FIRST, MIDDLE;
 
@@ -10,9 +10,5 @@ public enum Position {
 
     public boolean isFirst() {
         return this == FIRST;
-    }
-
-    public boolean isMiddle() {
-        return this == MIDDLE;
     }
 }
