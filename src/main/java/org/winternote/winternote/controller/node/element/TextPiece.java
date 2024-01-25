@@ -44,12 +44,12 @@ public class TextPiece extends TextField {
     private void signal() {
         int caretPosition = getCaretPosition();
         int length = getLength();
-        if (caretPosition == length) { // 커서가 마지막에 있는 경우
+        if (caretPosition == length) { // 커서가 마지막에 있는 경우 - 새로운 엘리먼트 생성하는지 판단해야 됨
             element.listen(CursorPosition.LAST, PlateCode.TEXT);
-        } else if (caretPosition == 0) { // 커서가 처음에 있는 경우
+        } else if (caretPosition == 0) { // 커서가 처음에 있는 경우 - 무조건 위에 새로운 줄 추가
             element.listen(CursorPosition.FIRST, PlateCode.TEXT);
-        } else { // 커서가 중간에 있는 경우
-            element.listen(this);
+        } else { // 커서가 중간에 있는 경우 - 무조건 쪼개기
+            element.listenToSeparation(this);
         }
     }
 
