@@ -10,9 +10,9 @@ public class ApplicationManager {
 
     private static ApplicationManager instance;
     @SuppressWarnings("InstantiationOfUtilityClass")
-    public static ApplicationManager instance() {
+    public static ApplicationManager instance(final String applicationPath, final String userName) {
         if (instance == null) {
-            instance = new ApplicationManager(new ApplicationInitializer());
+            instance = new ApplicationManager(new ApplicationInitializer(applicationPath, userName));
         }
         return instance;
     }

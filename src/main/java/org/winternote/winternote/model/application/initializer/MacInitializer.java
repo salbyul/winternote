@@ -4,41 +4,51 @@ import org.winternote.winternote.model.exception.UnknownException;
 
 import java.io.*;
 
-import static org.winternote.winternote.model.property.PrivateProperty.*;
-import static org.winternote.winternote.model.property.PrivateProperty.USER_NAME;
+import static org.winternote.winternote.model.application.initializer.ApplicationInitializer.*;
 
 public class MacInitializer implements Initializer {
+
+    private final String applicationPath;
+    private final String userName;
+    private int numberOfRetrying = 0;
+
+
+    public MacInitializer(final String applicationPath, final String userName) {
+        this.applicationPath = applicationPath;
+        this.userName = userName;
+    }
 
     @Override
     public void initialize() {
         if (!isFirstTimeRunning()) {
             throw new UnsupportedOperationException("Application has already been initialized.");
         }
-        initializeDefaultDirectoryStructure();
+        structure();
         initializeMetaDataFile();
     }
 
     private void initializeMetaDataFile() {
-        File file = new File(APPLICATION_PATH + "/metadata.wn");
+        File file = new File(applicationPath + "/metadata.wn");
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(file)))) {
-            writer.print("Location: " + APPLICATION_PATH + "/Desktop\n");
-            writer.print("recent projects: [\n]");
+            writer.write("Location: /Users/" + userName + "/Desktop\n");
+            writer.write("recent projects: [\n]");
             writer.flush();
         } catch (IOException e) {
-            throw new UnknownException("Unknown Error occurred.", e);
+            if (numberOfRetrying >= MAX_NUMBER_OF_RETRYING) {
+                throw new UnknownException("Could not initialize", e);
+            }
+            numberOfRetrying++;
+            initialize();
         }
     }
 
-    private static void initializeDefaultDirectoryStructure() {
-        boolean isCreated = new File("/Users/" + USER_NAME + "/winternote").mkdirs();
-        if (!isCreated) {
-            throw new UnknownException("Could not initialize");
-        }
+    private void structure() {
+        new File(applicationPath).mkdirs();
     }
 
     @Override
     public boolean isFirstTimeRunning() {
-        File metadata = new File(APPLICATION_PATH + "/metadata.wn");
-        return !metadata.exists();
+        File file = new File(applicationPath + "/metadata.wn");
+        return !file.exists();
     }
 }
