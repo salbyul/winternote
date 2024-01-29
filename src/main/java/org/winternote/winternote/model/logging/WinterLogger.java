@@ -48,7 +48,7 @@ public interface WinterLogger {
      * @param noteName    Deleted note name
      * @param projectName The name of the project to which the deleted note belongs
      */
-    void logDeletedNoteName(String noteName, String projectName);
+    void logDeletedNote(String noteName, String projectName);
 
     /**
      * When an exception occurs, it is logged.

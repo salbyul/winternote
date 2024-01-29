@@ -82,7 +82,7 @@ public class WinterLoggerImpl implements WinterLogger {
     }
 
     @Override
-    public void logDeletedNoteName(final String noteName, final String projectName) {
+    public void logDeletedNote(final String noteName, final String projectName) {
         synchronized (instance) {
             logger.log(Level.INFO, () -> "'%s' in '%s' deleted".formatted(noteName, projectName));
         }
