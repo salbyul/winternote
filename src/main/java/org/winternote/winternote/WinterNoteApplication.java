@@ -10,6 +10,7 @@ import org.winternote.winternote.controller.utils.AlertUtils;
 import org.winternote.winternote.model.application.ApplicationManager;
 import org.winternote.winternote.model.application.initializer.ApplicationInitializer;
 import org.winternote.winternote.model.application.initializer.Initializer;
+import org.winternote.winternote.model.logging.WinterLogger;
 
 import java.io.*;
 
@@ -23,9 +24,12 @@ public class WinterNoteApplication extends Application {
         try (Initializer initializer = new ApplicationInitializer()) {
             ApplicationManager applicationManager = ApplicationManager.instance(initializer);
         } catch (Exception e) {
+            WinterLogger instance = WinterLogger.instance();
+            instance.logException(e);
             AlertUtils.showAlert(Alert.AlertType.ERROR, e.getMessage());
             System.exit(1);
         }
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("winter-note-starter.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), DISPLAY_WIDTH / 3, DISPLAY_HEIGHT / 2);
         stage.setScene(scene);

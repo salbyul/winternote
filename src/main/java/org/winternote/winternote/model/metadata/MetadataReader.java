@@ -1,6 +1,5 @@
 package org.winternote.winternote.model.metadata;
 
-import org.winternote.winternote.model.exception.MetadataElement;
 import org.winternote.winternote.model.exception.PollutedMetadataException;
 
 import java.io.BufferedReader;
@@ -10,10 +9,10 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MetadataReader implements Closeable {
+import static org.winternote.winternote.model.metadata.MetadataElement.LOCATION;
+import static org.winternote.winternote.model.metadata.MetadataElement.RECENT_PROJECTS;
 
-    private static final String LOCATION = "Location";
-    private static final String RECENT_PROJECTS = "recent projects";
+public class MetadataReader implements Closeable {
 
     private final BufferedReader reader;
     private final List<String> lines = new ArrayList<>();
@@ -38,9 +37,9 @@ public class MetadataReader implements Closeable {
 
     private String readLocation() {
         String locationLine = lines.stream()
-                .filter(line -> line.startsWith(LOCATION))
+                .filter(line -> line.startsWith(LOCATION.getValue()))
                 .findFirst()
-                .orElseThrow(() -> new PollutedMetadataException("Metadata doesn't include \"Location\"", MetadataElement.LOCATION));
+                .orElseThrow(() -> new PollutedMetadataException("Metadata doesn't include \"Location\"", LOCATION));
         return locationLine.split(" ")[1];
     }
 
@@ -48,14 +47,14 @@ public class MetadataReader implements Closeable {
         boolean containsRecentProject = false;
         int projectIndex = 0;
         for (int i = 0; i < lines.size(); i++) {
-            if (lines.get(i).startsWith(RECENT_PROJECTS)) {
+            if (lines.get(i).startsWith(RECENT_PROJECTS.getValue())) {
                 containsRecentProject = true;
                 projectIndex = i + 1;
                 break;
             }
         }
         if (!containsRecentProject) {
-            throw new PollutedMetadataException("Metadata doesn't include \"recent projects\"", MetadataElement.RECENT_PROJECTS);
+            throw new PollutedMetadataException("Metadata doesn't include \"recent projects\"", RECENT_PROJECTS);
         }
         List<Project> projectList = new ArrayList<>();
         for (String line = lines.get(projectIndex); !line.equals("]"); line = lines.get(++projectIndex)) {

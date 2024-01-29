@@ -1,6 +1,6 @@
 package org.winternote.winternote.model.application.initializer;
 
-import org.winternote.winternote.model.exception.MetadataElement;
+import org.winternote.winternote.model.metadata.MetadataElement;
 import org.winternote.winternote.model.exception.PollutedMetadataException;
 import org.winternote.winternote.model.metadata.Metadata;
 
@@ -22,9 +22,7 @@ public final class ApplicationInitializer implements Initializer {
 
     @Override
     public void initialize() {
-        if (isFirstTimeRunning()) {
-            specificInitializer.initialize();
-        }
+        specificInitializer.initialize();
     }
 
     @Override

@@ -4,9 +4,12 @@ import org.winternote.winternote.model.exception.InitialException;
 import org.winternote.winternote.model.metadata.Metadata;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.winternote.winternote.model.application.ApplicationManager.*;
 import static org.winternote.winternote.model.application.initializer.ApplicationInitializer.*;
+import static org.winternote.winternote.model.metadata.MetadataElement.*;
 import static org.winternote.winternote.model.property.PublicProperty.*;
 
 public class MacInitializer extends AbstractInitializer {
@@ -22,6 +25,9 @@ public class MacInitializer extends AbstractInitializer {
 
     private void generateMetaDataFile() {
         File file = new File(APPLICATION_PATH + DELIMITER + METADATA_NAME);
+        if (file.exists()) {
+            return;
+        }
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(file, true)))) {
             writeLocation(writer);
             writeRecentProjects(writer);
@@ -35,17 +41,19 @@ public class MacInitializer extends AbstractInitializer {
     }
 
     private void writeLocation(final PrintWriter writer) {
-        writer.append("Location: /Users/").append(USER_NAME).append("/Desktop\n");
+        writer.append(LOCATION.getValue()).append(": /Users/").append(USER_NAME).append("/Desktop\n");
         writer.flush();
     }
 
     private void writeRecentProjects(final PrintWriter writer) {
-        writer.append("recent projects: [\n]");
+        writer.append(RECENT_PROJECTS.getValue()).append(": [\n]");
         writer.flush();
     }
 
     private void structure() {
         new File(APPLICATION_PATH).mkdirs();
+        String today = new SimpleDateFormat("yyyy.MM.dd").format(new Date());
+        new File(APPLICATION_PATH + "/logging/" + today).mkdirs();
     }
 
     @Override
