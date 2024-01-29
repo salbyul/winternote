@@ -2,6 +2,7 @@ package org.winternote.winternote.controller;
 
 import javafx.stage.Stage;
 import org.winternote.winternote.controller.utils.AlertUtils;
+import org.winternote.winternote.model.logging.WinterLogger;
 
 import java.io.IOException;
 
@@ -28,13 +29,14 @@ public abstract class AbstractController implements Controller {
         try {
             return generator.generateStage();
         } catch (IOException | RuntimeException e) {
+            WinterLogger instance = WinterLogger.instance();
             if (e.getMessage().equals(LOCATION_IS_NOT_SET)) {
+                instance.logException(e);
                 AlertUtils.showAlert(ERROR, CONFIGURATION_ERROR);
-                e.printStackTrace();
                 System.exit(1);
             } else {
+                instance.logException(e);
                 AlertUtils.showAlert(WARNING, UNKNOWN_ERROR);
-                e.printStackTrace();
                 System.exit(1);
             }
             return null; // unreachable code
