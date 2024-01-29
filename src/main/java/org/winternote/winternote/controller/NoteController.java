@@ -10,7 +10,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.winternote.winternote.controller.node.plate.Plate;
 
-import static org.winternote.winternote.model.property.PrivateProperty.*;
+import static org.winternote.winternote.model.application.ApplicationManager.*;
 import static org.winternote.winternote.model.property.PublicProperty.*;
 
 public class NoteController extends AbstractController {

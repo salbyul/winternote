@@ -1,32 +1,54 @@
 package org.winternote.winternote.model.application;
 
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 import org.winternote.winternote.model.application.initializer.Initializer;
 import org.winternote.winternote.model.exception.UnsupportedOSException;
-import org.winternote.winternote.model.application.initializer.ApplicationInitializer;
-
-import static org.winternote.winternote.model.property.PrivateProperty.*;
+import org.winternote.winternote.model.metadata.Metadata;
 
 public class ApplicationManager {
 
+    public static final double DISPLAY_WIDTH;
+    public static final double DISPLAY_HEIGHT;
+    public static final String OS;
+    public static final String USER_NAME;
+    public static final String APPLICATION_PATH;
     private static ApplicationManager instance;
-    @SuppressWarnings("InstantiationOfUtilityClass")
-    public static ApplicationManager instance(final String applicationPath, final String userName) {
+    private final Metadata metadata;
+
+    static {
+        Rectangle2D bounds = Screen.getPrimary().getBounds();
+        DISPLAY_WIDTH = bounds.getWidth();
+        DISPLAY_HEIGHT = bounds.getHeight();
+        OS = System.getProperty("os.name");
+        USER_NAME = System.getProperty("user.name");
+        APPLICATION_PATH = generateApplicationPath();
+    }
+
+    private static String generateApplicationPath() {
+        if (isMac()) {
+            return "/Users/" + USER_NAME + "/winternote";
+        }
+        throw new UnsupportedOSException("Not supported OS: " + OS);
+    }
+
+    public static boolean isMac() {
+        return OS.startsWith("Mac");
+    }
+
+    public static ApplicationManager instance(final Initializer initializer) {
         if (instance == null) {
-            instance = new ApplicationManager(new ApplicationInitializer(applicationPath, userName));
+            instance = new ApplicationManager(initializer);
         }
         return instance;
     }
 
     private ApplicationManager(final Initializer initializer) {
-        if (!isSupportedOS()) {
-            throw new UnsupportedOSException("Not supported OS: " + OS);
-        }
         if (instance != null) { // prevent reflect
             throw new UnsupportedOperationException("ApplicationManager has already been initialized. If you want to get instance, you need to invoke instance method.");
         }
 
-        if (initializer.isFirstTimeRunning()) {
-            initializer.initialize();
-        }
+        initializer.initialize();
+        metadata = initializer.getMetadata();
     }
 }

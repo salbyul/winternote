@@ -1,54 +1,86 @@
 package org.winternote.winternote.model.application.initializer;
 
-import org.winternote.winternote.model.exception.UnknownException;
+import org.winternote.winternote.model.exception.InitialException;
+import org.winternote.winternote.model.metadata.Metadata;
 
 import java.io.*;
 
+import static org.winternote.winternote.model.application.ApplicationManager.*;
 import static org.winternote.winternote.model.application.initializer.ApplicationInitializer.*;
+import static org.winternote.winternote.model.property.PublicProperty.*;
 
-public class MacInitializer implements Initializer {
+public class MacInitializer extends AbstractInitializer {
 
-    private final String applicationPath;
-    private final String userName;
+    private static final String DELIMITER = "/";
     private int numberOfRetrying = 0;
 
 
-    public MacInitializer(final String applicationPath, final String userName) {
-        this.applicationPath = applicationPath;
-        this.userName = userName;
+    public MacInitializer() {
+        super();
     }
 
     @Override
     public void initialize() {
-        if (!isFirstTimeRunning()) {
-            throw new UnsupportedOperationException("Application has already been initialized.");
-        }
         structure();
-        initializeMetaDataFile();
+        generateMetaDataFile();
     }
 
-    private void initializeMetaDataFile() {
-        File file = new File(applicationPath + "/metadata.wn");
-        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(file)))) {
-            writer.write("Location: /Users/" + userName + "/Desktop\n");
-            writer.write("recent projects: [\n]");
-            writer.flush();
+    private void generateMetaDataFile() {
+        File file = new File(APPLICATION_PATH + DELIMITER + METADATA_NAME);
+        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(file, true)))) {
+            writeLocation(writer);
+            writeRecentProjects(writer);
         } catch (IOException e) {
             if (numberOfRetrying >= MAX_NUMBER_OF_RETRYING) {
-                throw new UnknownException("Could not initialize", e);
+                throw new InitialException(e);
             }
             numberOfRetrying++;
             initialize();
         }
     }
 
+    private void writeLocation(final PrintWriter writer) {
+        writer.append("Location: /Users/").append(USER_NAME).append("/Desktop\n");
+        writer.flush();
+    }
+
+    private void writeRecentProjects(final PrintWriter writer) {
+        writer.append("recent projects: [\n]");
+        writer.flush();
+    }
+
     private void structure() {
-        new File(applicationPath).mkdirs();
+        new File(APPLICATION_PATH).mkdirs();
     }
 
     @Override
     public boolean isFirstTimeRunning() {
-        File file = new File(applicationPath + "/metadata.wn");
+        File file = new File(APPLICATION_PATH + DELIMITER + METADATA_NAME);
         return !file.exists();
+    }
+
+    @Override
+    public Metadata getMetadata() {
+        return getMetadataReader().read();
+    }
+
+    @Override
+    protected void fixLocation() {
+        File file = new File(APPLICATION_PATH + DELIMITER + METADATA_NAME);
+        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(file, true)))) {
+            writeLocation(writer);
+        } catch (IOException e) {
+            throw new InitialException(e);
+        }
+    }
+
+    @Override
+    protected void fixRecentProjects() {
+        File file = new File(APPLICATION_PATH + DELIMITER + METADATA_NAME);
+        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(file, true)))) {
+            writeRecentProjects(writer);
+        } catch (IOException e) {
+            throw new InitialException(e);
+        }
     }
 }
