@@ -14,11 +14,6 @@ public class MacInitializer extends AbstractInitializer {
     private static final String DELIMITER = "/";
     private int numberOfRetrying = 0;
 
-
-    public MacInitializer() {
-        super();
-    }
-
     @Override
     public void initialize() {
         structure();

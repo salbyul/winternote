@@ -32,10 +32,21 @@ public class ApplicationManager {
         throw new UnsupportedOSException("Not supported OS: " + OS);
     }
 
+    /**
+     * It checks user's platform is Mac OS.
+     *
+     * @return Whether user's platform is Mac OS.
+     */
     public static boolean isMac() {
         return OS.startsWith("Mac");
     }
 
+    /**
+     * Creates ApplicationManager instance.
+     *
+     * @param initializer initializer
+     * @return ApplicationManager instance.
+     */
     public static ApplicationManager instance(final Initializer initializer) {
         if (instance == null) {
             instance = new ApplicationManager(initializer);

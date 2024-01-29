@@ -26,6 +26,11 @@ public class MetadataReader implements Closeable {
         reader.lines().forEach(lines::add);
     }
 
+    /**
+     * After reading a metadata file, it creates and returns a Metadata instance.
+     *
+     * @return Metadata
+     */
     public Metadata read() {
         readAllLines();
         return new Metadata(readLocation(), readRecentProjectList());
