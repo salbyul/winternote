@@ -1,39 +1,23 @@
 package org.winternote.winternote.model.application.initializer;
 
-import org.winternote.winternote.model.exception.InitialException;
-import org.winternote.winternote.model.metadata.MetadataReader;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
-import static org.winternote.winternote.model.application.ApplicationManager.APPLICATION_PATH;
-import static org.winternote.winternote.model.property.PublicProperty.METADATA_NAME;
+import org.winternote.winternote.model.metadata.MetadataHandler;
 
 public abstract class AbstractInitializer implements Initializer {
 
-    private final MetadataReader metadataReader;
+    private final MetadataHandler metadataHandler;
 
     protected abstract void fixLocation();
+
     protected abstract void fixRecentProjects();
 
-    protected AbstractInitializer() {
+    protected AbstractInitializer(final MetadataHandler metadataHandler) {
         if (isFirstTimeRunning()) {
             initialize();
         }
-        try {
-            this.metadataReader = new MetadataReader(new FileReader(APPLICATION_PATH + "/" + METADATA_NAME));
-        } catch (FileNotFoundException e) {
-            throw new InitialException(e); // unreachable exception
-        }
+        this.metadataHandler = metadataHandler;
     }
 
-    public MetadataReader getMetadataReader() {
-        return metadataReader;
-    }
-
-    @Override
-    public void close() throws IOException {
-        metadataReader.close();
+    public MetadataHandler getMetadataReader() {
+        return metadataHandler;
     }
 }

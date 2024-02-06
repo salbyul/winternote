@@ -2,6 +2,7 @@ package org.winternote.winternote.model.application.initializer;
 
 import org.winternote.winternote.model.exception.InitialException;
 import org.winternote.winternote.model.metadata.Metadata;
+import org.winternote.winternote.model.metadata.MetadataHandler;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -14,8 +15,12 @@ import static org.winternote.winternote.model.property.PublicProperty.*;
 
 public class MacInitializer extends AbstractInitializer {
 
-    private static final String DELIMITER = "/";
+    public static final String DELIMITER = "/";
     private int numberOfRetrying = 0;
+
+    protected MacInitializer(final MetadataHandler metadataHandler) {
+        super(metadataHandler);
+    }
 
     @Override
     public void initialize() {

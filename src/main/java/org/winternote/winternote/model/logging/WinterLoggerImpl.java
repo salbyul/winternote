@@ -3,6 +3,7 @@ package org.winternote.winternote.model.logging;
 import org.winternote.winternote.model.application.ApplicationManager;
 import org.winternote.winternote.model.exception.LoggingException;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -20,9 +21,18 @@ public class WinterLoggerImpl implements WinterLogger {
         removeAllLoggerHandler();
 
         try {
+            initializeLogFile();
             setLoggerHandler();
         } catch (IOException e) {
             throw new LoggingException("Logging file initialization failed.", e);
+        }
+    }
+
+    private void initializeLogFile() {
+        String today = new SimpleDateFormat("yyyy.MM.dd").format(new Date());
+        File file = new File(ApplicationManager.APPLICATION_PATH + "/logging/" + today + "/");
+        if (!file.exists()) {
+            file.mkdirs();
         }
     }
 

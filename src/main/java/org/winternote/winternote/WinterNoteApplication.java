@@ -21,8 +21,9 @@ public class WinterNoteApplication extends Application {
 
     @Override
     public void start(final Stage stage) throws IOException {
-        try (Initializer initializer = new ApplicationInitializer()) {
-            ApplicationManager applicationManager = ApplicationManager.instance(initializer);
+        try {
+            Initializer initializer = new ApplicationInitializer(ApplicationManager.getMetadataHandler());
+            ApplicationManager.instance(initializer);
         } catch (Exception e) {
             WinterLogger instance = WinterLogger.instance();
             instance.logException(e);

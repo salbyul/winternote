@@ -4,7 +4,7 @@ import org.winternote.winternote.model.metadata.Metadata;
 
 import java.io.Closeable;
 
-public interface Initializer extends Closeable {
+public interface Initializer {
 
     /**
      * When the application is first run, the application's folder structure and metadata are created.

@@ -3,20 +3,22 @@ package org.winternote.winternote.model.application.initializer;
 import org.winternote.winternote.model.metadata.MetadataElement;
 import org.winternote.winternote.model.exception.PollutedMetadataException;
 import org.winternote.winternote.model.metadata.Metadata;
+import org.winternote.winternote.model.metadata.MetadataHandler;
 
-import java.io.IOException;
 import java.util.Objects;
 
 import static org.winternote.winternote.model.application.ApplicationManager.*;
 
 public final class ApplicationInitializer implements Initializer {
 
+    private final MetadataHandler metadataHandler;
     private AbstractInitializer specificInitializer;
     public static final int MAX_NUMBER_OF_RETRYING = 5;
 
-    public ApplicationInitializer() {
+    public ApplicationInitializer(final MetadataHandler metadataHandler) {
+        this.metadataHandler = metadataHandler;
         if (isMac()) {
-            specificInitializer = new MacInitializer();
+            specificInitializer = new MacInitializer(metadataHandler);
         }
     }
 
@@ -54,10 +56,5 @@ public final class ApplicationInitializer implements Initializer {
 
     private void fixRecentProjects() {
         specificInitializer.fixRecentProjects();
-    }
-
-    @Override
-    public void close() throws IOException {
-        specificInitializer.close();
     }
 }
