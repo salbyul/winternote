@@ -34,7 +34,7 @@ class NoteTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {" "})
-    @DisplayName("Since the title is empty or null, a NoteCreationException should be thrown.")
+    @DisplayName("If the title is empty or null, a NoteCreationException should be thrown.")
     void failNoteBuildSinceEmptyTitle(String input) {
         // given
         Note.Builder builder = Note.builder()
@@ -53,7 +53,7 @@ class NoteTest {
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {" "})
-    @DisplayName("Since the path is empty or null, a NoteCreationException should be thrown.")
+    @DisplayName("If the path is empty or null, a NoteCreationException should be thrown.")
     void failNoteBuildSinceEmptyPath(String input) {
         // given
         Note.Builder builder = Note.builder()
