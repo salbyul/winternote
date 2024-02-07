@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class NoteRepository implements Repository {
 
-    public void saveNote(final Note note) throws IOException {
+    public void saveNewNote(final Note note) throws IOException {
         File file = note.transferToFile();
         if (file.exists())
             throw new DuplicatedNoteNameException();
