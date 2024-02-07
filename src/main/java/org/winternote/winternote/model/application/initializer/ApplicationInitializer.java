@@ -1,13 +1,6 @@
 package org.winternote.winternote.model.application.initializer;
 
-import org.winternote.winternote.model.metadata.MetadataElement;
-import org.winternote.winternote.model.exception.PollutedMetadataException;
-import org.winternote.winternote.model.metadata.Metadata;
-
-import java.io.IOException;
-import java.util.Objects;
-
-import static org.winternote.winternote.model.application.ApplicationManager.*;
+import static org.winternote.winternote.model.property.PrivateProperty.*;
 
 public final class ApplicationInitializer implements Initializer {
 
@@ -28,36 +21,5 @@ public final class ApplicationInitializer implements Initializer {
     @Override
     public boolean isFirstTimeRunning() {
         return specificInitializer.isFirstTimeRunning();
-    }
-
-    @Override
-    public Metadata getMetadata() {
-        if (isFirstTimeRunning()) {
-            initialize();
-        }
-        try {
-            return specificInitializer.getMetadata();
-        } catch (PollutedMetadataException e) {
-            MetadataElement element = e.getElement();
-            if (Objects.requireNonNull(element) == MetadataElement.LOCATION) {
-                fixLocation();
-            } else if (element == MetadataElement.RECENT_PROJECTS) {
-                fixRecentProjects();
-            }
-            return getMetadata();
-        }
-    }
-
-    private void fixLocation() {
-        specificInitializer.fixLocation();
-    }
-
-    private void fixRecentProjects() {
-        specificInitializer.fixRecentProjects();
-    }
-
-    @Override
-    public void close() throws IOException {
-        specificInitializer.close();
     }
 }

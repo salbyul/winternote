@@ -7,25 +7,24 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import org.winternote.winternote.controller.Controller;
 import org.winternote.winternote.controller.utils.AlertUtils;
-import org.winternote.winternote.model.application.ApplicationManager;
 import org.winternote.winternote.model.application.initializer.ApplicationInitializer;
-import org.winternote.winternote.model.application.initializer.Initializer;
 import org.winternote.winternote.model.logging.WinterLogger;
 
 import java.io.*;
 
-import static org.winternote.winternote.model.application.ApplicationManager.*;
+import static org.winternote.winternote.model.property.PrivateProperty.*;
 import static org.winternote.winternote.model.property.PublicProperty.*;
 
 public class WinterNoteApplication extends Application {
 
     @Override
     public void start(final Stage stage) throws IOException {
-        try (Initializer initializer = new ApplicationInitializer()) {
-            ApplicationManager applicationManager = ApplicationManager.instance(initializer);
+        try {
+            ApplicationInitializer initializer = new ApplicationInitializer();
+            initializer.initialize();
         } catch (Exception e) {
-            WinterLogger instance = WinterLogger.instance();
-            instance.logException(e);
+            WinterLogger logger = WinterLogger.instance();
+            logger.logException(e);
             AlertUtils.showAlert(Alert.AlertType.ERROR, e.getMessage());
             System.exit(1);
         }

@@ -58,6 +58,13 @@ public interface WinterLogger {
     void logException(Throwable throwable);
 
     /**
+     * Logs when a project are added in metadata recent projects.
+     *
+     * @param value Project name and path.
+     */
+    void logAddedRecentProjects(String value);
+
+    /**
      * Returns the WinterLogger implementation.
      *
      * @return WinterLogger implementation
@@ -65,4 +72,12 @@ public interface WinterLogger {
     static WinterLogger instance() {
         return WinterLoggerImpl.instance();
     }
+
+    /**
+     * Logs when location is changed.
+     *
+     * @param oldLocation Old location.
+     * @param newLocation New location.
+     */
+    void logChangedLocation(String oldLocation, String newLocation);
 }
