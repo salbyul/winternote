@@ -38,7 +38,7 @@ class ProjectServiceTest {
 
         // when
         doNothing().when(winterLogger).logNewProject(projectName, path);
-        doNothing().when(projectRepository).createProject(any());
+        doNothing().when(projectRepository).createProject(any(Project.class));
         Project project = projectService.createProject(projectName, path);
 
         // then
