@@ -18,7 +18,7 @@ class NoteTest {
     void noteBuild() {
         // given
         Note note = Note.builder()
-                .title("title")
+                .name("name")
                 .path("path")
                 .lines(List.of())
                 .build();
@@ -26,7 +26,7 @@ class NoteTest {
         // when
 
         // then
-        assertThat(note.getTitle()).isEqualTo("title");
+        assertThat(note.getName()).isEqualTo("name");
         assertThat(note.getPath()).isEqualTo("path");
         assertThat(note.getLines()).isEmpty();
     }
@@ -38,7 +38,7 @@ class NoteTest {
     void failNoteBuildSinceEmptyTitle(String input) {
         // given
         Note.Builder builder = Note.builder()
-                .title(input)
+                .name(input)
                 .path("path")
                 .lines(List.of());
 
@@ -57,7 +57,7 @@ class NoteTest {
     void failNoteBuildSinceEmptyPath(String input) {
         // given
         Note.Builder builder = Note.builder()
-                .title("title")
+                .name("title")
                 .path(input)
                 .lines(List.of());
 
@@ -74,7 +74,7 @@ class NoteTest {
     void failModifyUnmodifiableLines() {
         // given
         Note note = Note.builder()
-                .title("title")
+                .name("title")
                 .path("path")
                 .lines(List.of())
                 .build();
@@ -93,7 +93,7 @@ class NoteTest {
     void convertToFile() {
         // given
         Note note = Note.builder()
-                .title("title")
+                .name("title")
                 .path("path")
                 .lines(List.of())
                 .build();
