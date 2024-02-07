@@ -12,16 +12,16 @@ import static org.winternote.winternote.model.property.PublicProperty.DELIMITER;
 
 public class Note {
 
-    private final String title;
+    private final String name;
     private final String path;
     private final List<Line> lines;
     private static final String NOTE_EXTENSION = ".md";
 
-    private Note(final String title, final String path, final List<Line> lines) {
-        this.title = title;
+    private Note(final String name, final String path, final List<Line> lines) {
+        this.name = name;
         this.path = path;
         this.lines = new ArrayList<>(lines);
-        if (Objects.isNull(title) || title.isEmpty() || title.isBlank()) {
+        if (Objects.isNull(name) || name.isEmpty() || name.isBlank()) {
             throw new NoteCreationException("The note title is empty.");
         }
         if (Objects.isNull(path) || path.isEmpty() || path.isBlank()) {
@@ -33,8 +33,8 @@ public class Note {
         return new Builder();
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
     public String getPath() {
@@ -50,16 +50,17 @@ public class Note {
     }
 
     public File transferToFile() {
-        return new File(getPath() + DELIMITER + title + NOTE_EXTENSION);
+        return new File(getPath() + DELIMITER + name + NOTE_EXTENSION);
     }
 
     public static class Builder {
-        private String title;
+
+        private String name;
         private String path;
         private List<Line> lines;
 
-        public Builder title(final String title) {
-            this.title = title;
+        public Builder name(final String name) {
+            this.name = name;
             return this;
         }
 
@@ -74,7 +75,7 @@ public class Note {
         }
 
         public Note build() {
-            return new Note(title, path, lines);
+            return new Note(name, path, lines);
         }
     }
 }
