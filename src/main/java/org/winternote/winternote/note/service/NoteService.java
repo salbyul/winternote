@@ -27,12 +27,13 @@ public class NoteService implements Service {
      * @param noteName Note name.
      * @throws IOException Exception that may occur during the note creation process.
      */
-    public void createNote(final Project project, final String noteName) throws IOException {
+    public Note createNote(final Project project, final String noteName) throws IOException {
         Note note = Note.builder()
                 .title(noteName)
                 .path(project.getPath() + DELIMITER + project.getName())
                 .build();
         noteRepository.saveNewNote(note);
         logger.logNewNote(noteName, project.getName());
+        return note;
     }
 }
