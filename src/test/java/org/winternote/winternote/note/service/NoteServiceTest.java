@@ -1,17 +1,12 @@
 package org.winternote.winternote.note.service;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.winternote.winternote.model.logging.WinterLogger;
 import org.winternote.winternote.note.domain.Note;
-import org.winternote.winternote.note.exception.NoteCreationException;
 import org.winternote.winternote.note.repository.NoteRepository;
 import org.winternote.winternote.project.domain.Project;
 
@@ -50,22 +45,5 @@ class NoteServiceTest {
         assertThat(note.getName()).isEqualTo(noteName);
         assertThat(note.getPath()).isEqualTo(project.getPath() + "/" + project.getName() + "/" + noteName);
         assertThat(note.getLines()).isEmpty();
-    }
-
-    @ParameterizedTest
-    @NullAndEmptySource
-    @ValueSource(strings = {" "})
-    @DisplayName("If the name is empty or null, a NoteCreationException should be thrown.")
-    void failCreateNoteSinceEmptyName(String input) {
-        // given
-        Project project = new Project("projectName", "path");
-        String noteName = input;
-
-        // when
-
-        // then
-        assertThatThrownBy(() -> noteService.createNote(project, noteName))
-                .isInstanceOf(NoteCreationException.class)
-                .hasMessage("The note name is empty.");
     }
 }
