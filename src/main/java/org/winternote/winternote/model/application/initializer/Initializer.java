@@ -1,9 +1,5 @@
 package org.winternote.winternote.model.application.initializer;
 
-import org.winternote.winternote.model.metadata.Metadata;
-
-import java.io.Closeable;
-
 public interface Initializer {
 
     /**
@@ -17,11 +13,4 @@ public interface Initializer {
      * @return Whether the application is launched for the first time.
      */
     boolean isFirstTimeRunning();
-
-    /**
-     * It returns metadata.
-     *
-     * @return metadata
-     */
-    Metadata getMetadata();
 }

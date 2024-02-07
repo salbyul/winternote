@@ -1,26 +1,18 @@
 package org.winternote.winternote.project.service;
 
 import org.winternote.winternote.model.logging.WinterLogger;
-import org.winternote.winternote.model.metadata.MetadataHandler;
+import org.winternote.winternote.project.exception.ProjectEmptyTitleException;
 import org.winternote.winternote.project.domain.Project;
 import org.winternote.winternote.common.service.Service;
-
-import java.io.File;
+import org.winternote.winternote.project.repository.ProjectRepository;
 
 public class ProjectService implements Service {
 
-    private static final ProjectService instance = new ProjectService(MetadataHandler.instance());
-
-    private final MetadataHandler metadataHandler;
-
+    private final ProjectRepository projectRepository;
     private final WinterLogger logger = WinterLogger.instance();
 
-    private ProjectService(final MetadataHandler metadataHandler) {
-        this.metadataHandler = metadataHandler;
-    }
-
-    public static ProjectService instance() {
-        return instance;
+    public ProjectService(final ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
     }
 
     /**
@@ -32,17 +24,16 @@ public class ProjectService implements Service {
      */
     public Project createProject(final String projectName, final String path) {
         Project project = new Project(projectName, path);
-        metadataHandler.addRecentProject(project);
+        validateProject(project);
         logger.logNewProject(projectName, path);
-        createProjectDirectory(project);
-        metadataHandler.changeLocation(path);
+        projectRepository.createProject(project);
         return project;
     }
 
-    private void createProjectDirectory(final Project project) {
-        File file = new File(project.getPath() + "/" + project.getName());
-        if (!file.exists()) {
-            file.mkdirs();
+    private void validateProject(final Project project) {
+        String name = project.getName();
+        if (name.isEmpty()) {
+            throw new ProjectEmptyTitleException();
         }
     }
 }
