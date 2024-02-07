@@ -29,6 +29,7 @@ import java.io.IOException;
 import static javafx.scene.control.Alert.AlertType.*;
 import static org.winternote.winternote.controller.utils.message.Message.*;
 import static org.winternote.winternote.model.property.PrivateProperty.*;
+import static org.winternote.winternote.model.property.PublicProperty.DELIMITER;
 
 public class CreationController extends AbstractController {
     private final WinterLogger logger = WinterLogger.instance();
@@ -67,7 +68,7 @@ public class CreationController extends AbstractController {
     private void onCreateButtonClick() { // TODO need Transactional
         Stage stage = NoteController.generateStage(title.getText());
         try {
-            Project project = projectService.createProject(title.getText(), path.getText());
+            Project project = projectService.createProject(title.getText(), path.getText() + DELIMITER + title.getText());
             metadataService.addRecentProject(project);
             metadataService.changeLocation(path.getText());
             noteService.createNote(project, "untitled");

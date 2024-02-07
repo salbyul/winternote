@@ -31,7 +31,7 @@ public class NoteService implements Service {
     public Note createNote(final Project project, final String noteName) throws IOException {
         Note note = Note.builder()
                 .name(noteName)
-                .path(project.getPath() + DELIMITER + project.getName() + DELIMITER + noteName)
+                .path(project.getPath() + DELIMITER + noteName)
                 .lines(new ArrayList<>())
                 .build();
         noteRepository.saveNewNote(note);

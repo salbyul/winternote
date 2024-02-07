@@ -149,7 +149,7 @@ public class Metadata {
          */
         public void addRecentProject(final Project project) {
             synchronized (this) {
-                String value = "\t" + project.toString() + "/" + project.getName() + ",";
+                String value = "\t" + project.toString() + ",";
                 readAllLines();
 
                 boolean containsRecentProject = false;

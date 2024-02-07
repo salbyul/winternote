@@ -43,7 +43,7 @@ class NoteServiceTest {
         verify(noteRepository, times(1)).saveNewNote(any(Note.class));
         verify(winterLogger, times(1)).logNewNote(noteName, project.getName());
         assertThat(note.getName()).isEqualTo(noteName);
-        assertThat(note.getPath()).isEqualTo(project.getPath() + "/" + project.getName() + "/" + noteName);
+        assertThat(note.getPath()).isEqualTo(project.getPath() +  "/" + noteName);
         assertThat(note.getLines()).isEmpty();
     }
 }
