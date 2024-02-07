@@ -1,5 +1,7 @@
 package org.winternote.winternote.project.domain;
 
+import org.winternote.winternote.project.exception.ProjectCreationException;
+
 import java.util.Objects;
 
 public class Project {
@@ -10,19 +12,12 @@ public class Project {
     public Project(final String name, final String path) {
         this.name = name;
         this.path = path;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Project project = (Project) o;
-        return Objects.equals(name, project.name) && Objects.equals(path, project.path);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, path);
+        if (Objects.isNull(name) || name.isEmpty() || name.isBlank()) {
+            throw new ProjectCreationException("The project name is empty.");
+        }
+        if (Objects.isNull(path) || path.isEmpty() || path.isBlank()) {
+            throw new ProjectCreationException("The project path is empty.");
+        }
     }
 
     @Override
