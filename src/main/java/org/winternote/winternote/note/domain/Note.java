@@ -1,9 +1,12 @@
 package org.winternote.winternote.note.domain;
 
+import org.winternote.winternote.note.exception.NoteCreationException;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static org.winternote.winternote.model.property.PublicProperty.DELIMITER;
 
@@ -18,6 +21,12 @@ public class Note {
         this.title = title;
         this.path = path;
         this.lines = new ArrayList<>(lines);
+        if (Objects.isNull(title) || title.isEmpty() || title.isBlank()) {
+            throw new NoteCreationException("The note title is empty.");
+        }
+        if (Objects.isNull(path) || path.isEmpty() || path.isBlank()) {
+            throw new NoteCreationException("The note path is empty.");
+        }
     }
 
     public static Builder builder() {
