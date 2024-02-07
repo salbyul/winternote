@@ -31,7 +31,7 @@ public class NoteService implements Service {
                 .title(noteName)
                 .path(project.getPath() + DELIMITER + project.getName())
                 .build();
-        noteRepository.saveNote(note);
+        noteRepository.saveNewNote(note);
         logger.logNewNote(noteName, project.getName());
     }
 }
