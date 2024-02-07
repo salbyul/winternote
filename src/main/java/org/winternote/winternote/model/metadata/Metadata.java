@@ -48,16 +48,34 @@ public class Metadata {
         return Collections.unmodifiableList(this.projectList);
     }
 
+    /**
+     * Write attributes of project in recent projects list of metadata.
+     *
+     * @param project Project to be saved.
+     */
     public void addRecentProject(final Project project) {
-        metadataHandler.addRecentProject(project);
-        reload();
+        synchronized (this) {
+            metadataHandler.addRecentProject(project);
+            reload();
+        }
     }
 
+    /**
+     * Change location property in metadata.
+     *
+     * @param newLocation New location.
+     */
     public void changeLocation(final String newLocation) {
-        metadataHandler.changeLocation(newLocation);
-        reload();
+        synchronized (this) {
+            metadataHandler.changeLocation(newLocation);
+            reload();
+        }
     }
 
+    /**
+     * Reload fields from metadata file.
+     * Must be invoked after modifying metadata.
+     */
     private void reload() {
         this.location = metadataHandler.readLocation();
         this.projectList.clear();
@@ -68,7 +86,6 @@ public class Metadata {
 
         private final WinterLogger logger;
         private final String metadataPath;
-
         private final List<String> lines;
 
         private MetadataHandler(final String metadataPath, final WinterLogger logger) {
@@ -125,7 +142,7 @@ public class Metadata {
         }
 
         /**
-         * Write project in recent projects list in metadata.
+         * Write attributes of project in recent projects list of metadata.
          *
          * @param project Project to be saved.
          */
