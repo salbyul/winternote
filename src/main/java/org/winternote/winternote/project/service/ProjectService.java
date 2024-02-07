@@ -1,10 +1,12 @@
 package org.winternote.winternote.project.service;
 
 import org.winternote.winternote.model.logging.WinterLogger;
-import org.winternote.winternote.project.exception.ProjectEmptyTitleException;
+import org.winternote.winternote.project.exception.ProjectCreationException;
 import org.winternote.winternote.project.domain.Project;
 import org.winternote.winternote.common.service.Service;
 import org.winternote.winternote.project.repository.ProjectRepository;
+
+import java.util.Objects;
 
 public class ProjectService implements Service {
 
@@ -33,8 +35,12 @@ public class ProjectService implements Service {
 
     private void validateProject(final Project project) {
         String name = project.getName();
-        if (name.isEmpty()) {
-            throw new ProjectEmptyTitleException();
+        if (Objects.isNull(name) || name.isEmpty() || name.isBlank()) {
+            throw new ProjectCreationException("The project name is empty.");
+        }
+        String path = project.getPath();
+        if (Objects.isNull(path) || path.isEmpty() || path.isBlank()) {
+            throw new ProjectCreationException("The project path is empty.");
         }
     }
 }
