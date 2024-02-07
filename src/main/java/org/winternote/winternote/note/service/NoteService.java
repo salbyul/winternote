@@ -13,10 +13,11 @@ import static org.winternote.winternote.model.property.PublicProperty.DELIMITER;
 public class NoteService implements Service {
 
     private final NoteRepository noteRepository;
-    private final WinterLogger logger = WinterLogger.instance();
+    private final WinterLogger logger;
 
-    public NoteService(final NoteRepository noteRepository) {
+    public NoteService(final NoteRepository noteRepository, final WinterLogger logger) {
         this.noteRepository = noteRepository;
+        this.logger = logger;
     }
 
     /**

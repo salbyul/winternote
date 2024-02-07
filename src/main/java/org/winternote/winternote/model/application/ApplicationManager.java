@@ -2,6 +2,7 @@ package org.winternote.winternote.model.application;
 
 import org.winternote.winternote.common.repository.Repository;
 import org.winternote.winternote.metadata.service.MetadataService;
+import org.winternote.winternote.model.logging.WinterLogger;
 import org.winternote.winternote.model.metadata.Metadata;
 import org.winternote.winternote.note.repository.NoteRepository;
 import org.winternote.winternote.note.service.NoteService;
@@ -26,9 +27,9 @@ public class ApplicationManager {
         repositoryMap.put(ProjectRepository.class, new ProjectRepository());
 
         serviceMap = new HashMap<>();
-        serviceMap.put(NoteService.class, new NoteService(getRepository(NoteRepository.class)));
-        serviceMap.put(ProjectService.class, new ProjectService(getRepository(ProjectRepository.class)));
-        serviceMap.put(MetadataService.class, new MetadataService(new Metadata(APPLICATION_PATH)));
+        serviceMap.put(NoteService.class, new NoteService(getRepository(NoteRepository.class), WinterLogger.instance()));
+        serviceMap.put(ProjectService.class, new ProjectService(getRepository(ProjectRepository.class), WinterLogger.instance()));
+        serviceMap.put(MetadataService.class, new MetadataService(new Metadata(APPLICATION_PATH, WinterLogger.instance()), WinterLogger.instance()));
 
     }
 

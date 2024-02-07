@@ -9,10 +9,11 @@ import org.winternote.winternote.project.repository.ProjectRepository;
 public class ProjectService implements Service {
 
     private final ProjectRepository projectRepository;
-    private final WinterLogger logger = WinterLogger.instance();
+    private final WinterLogger logger;
 
-    public ProjectService(final ProjectRepository projectRepository) {
+    public ProjectService(final ProjectRepository projectRepository, final WinterLogger logger) {
         this.projectRepository = projectRepository;
+        this.logger = logger;
     }
 
     /**

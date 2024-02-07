@@ -8,10 +8,11 @@ import org.winternote.winternote.project.domain.Project;
 public class MetadataService implements Service {
 
     private final Metadata metadata;
-    private final WinterLogger logger = WinterLogger.instance();
+    private final WinterLogger logger;
 
-    public MetadataService(final Metadata metadata) {
+    public MetadataService(final Metadata metadata, final WinterLogger logger) {
         this.metadata = metadata;
+        this.logger = logger;
     }
 
     public String getRecentLocation() {

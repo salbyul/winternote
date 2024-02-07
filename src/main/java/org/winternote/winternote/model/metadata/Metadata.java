@@ -18,16 +18,17 @@ import static org.winternote.winternote.model.metadata.MetadataElement.RECENT_PR
 import static org.winternote.winternote.model.property.PublicProperty.*;
 
 public class Metadata {
-    private final WinterLogger logger = WinterLogger.instance();
+    private final WinterLogger logger;
 
     private String location;
     private final List<Project> projectList;
     private final MetadataHandler metadataHandler;
 
-    public Metadata(final String applicationPath) {
+    public Metadata(final String applicationPath, final WinterLogger logger) {
         this.metadataHandler = new MetadataHandler(applicationPath + DELIMITER + METADATA_NAME, logger);
         this.location = metadataHandler.readLocation();
         this.projectList = metadataHandler.readRecentProjectList();
+        this.logger = logger;
     }
 
     /**
