@@ -2,35 +2,35 @@ package org.winternote.winternote;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.winternote.winternote.controller.Controller;
-import org.winternote.winternote.controller.utils.AlertUtils;
-import org.winternote.winternote.model.application.initializer.ApplicationInitializer;
-import org.winternote.winternote.model.logging.WinterLogger;
 
 import java.io.*;
 
-import static org.winternote.winternote.model.property.PrivateProperty.*;
 import static org.winternote.winternote.model.property.PublicProperty.*;
 
+@SpringBootApplication
 public class WinterNoteApplication extends Application {
+
+    private static ConfigurableApplicationContext context;
 
     @Override
     public void start(final Stage stage) throws IOException {
-        try {
-            ApplicationInitializer initializer = new ApplicationInitializer();
-            initializer.initialize();
-        } catch (Exception e) {
-            WinterLogger logger = WinterLogger.instance();
-            logger.logException(e);
-            AlertUtils.showAlert(Alert.AlertType.ERROR, e.getMessage());
-            System.exit(1);
-        }
+        Rectangle2D bounds = Screen.getPrimary().getBounds();
+        final double displayWidth = bounds.getWidth();
+        final double displayHeight = bounds.getHeight();
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("winter-note-starter.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), DISPLAY_WIDTH / 3, DISPLAY_HEIGHT / 2);
+        fxmlLoader.setControllerFactory(context::getBean);
+
+        Scene scene = new Scene(fxmlLoader.load(), displayWidth / 3, displayHeight / 2);
         stage.setScene(scene);
         stage.setTitle(APPLICATION_NAME);
 
@@ -39,7 +39,20 @@ public class WinterNoteApplication extends Application {
         stage.show();
     }
 
+    @Override
+    public void stop() {
+        context.stop();
+    }
+
     public static void main(String[] args) {
         launch();
+    }
+
+    @Override
+    public void init() {
+        SpringApplicationBuilder builder = new SpringApplicationBuilder(WinterNoteApplication.class);
+        builder.application()
+                .setWebApplicationType(WebApplicationType.NONE);
+        context = builder.run();
     }
 }

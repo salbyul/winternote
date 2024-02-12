@@ -1,15 +1,17 @@
 package org.winternote.winternote.model.application.initializer;
 
-import static org.winternote.winternote.model.property.PrivateProperty.*;
+import org.springframework.stereotype.Component;
+import org.winternote.winternote.model.property.PrivateProperty;
 
+@Component
 public final class ApplicationInitializer implements Initializer {
 
-    private AbstractInitializer specificInitializer;
+    private Initializer specificInitializer;
     public static final int MAX_NUMBER_OF_RETRYING = 5;
 
-    public ApplicationInitializer() {
-        if (isMac()) {
-            specificInitializer = new MacInitializer();
+    public ApplicationInitializer(final PrivateProperty privateProperty) {
+        if (privateProperty.getOS().isMac()) {
+            specificInitializer = new MacInitializer(privateProperty);
         }
     }
 

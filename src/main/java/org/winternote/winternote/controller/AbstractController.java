@@ -25,17 +25,16 @@ public abstract class AbstractController implements Controller {
         return this.stage;
     }
 
-    protected static Stage generateStage(final StageGenerator generator) {
+    protected static Stage generateStage(final StageGenerator generator, final WinterLogger logger) {
         try {
             return generator.generateStage();
         } catch (IOException | RuntimeException e) {
-            WinterLogger instance = WinterLogger.instance();
             if (e.getMessage().equals(LOCATION_IS_NOT_SET)) {
-                instance.logException(e);
+                logger.logException(e);
                 AlertUtils.showAlert(ERROR, CONFIGURATION_ERROR);
                 System.exit(1);
             } else {
-                instance.logException(e);
+                logger.logException(e);
                 AlertUtils.showAlert(WARNING, UNKNOWN_ERROR);
                 System.exit(1);
             }

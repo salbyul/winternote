@@ -65,15 +65,6 @@ public interface WinterLogger {
     void logAddedRecentProjects(String value);
 
     /**
-     * Returns the WinterLogger implementation.
-     *
-     * @return WinterLogger implementation
-     */
-    static WinterLogger instance() {
-        return WinterLoggerImpl.instance();
-    }
-
-    /**
      * Logs when location is changed.
      *
      * @param oldLocation Old location.

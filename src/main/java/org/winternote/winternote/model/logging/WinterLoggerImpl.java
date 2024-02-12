@@ -1,7 +1,9 @@
 package org.winternote.winternote.model.logging;
 
+import org.winternote.winternote.common.annotation.Logging;
 import org.winternote.winternote.model.exception.InitialException;
 import org.winternote.winternote.model.exception.LoggingException;
+import org.winternote.winternote.model.property.PrivateProperty;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,16 +14,16 @@ import java.util.Date;
 import java.util.logging.*;
 
 import static java.util.logging.Level.*;
-import static org.winternote.winternote.model.property.PrivateProperty.*;
 import static org.winternote.winternote.model.property.PublicProperty.DELIMITER;
 
+@Logging
 public class WinterLoggerImpl implements WinterLogger {
 
-    private static final WinterLogger instance = new WinterLoggerImpl();
-
+    private final PrivateProperty property;
     private final Logger logger = Logger.getLogger("");
 
-    private WinterLoggerImpl() {
+    public WinterLoggerImpl(final PrivateProperty property) {
+        this.property = property;
         removeAllLoggerHandler();
 
         try {
@@ -34,7 +36,7 @@ public class WinterLoggerImpl implements WinterLogger {
 
     private void initializeLogFile() {
         String today = new SimpleDateFormat("yyyy.MM.dd").format(new Date());
-        File file = new File(APPLICATION_PATH + "/logging/" + today + DELIMITER);
+        File file = new File(property.getApplicationPath() + "/logging/" + today + DELIMITER);
         if (!file.exists() && (!file.mkdirs()))
             throw new InitialException("Failed to initialize log file.");
     }
@@ -48,62 +50,58 @@ public class WinterLoggerImpl implements WinterLogger {
 
     private void setLoggerHandler() throws IOException {
         String today = new SimpleDateFormat("yyyy.MM.dd").format(new Date());
-        Handler handler = new FileHandler(APPLICATION_PATH + "/logging/" + today + DELIMITER + today + "[%g].log", true);
+        Handler handler = new FileHandler(property.getApplicationPath() + "/logging/" + today + DELIMITER + today + "[%g].log", true);
         WinterFormatter formatter = new WinterFormatter();
         handler.setFormatter(formatter);
         logger.setLevel(INFO);
         logger.addHandler(handler);
     }
 
-    protected static WinterLogger instance() {
-        return instance;
-    }
-
     @Override
     public void logNewProject(final String projectName, final String path) {
-        synchronized (instance) {
+        synchronized (this) {
             logger.log(INFO, () -> "New project called '%s' created at %s".formatted(projectName, path));
         }
     }
 
     @Override
     public void logNewNote(final String noteName, final String projectName) {
-        synchronized (instance) {
+        synchronized (this) {
             logger.log(INFO, () -> "New note called '%s' created in %s".formatted(noteName, projectName));
         }
     }
 
     @Override
     public void logAutoSave(final String noteName, final String projectName) {
-        synchronized (instance) {
+        synchronized (this) {
             logger.log(INFO, () -> "Auto saved '%s' in '%s'".formatted(noteName, projectName));
         }
     }
 
     @Override
     public void logSave(final String noteName, final String projectName) {
-        synchronized (instance) {
+        synchronized (this) {
             logger.log(INFO, () -> "Saved '%s' in '%s'".formatted(noteName, projectName));
         }
     }
 
     @Override
     public void logDeletedProject(final String projectName, final String path) {
-        synchronized (instance) {
+        synchronized (this) {
             logger.log(INFO, () -> "'%s' at '%s' deleted".formatted(projectName, path));
         }
     }
 
     @Override
     public void logDeletedNote(final String noteName, final String projectName) {
-        synchronized (instance) {
+        synchronized (this) {
             logger.log(INFO, () -> "'%s' in '%s' deleted".formatted(noteName, projectName));
         }
     }
 
     @Override
     public void logException(final Throwable throwable) {
-        synchronized (instance) {
+        synchronized (this) {
             try (StringWriter sw = new StringWriter();
                  PrintWriter writer = new PrintWriter(sw)) {
                 throwable.printStackTrace(writer);
@@ -115,14 +113,14 @@ public class WinterLoggerImpl implements WinterLogger {
 
     @Override
     public void logAddedRecentProjects(final String value) {
-        synchronized (instance) {
+        synchronized (this) {
             logger.log(INFO, () -> "%s is added in recent projects.".formatted(value));
         }
     }
 
     @Override
     public void logChangedLocation(final String oldLocation, final String newLocation) {
-        synchronized (instance) {
+        synchronized (this) {
             logger.log(INFO, () -> "Changed location '%s' to '%s'".formatted(oldLocation, newLocation));
         }
     }

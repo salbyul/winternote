@@ -8,11 +8,15 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 import org.winternote.winternote.controller.node.plate.Plate;
+import org.winternote.winternote.model.logging.WinterLogger;
+import org.winternote.winternote.model.property.PrivateProperty;
 
-import static org.winternote.winternote.model.property.PrivateProperty.*;
 import static org.winternote.winternote.model.property.PublicProperty.*;
 
+@Component
 public class NoteController extends AbstractController {
 
     @FXML
@@ -33,15 +37,16 @@ public class NoteController extends AbstractController {
         VBox.setVgrow(title, Priority.NEVER);
     }
 
-    protected static Stage generateStage(final String title) {
+    protected static Stage generateStage(final ApplicationContext context, final PrivateProperty property, final WinterLogger logger, final String title) {
         return AbstractController.generateStage(() -> {
             FXMLLoader fxmlLoader = new FXMLLoader(NoteController.class.getResource("note.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), DISPLAY_WIDTH, DISPLAY_HEIGHT);
+            fxmlLoader.setControllerFactory(context::getBean);
+            Scene scene = new Scene(fxmlLoader.load(), property.getDisplayWidth(), property.getDisplayHeight());
             Stage stage = new Stage();
             stage.setTitle(APPLICATION_NAME + ": " + title);
             stage.setScene(scene);
             stage.setOnCloseRequest(event -> {
-                Stage starterStage = StarterController.generateStage();
+                Stage starterStage = StarterController.generateStage(context, property, logger);
                 starterStage.show();
             });
 
@@ -50,6 +55,6 @@ public class NoteController extends AbstractController {
             controller.setTitle(title);
             controller.main.getChildren().add(new Plate());
             return stage;
-        });
+        }, logger);
     }
 }

@@ -8,8 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static org.winternote.winternote.model.property.PublicProperty.DELIMITER;
-
 public class Note {
 
     private final String name;
@@ -50,7 +48,7 @@ public class Note {
     }
 
     public File transferToFile() {
-        return new File(getPath() + DELIMITER + name + NOTE_EXTENSION);
+        return new File(getPath() + NOTE_EXTENSION);
     }
 
     public static class Builder {

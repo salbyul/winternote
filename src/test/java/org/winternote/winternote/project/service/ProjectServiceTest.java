@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.winternote.winternote.model.logging.WinterLogger;
 import org.winternote.winternote.project.domain.Project;
-import org.winternote.winternote.project.repository.ProjectRepository;
+import org.winternote.winternote.project.persistence.ProjectPersistence;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.doNothing;
 class ProjectServiceTest {
 
     @Mock
-    ProjectRepository projectRepository;
+    ProjectPersistence projectPersistence;
 
     @Mock
     WinterLogger winterLogger;
@@ -33,7 +33,7 @@ class ProjectServiceTest {
 
         // when
         doNothing().when(winterLogger).logNewProject(projectName, path);
-        doNothing().when(projectRepository).createProject(any(Project.class));
+        doNothing().when(projectPersistence).createProject(any(Project.class));
         Project project = projectService.createProject(projectName, path);
 
         // then

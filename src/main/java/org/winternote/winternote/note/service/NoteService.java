@@ -1,23 +1,24 @@
 package org.winternote.winternote.note.service;
 
+import org.springframework.stereotype.Service;
 import org.winternote.winternote.model.logging.WinterLogger;
 import org.winternote.winternote.note.domain.Note;
-import org.winternote.winternote.note.repository.NoteRepository;
+import org.winternote.winternote.note.persistence.NotePersistence;
 import org.winternote.winternote.project.domain.Project;
-import org.winternote.winternote.common.service.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.winternote.winternote.model.property.PublicProperty.DELIMITER;
 
-public class NoteService implements Service {
+@Service
+public class NoteService {
 
-    private final NoteRepository noteRepository;
+    private final NotePersistence notePersistence;
     private final WinterLogger logger;
 
-    public NoteService(final NoteRepository noteRepository, final WinterLogger logger) {
-        this.noteRepository = noteRepository;
+    public NoteService(final NotePersistence notePersistence, final WinterLogger logger) {
+        this.notePersistence = notePersistence;
         this.logger = logger;
     }
 
@@ -34,7 +35,7 @@ public class NoteService implements Service {
                 .path(project.getPath() + DELIMITER + noteName)
                 .lines(new ArrayList<>())
                 .build();
-        noteRepository.saveNewNote(note);
+        notePersistence.saveNewNote(note);
         logger.logNewNote(noteName, project.getName());
         return note;
     }

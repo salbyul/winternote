@@ -1,17 +1,18 @@
 package org.winternote.winternote.project.service;
 
+import org.springframework.stereotype.Service;
 import org.winternote.winternote.model.logging.WinterLogger;
 import org.winternote.winternote.project.domain.Project;
-import org.winternote.winternote.common.service.Service;
-import org.winternote.winternote.project.repository.ProjectRepository;
+import org.winternote.winternote.project.persistence.ProjectPersistence;
 
-public class ProjectService implements Service {
+@Service
+public class ProjectService {
 
-    private final ProjectRepository projectRepository;
+    private final ProjectPersistence projectPersistence;
     private final WinterLogger logger;
 
-    public ProjectService(final ProjectRepository projectRepository, final WinterLogger logger) {
-        this.projectRepository = projectRepository;
+    public ProjectService(final ProjectPersistence projectPersistence, final WinterLogger logger) {
+        this.projectPersistence = projectPersistence;
         this.logger = logger;
     }
 
@@ -25,7 +26,7 @@ public class ProjectService implements Service {
     public Project createProject(final String projectName, final String path) {
         Project project = new Project(projectName, path);
         logger.logNewProject(projectName, path);
-        projectRepository.createProject(project);
+        projectPersistence.createProject(project);
         return project;
     }
 

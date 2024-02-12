@@ -1,6 +1,6 @@
 package org.winternote.winternote.model.exception;
 
-import org.winternote.winternote.model.metadata.MetadataElement;
+import org.winternote.winternote.metadata.persistence.MetadataElement;
 
 public class PollutedMetadataException extends RuntimeException {
 

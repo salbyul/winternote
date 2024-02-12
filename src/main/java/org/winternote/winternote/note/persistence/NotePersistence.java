@@ -1,6 +1,6 @@
-package org.winternote.winternote.note.repository;
+package org.winternote.winternote.note.persistence;
 
-import org.winternote.winternote.common.repository.Repository;
+import org.winternote.winternote.common.annotation.Persistence;
 import org.winternote.winternote.note.domain.Note;
 import org.winternote.winternote.note.exception.DuplicatedNoteNameException;
 import org.winternote.winternote.note.exception.NoteCreationException;
@@ -8,7 +8,8 @@ import org.winternote.winternote.note.exception.NoteCreationException;
 import java.io.File;
 import java.io.IOException;
 
-public class NoteRepository implements Repository {
+@Persistence
+public class NotePersistence {
 
     public void saveNewNote(final Note note) throws IOException {
         File file = note.transferToFile();

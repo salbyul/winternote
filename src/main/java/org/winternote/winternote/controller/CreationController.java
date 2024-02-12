@@ -13,12 +13,14 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 import org.winternote.winternote.common.exception.WinterException;
 import org.winternote.winternote.controller.utils.AlertUtils;
 import org.winternote.winternote.controller.utils.WindowUtils;
 import org.winternote.winternote.metadata.service.MetadataService;
-import org.winternote.winternote.model.application.ApplicationManager;
 import org.winternote.winternote.model.logging.WinterLogger;
+import org.winternote.winternote.model.property.PrivateProperty;
 import org.winternote.winternote.project.domain.Project;
 import org.winternote.winternote.note.service.NoteService;
 import org.winternote.winternote.project.service.ProjectService;
@@ -28,15 +30,20 @@ import java.io.IOException;
 
 import static javafx.scene.control.Alert.AlertType.*;
 import static org.winternote.winternote.controller.utils.message.Message.*;
-import static org.winternote.winternote.model.property.PrivateProperty.*;
 import static org.winternote.winternote.model.property.PublicProperty.DELIMITER;
 
+@Component
 public class CreationController extends AbstractController {
-    private final WinterLogger logger = WinterLogger.instance();
 
-    private NoteService noteService;
-    private ProjectService projectService;
-    private MetadataService metadataService;
+    private final ApplicationContext context;
+    private final WinterLogger logger;
+    private final NoteService noteService;
+
+    private final ProjectService projectService;
+
+    private final MetadataService metadataService;
+
+    private final PrivateProperty property;
 
     @FXML
     private VBox screen;
@@ -50,10 +57,16 @@ public class CreationController extends AbstractController {
     @FXML
     private HBox buttonBox;
 
+    public CreationController(final ApplicationContext context, final WinterLogger logger, final NoteService noteService, final ProjectService projectService, final MetadataService metadataService, final PrivateProperty property) {
+        this.context = context;
+        this.logger = logger;
+        this.noteService = noteService;
+        this.projectService = projectService;
+        this.metadataService = metadataService;
+        this.property = property;
+    }
+
     public void initialize() {
-        noteService = ApplicationManager.getService(NoteService.class);
-        projectService = ApplicationManager.getService(ProjectService.class);
-        metadataService = ApplicationManager.getService(MetadataService.class);
         screen.setAlignment(Pos.CENTER);
         buttonBox.setAlignment(Pos.CENTER);
         title.onKeyPressedProperty().set(event -> {
@@ -62,11 +75,12 @@ public class CreationController extends AbstractController {
             }
         });
         path.setText(metadataService.getRecentLocation());
+        path.setEditable(false);
     }
 
     @FXML
     private void onCreateButtonClick() { // TODO need Transactional
-        Stage stage = NoteController.generateStage(title.getText());
+        Stage stage = NoteController.generateStage(context, property, logger, title.getText());
         try {
             Project project = projectService.createProject(title.getText(), path.getText() + DELIMITER + title.getText());
             metadataService.addRecentProject(project);
@@ -89,12 +103,7 @@ public class CreationController extends AbstractController {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Location to be saved");
         File choice;
-        try {
-            choice = showDirectoryChooser(directoryChooser, metadataService.getRecentLocation());
-        } catch (IllegalArgumentException e) { // The 'Location' of the metadata file is corrupted.
-            choice = showDirectoryChooser(directoryChooser, APPLICATION_PATH);
-            logger.logException(e);
-        }
+        choice = showDirectoryChooser(directoryChooser, metadataService.getRecentLocation());
         path.setText(choice.getPath());
     }
 
@@ -109,10 +118,11 @@ public class CreationController extends AbstractController {
         stage.close();
     }
 
-    protected static Stage generateStage() {
+    protected static Stage generateStage(final ApplicationContext context, final PrivateProperty property, final WinterLogger logger) {
         return AbstractController.generateStage(() -> {
             FXMLLoader fxmlLoader = new FXMLLoader(CreationController.class.getResource("creation-note.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), DISPLAY_WIDTH / 5, DISPLAY_HEIGHT / 4);
+            fxmlLoader.setControllerFactory(context::getBean);
+            Scene scene = new Scene(fxmlLoader.load(), property.getDisplayWidth() / 5, property.getDisplayHeight() / 4);
             Stage newStage = new Stage();
             newStage.setScene(scene);
             newStage.initModality(Modality.APPLICATION_MODAL);
@@ -120,6 +130,6 @@ public class CreationController extends AbstractController {
             Controller controller = fxmlLoader.getController();
             controller.setStage(newStage);
             return newStage;
-        });
+        }, logger);
     }
 }

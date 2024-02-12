@@ -1,9 +1,13 @@
-package org.winternote.winternote.model.metadata;
+package org.winternote.winternote.metadata.persistence;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.winternote.winternote.common.annotation.Persistence;
 import org.winternote.winternote.metadata.exception.UndeleteableMetadataException;
 import org.winternote.winternote.model.exception.InitialException;
 import org.winternote.winternote.model.exception.PollutedMetadataException;
 import org.winternote.winternote.model.logging.WinterLogger;
+import org.winternote.winternote.model.property.PrivateProperty;
 import org.winternote.winternote.project.domain.Project;
 
 import java.io.*;
@@ -13,22 +17,23 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static org.winternote.winternote.model.metadata.MetadataElement.LOCATION;
-import static org.winternote.winternote.model.metadata.MetadataElement.RECENT_PROJECTS;
+import static org.winternote.winternote.metadata.persistence.MetadataElement.LOCATION;
+import static org.winternote.winternote.metadata.persistence.MetadataElement.RECENT_PROJECTS;
 import static org.winternote.winternote.model.property.PublicProperty.*;
 
-public class Metadata {
-    private final WinterLogger logger;
+@Persistence
+@DependsOn({"applicationManager"})
+public class MetadataPersistence {
 
     private String location;
     private final List<Project> projectList;
     private final MetadataHandler metadataHandler;
 
-    public Metadata(final String applicationPath, final WinterLogger logger) {
-        this.metadataHandler = new MetadataHandler(applicationPath + DELIMITER + METADATA_NAME, logger);
+    @Autowired
+    public MetadataPersistence(final PrivateProperty property, final WinterLogger logger) {
+        this.metadataHandler = new MetadataHandler(property.getApplicationPath() + DELIMITER + METADATA_NAME, logger);
         this.location = metadataHandler.readLocation();
         this.projectList = metadataHandler.readRecentProjectList();
-        this.logger = logger;
     }
 
     /**
