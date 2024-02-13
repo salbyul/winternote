@@ -35,7 +35,7 @@ public class NoteService {
                 .path(project.getPath() + DELIMITER + noteName)
                 .lines(new ArrayList<>())
                 .build();
-        notePersistence.saveNewNote(note);
+        notePersistence.makeNote(note);
         logger.logNewNote(noteName, project.getName());
         return note;
     }

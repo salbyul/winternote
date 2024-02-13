@@ -35,12 +35,12 @@ class NoteServiceTest {
         String noteName = "noteName";
 
         // when
-        doNothing().when(notePersistence).saveNewNote(any(Note.class));
+        doNothing().when(notePersistence).makeNote(any(Note.class));
         doNothing().when(winterLogger).logNewNote(noteName, project.getName());
         Note note = noteService.createNote(project, noteName);
 
         // then
-        verify(notePersistence, times(1)).saveNewNote(any(Note.class));
+        verify(notePersistence, times(1)).makeNote(any(Note.class));
         verify(winterLogger, times(1)).logNewNote(noteName, project.getName());
         assertThat(note.getName()).isEqualTo(noteName);
         assertThat(note.getPath()).isEqualTo(project.getPath() +  "/" + noteName);

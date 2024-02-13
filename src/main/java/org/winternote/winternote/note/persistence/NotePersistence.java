@@ -11,7 +11,7 @@ import java.io.IOException;
 @Persistence
 public class NotePersistence {
 
-    public void saveNewNote(final Note note) throws IOException {
+    public void makeNote(final Note note) throws IOException {
         File file = note.transferToFile();
         if (file.exists())
             throw new DuplicatedNoteNameException();
