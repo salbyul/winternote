@@ -33,7 +33,7 @@ class ProjectServiceTest {
 
         // when
         doNothing().when(winterLogger).logNewProject(projectName, path);
-        doNothing().when(projectPersistence).createProjectDirectory(anyString());
+        doNothing().when(projectPersistence).makeDirectory(anyString());
         Project project = projectService.createProject(projectName, path);
 
         // then

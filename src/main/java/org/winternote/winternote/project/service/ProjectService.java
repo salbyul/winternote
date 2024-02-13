@@ -26,7 +26,7 @@ public class ProjectService {
     public Project createProject(final String projectName, final String path) {
         Project project = new Project(projectName, path);
         logger.logNewProject(projectName, path);
-        projectPersistence.createProjectDirectory(path);
+        projectPersistence.makeDirectory(path);
         return project;
     }
 

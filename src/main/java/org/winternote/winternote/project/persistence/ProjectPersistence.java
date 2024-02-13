@@ -8,7 +8,7 @@ import java.io.File;
 @Persistence
 public class ProjectPersistence {
 
-    public void createProjectDirectory(final String path) {
+    public void makeDirectory(final String path) {
         File file = new File(path);
         if (!file.exists() && (!file.mkdirs()))
             throw new ProjectCreationException();
