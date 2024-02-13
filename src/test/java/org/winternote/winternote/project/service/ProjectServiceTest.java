@@ -10,7 +10,7 @@ import org.winternote.winternote.project.domain.Project;
 import org.winternote.winternote.project.persistence.ProjectPersistence;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,7 +33,7 @@ class ProjectServiceTest {
 
         // when
         doNothing().when(winterLogger).logNewProject(projectName, path);
-        doNothing().when(projectPersistence).createProject(any(Project.class));
+        doNothing().when(projectPersistence).createProjectDirectory(anyString());
         Project project = projectService.createProject(projectName, path);
 
         // then
