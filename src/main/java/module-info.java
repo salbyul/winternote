@@ -23,6 +23,7 @@ module org.winternote.winternote {
     exports org.winternote.winternote.metadata.persistence to spring.beans;
     exports org.winternote.winternote.metadata.service to spring.beans;
     exports org.winternote.winternote.controller to spring.beans;
+    exports org.winternote.winternote.common.utils to spring.beans;
 
 
     opens org.winternote.winternote.controller to javafx.fxml;
