@@ -1,6 +1,6 @@
 package org.winternote.winternote.model.logging;
 
-import org.winternote.winternote.common.annotation.Logging;
+import org.springframework.stereotype.Component;
 import org.winternote.winternote.model.exception.InitialException;
 import org.winternote.winternote.model.exception.LoggingException;
 import org.winternote.winternote.model.property.PrivateProperty;
@@ -16,7 +16,7 @@ import java.util.logging.*;
 import static java.util.logging.Level.*;
 import static org.winternote.winternote.model.property.PublicProperty.DELIMITER;
 
-@Logging
+@Component
 public class WinterLoggerImpl implements WinterLogger {
 
     private final PrivateProperty property;
