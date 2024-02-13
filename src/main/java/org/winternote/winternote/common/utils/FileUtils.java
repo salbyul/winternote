@@ -5,7 +5,7 @@ import org.winternote.winternote.common.annotation.Utils;
 import java.io.File;
 
 @Utils
-public class FileUtils {
+public final class FileUtils {
 
     /**
      * Checks whether a specific file or directory exists in the entered path.
