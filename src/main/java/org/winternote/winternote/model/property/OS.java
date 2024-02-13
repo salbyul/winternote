@@ -13,6 +13,12 @@ public enum OS {
         this.name = name;
     }
 
+    /**
+     * Finds and returns the current operating system.
+     *
+     * @return Operating system.
+     * @throws UnsupportedOSException If user's operating system isn't supported.
+     */
     public static OS findOperatingSystem() {
         String os = System.getProperty("os.name");
         return Arrays.stream(values()).filter(e -> os.startsWith(e.toString()))

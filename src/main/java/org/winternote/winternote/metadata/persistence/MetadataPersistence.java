@@ -3,7 +3,7 @@ package org.winternote.winternote.metadata.persistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.winternote.winternote.common.annotation.Persistence;
-import org.winternote.winternote.metadata.exception.UndeleteableMetadataException;
+import org.winternote.winternote.metadata.exception.UndeletableMetadataException;
 import org.winternote.winternote.model.exception.InitialException;
 import org.winternote.winternote.model.exception.PollutedMetadataException;
 import org.winternote.winternote.model.logging.WinterLogger;
@@ -256,7 +256,7 @@ public class MetadataPersistence {
                 Files.delete(file.getAbsoluteFile().toPath());
             } catch (IOException e) {
                 logger.logException(e);
-                throw new UndeleteableMetadataException("Failed to reload ConfigFile.");
+                throw new UndeletableMetadataException("Failed to reload ConfigFile.");
             }
         }
     }

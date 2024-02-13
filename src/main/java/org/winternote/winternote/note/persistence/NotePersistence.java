@@ -11,6 +11,12 @@ import java.io.IOException;
 @Persistence
 public class NotePersistence {
 
+    /**
+     * Make a new note.
+     *
+     * @param note Note will be made.
+     * @throws IOException If an I/O error occurred
+     */
     public void makeNote(final Note note) throws IOException {
         File file = note.transferToFile();
         if (file.exists())

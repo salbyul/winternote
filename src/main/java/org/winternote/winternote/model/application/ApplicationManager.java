@@ -10,9 +10,12 @@ public class ApplicationManager {
 
     public ApplicationManager(final Initializer initializer) {
         this.initializer = initializer;
-        initialize();
+        initialize(); // TODO Must be invoked outside of this class.
     }
 
+    /**
+     * If this application run for the first time, it will initialize.
+     */
     public void initialize() {
         if (initializer.isFirstTimeRunning()) {
             initializer.initialize();

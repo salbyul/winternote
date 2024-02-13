@@ -24,6 +24,11 @@ public class MetadataService {
         this.fileUtils = fileUtils;
     }
 
+    /**
+     * Get recent location from the metadata file.
+     *
+     * @return Recent location.
+     */
     public String getRecentLocation() {
         String location = metadataPersistence.getLocation();
         if (!fileUtils.existsFile(location)) {
@@ -32,11 +37,21 @@ public class MetadataService {
         return location;
     }
 
+    /**
+     * Add the project to the list of recent projects in the metadata file.
+     *
+     * @param project Project that will be added.
+     */
     public void addRecentProject(final Project project) {
         metadataPersistence.addRecentProject(project);
         logger.logAddedRecentProjects(project.toString());
     }
 
+    /**
+     * Change recent location in the metadata file.
+     *
+     * @param newLocation New location path.
+     */
     public void changeLocation(final String newLocation) {
         String oldLocation = getRecentLocation();
         if (!oldLocation.equals(newLocation)) {

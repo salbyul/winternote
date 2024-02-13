@@ -6,12 +6,16 @@ import javafx.stage.Window;
 
 public final class WindowUtils {
 
-    private WindowUtils() {}
+    private WindowUtils() {
+    }
 
+    /**
+     * Close all windows.
+     */
     public static void closeAllWindows() {
         ObservableList<Window> windows = Window.getWindows();
         while (!windows.isEmpty()) {
-            ((Stage)windows.get(0)).close();
+            ((Stage) windows.get(0)).close();
         }
     }
 }
