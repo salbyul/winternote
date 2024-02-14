@@ -7,7 +7,6 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.winternote.winternote.note.exception.NoteCreationException;
 
-import java.io.File;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -86,22 +85,5 @@ class NoteTest {
         // then
         assertThatThrownBy(() -> unmodifiableLines.add(testLine))
                 .isInstanceOf(UnsupportedOperationException.class);
-    }
-
-    @Test
-    @DisplayName("Note can be converted to file.")
-    void convertToFile() {
-        // given
-        Note note = Note.builder()
-                .name("title")
-                .path("path/title")
-                .lines(List.of())
-                .build();
-
-        // when
-        File file = note.transferToFile();
-
-        // then
-        assertThat(file.getPath()).isEqualTo("path/title.md");
     }
 }

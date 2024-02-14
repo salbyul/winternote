@@ -58,44 +58,30 @@ public class WinterLoggerImpl implements WinterLogger {
     }
 
     @Override
-    public void logNewProject(final String projectName, final String path) {
+    public void logNewNote(final String noteName, final String path) {
         synchronized (this) {
-            logger.log(INFO, () -> "New project called '%s' created at %s".formatted(projectName, path));
+            logger.log(INFO, () -> "A new note called '%s' created at %s".formatted(noteName, path));
         }
     }
 
     @Override
-    public void logNewNote(final String noteName, final String projectName) {
+    public void logAutoSave(final String noteName, final String path) {
         synchronized (this) {
-            logger.log(INFO, () -> "New note called '%s' created in %s".formatted(noteName, projectName));
+            logger.log(INFO, () -> "Auto saved '%s' at '%s'".formatted(noteName, path));
         }
     }
 
     @Override
-    public void logAutoSave(final String noteName, final String projectName) {
+    public void logSave(final String noteName, final String path) {
         synchronized (this) {
-            logger.log(INFO, () -> "Auto saved '%s' in '%s'".formatted(noteName, projectName));
+            logger.log(INFO, () -> "Saved '%s' at '%s'".formatted(noteName, path));
         }
     }
 
     @Override
-    public void logSave(final String noteName, final String projectName) {
+    public void logDeletedNote(final String noteName, final String path) {
         synchronized (this) {
-            logger.log(INFO, () -> "Saved '%s' in '%s'".formatted(noteName, projectName));
-        }
-    }
-
-    @Override
-    public void logDeletedProject(final String projectName, final String path) {
-        synchronized (this) {
-            logger.log(INFO, () -> "'%s' at '%s' deleted".formatted(projectName, path));
-        }
-    }
-
-    @Override
-    public void logDeletedNote(final String noteName, final String projectName) {
-        synchronized (this) {
-            logger.log(INFO, () -> "'%s' in '%s' deleted".formatted(noteName, projectName));
+            logger.log(INFO, () -> "'%s' at '%s' deleted".formatted(noteName, path));
         }
     }
 
@@ -112,9 +98,9 @@ public class WinterLoggerImpl implements WinterLogger {
     }
 
     @Override
-    public void logAddedRecentProjects(final String value) {
+    public void logAddedRecentNotes(final String noteName, final String path) {
         synchronized (this) {
-            logger.log(INFO, () -> "%s is added in recent projects.".formatted(value));
+            logger.log(INFO, () -> "'%s : %s/%s' is added in recent notes.".formatted(noteName, path, noteName));
         }
     }
 

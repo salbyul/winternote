@@ -4,7 +4,7 @@ import org.winternote.winternote.common.exception.WinterException;
 
 public class NoteCreationException extends WinterException {
 
-    private static final String DEFAULT_MESSAGE = "Failed to create new note.";
+    private static final String DEFAULT_MESSAGE = "Failed to create a new note.";
 
     public NoteCreationException() {
         this(DEFAULT_MESSAGE);

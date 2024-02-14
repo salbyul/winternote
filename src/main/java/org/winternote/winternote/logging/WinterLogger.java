@@ -3,52 +3,36 @@ package org.winternote.winternote.logging;
 public interface WinterLogger {
 
     /**
-     * Logs when a new project created.
-     *
-     * @param projectName New project name
-     * @param path        New project path
-     */
-    void logNewProject(String projectName, String path);
-
-    /**
      * Logs when a new note created.
      *
-     * @param noteName    New note name
-     * @param projectName Project name to which the note belongs
+     * @param noteName New note name
+     * @param path     Where the new note saved.
      */
-    void logNewNote(String noteName, String projectName);
+    void logNewNote(String noteName, String path);
 
     /**
      * Logs when auto save occurs.
      *
-     * @param noteName    Saved note name
-     * @param projectName Project name to which the saved note belongs
+     * @param noteName Saved note name
+     * @param path     Where the saved note is.
      */
-    void logAutoSave(String noteName, String projectName);
+    void logAutoSave(String noteName, String path);
 
     /**
      * Logs when save occurs.
      *
-     * @param noteName    Saved note name
-     * @param projectName Project name to which the saved note belongs
+     * @param noteName Saved note name
+     * @param path     Where the saved note is.
      */
-    void logSave(String noteName, String projectName);
-
-    /**
-     * Logs when a project is deleted.
-     *
-     * @param projectName Deleted project name
-     * @param path        Path of deleted project
-     */
-    void logDeletedProject(String projectName, String path);
+    void logSave(String noteName, String path);
 
     /**
      * Logs when a note is deleted.
      *
-     * @param noteName    Deleted note name
-     * @param projectName The name of the project to which the deleted note belongs
+     * @param noteName Deleted note name
+     * @param path     Where the deleted note was.
      */
-    void logDeletedNote(String noteName, String projectName);
+    void logDeletedNote(String noteName, String path);
 
     /**
      * When an exception occurs, it is logged.
@@ -58,11 +42,12 @@ public interface WinterLogger {
     void logException(Throwable throwable);
 
     /**
-     * Logs when a project are added in metadata recent projects.
+     * Logs when a note are added in metadata recent notes.
      *
-     * @param value Project name and path.
+     * @param noteName Note name.
+     * @param path     Where the note saved.
      */
-    void logAddedRecentProjects(String value);
+    void logAddedRecentNotes(String noteName, String path);
 
     /**
      * Logs when location is changed.

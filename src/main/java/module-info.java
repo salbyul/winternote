@@ -15,8 +15,6 @@ module org.winternote.winternote {
     exports org.winternote.winternote.note.persistence to spring.beans;
     exports org.winternote.winternote.note.service to spring.beans;
     exports org.winternote.winternote.logging to spring.beans;
-    exports org.winternote.winternote.project.persistence to spring.beans;
-    exports org.winternote.winternote.project.service to spring.beans;
     exports org.winternote.winternote.application.property to spring.beans;
     exports org.winternote.winternote.application.initializer to spring.beans;
     exports org.winternote.winternote.application to spring.beans;

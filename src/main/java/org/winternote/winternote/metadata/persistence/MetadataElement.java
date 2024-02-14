@@ -1,7 +1,7 @@
 package org.winternote.winternote.metadata.persistence;
 
 public enum MetadataElement {
-    LOCATION("Location"), RECENT_PROJECTS("recent projects");
+    LOCATION("Location"), RECENT_NOTES("recent notes");
 
     private final String value;
 

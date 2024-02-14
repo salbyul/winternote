@@ -33,7 +33,7 @@ public class MacInitializer implements Initializer {
         }
         try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(file, true)))) {
             writeLocation(writer);
-            writeRecentProjects(writer);
+            writeRecentNotes(writer);
         } catch (IOException e) {
             if (numberOfRetrying >= MAX_NUMBER_OF_RETRYING) {
                 throw new InitialException(e);
@@ -48,8 +48,8 @@ public class MacInitializer implements Initializer {
         writer.flush();
     }
 
-    private void writeRecentProjects(final PrintWriter writer) {
-        writer.append(RECENT_PROJECTS.getValue()).append(": [\n]");
+    private void writeRecentNotes(final PrintWriter writer) {
+        writer.append(RECENT_NOTES.getValue()).append(": [\n]");
         writer.flush();
     }
 

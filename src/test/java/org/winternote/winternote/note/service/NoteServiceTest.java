@@ -7,8 +7,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.note.domain.Note;
+import org.winternote.winternote.note.domain.NoteSummary;
 import org.winternote.winternote.note.persistence.NotePersistence;
-import org.winternote.winternote.project.domain.Project;
 
 import java.io.IOException;
 
@@ -31,19 +31,18 @@ class NoteServiceTest {
     @Test
     void createNote() throws IOException {
         // given
-        Project project = new Project("projectName", "path");
         String noteName = "noteName";
+        String path = "path";
 
         // when
-        doNothing().when(notePersistence).makeNote(any(Note.class));
-        doNothing().when(winterLogger).logNewNote(noteName, project.getName());
-        Note note = noteService.createNote(project, noteName);
+        doNothing().when(notePersistence).makeNote(any(NoteSummary.class));
+        doNothing().when(winterLogger).logNewNote(noteName, path);
+        Note note = noteService.createNote(noteName, path);
 
         // then
-        verify(notePersistence, times(1)).makeNote(any(Note.class));
-        verify(winterLogger, times(1)).logNewNote(noteName, project.getName());
+        verify(notePersistence, times(1)).makeNote(any(NoteSummary.class));
+        verify(winterLogger, times(1)).logNewNote(noteName, path);
         assertThat(note.getName()).isEqualTo(noteName);
-        assertThat(note.getPath()).isEqualTo(project.getPath() +  "/" + noteName);
-        assertThat(note.getLines()).isEmpty();
+        assertThat(note.getPath()).isEqualTo(path);
     }
 }
