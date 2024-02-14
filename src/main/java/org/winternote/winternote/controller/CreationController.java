@@ -35,6 +35,7 @@ import static org.winternote.winternote.model.property.PublicProperty.DELIMITER;
 @Component
 public class CreationController extends AbstractController {
 
+    private static final String DEFAULT_TITLE = "untitled";
     private final ApplicationContext context;
     private final WinterLogger logger;
     private final NoteService noteService;
@@ -44,6 +45,8 @@ public class CreationController extends AbstractController {
     private final MetadataService metadataService;
 
     private final PrivateProperty property;
+    private final AlertUtils alertUtils;
+    private final WindowUtils windowUtils;
 
     @FXML
     private VBox screen;
@@ -57,13 +60,22 @@ public class CreationController extends AbstractController {
     @FXML
     private HBox buttonBox;
 
-    public CreationController(final ApplicationContext context, final WinterLogger logger, final NoteService noteService, final ProjectService projectService, final MetadataService metadataService, final PrivateProperty property) {
+    public CreationController(final ApplicationContext context,
+                              final WinterLogger logger,
+                              final NoteService noteService,
+                              final ProjectService projectService,
+                              final MetadataService metadataService,
+                              final PrivateProperty property,
+                              final AlertUtils alertUtils,
+                              final WindowUtils windowUtils) {
         this.context = context;
         this.logger = logger;
         this.noteService = noteService;
         this.projectService = projectService;
         this.metadataService = metadataService;
         this.property = property;
+        this.alertUtils = alertUtils;
+        this.windowUtils = windowUtils;
     }
 
     public void initialize() {
@@ -80,20 +92,22 @@ public class CreationController extends AbstractController {
 
     @FXML
     private void onCreateButtonClick() { // TODO need Transactional
-        Stage stage = NoteController.generateStage(context, property, logger, title.getText());
         try {
             Project project = projectService.createProject(title.getText(), path.getText() + DELIMITER + title.getText());
             metadataService.addRecentProject(project);
             metadataService.changeLocation(path.getText());
-            noteService.createNote(project, "untitled");
+            noteService.createNote(project, DEFAULT_TITLE);
 
-            WindowUtils.closeAllWindows();
-            stage.show();
+            NoteController noteController = context.getBean(NoteController.class);
+            Stage noteStage = noteController.generateStage(DEFAULT_TITLE);
+
+            windowUtils.closeAllWindows();
+            noteStage.show();
         } catch (IOException e) {
-            AlertUtils.showAlert(WARNING, UNKNOWN_ERROR);
+            alertUtils.showAlert(WARNING, UNKNOWN_ERROR);
             logger.logException(e);
         } catch (WinterException e) {
-            AlertUtils.showAlert(INFORMATION, e.getMessage());
+            alertUtils.showAlert(INFORMATION, e.getMessage());
             logger.logException(e);
         }
     }
@@ -118,18 +132,23 @@ public class CreationController extends AbstractController {
         stage.close();
     }
 
-    protected static Stage generateStage(final ApplicationContext context, final PrivateProperty property, final WinterLogger logger) {
-        return AbstractController.generateStage(() -> {
+    public Stage generateStage() {
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(CreationController.class.getResource("creation-note.fxml"));
             fxmlLoader.setControllerFactory(context::getBean);
             Scene scene = new Scene(fxmlLoader.load(), property.getDisplayWidth() / 5, property.getDisplayHeight() / 4);
-            Stage newStage = new Stage();
-            newStage.setScene(scene);
-            newStage.initModality(Modality.APPLICATION_MODAL);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
 
-            Controller controller = fxmlLoader.getController();
-            controller.setStage(newStage);
-            return newStage;
-        }, logger);
+            CreationController creationController = fxmlLoader.getController();
+            creationController.setStage(stage);
+            return stage;
+        } catch (IOException e) {
+            alertUtils.showAlert(WARNING, UNKNOWN_ERROR);
+            logger.logException(e);
+            System.exit(1);
+        }
+        return null; // unreachable code
     }
 }
