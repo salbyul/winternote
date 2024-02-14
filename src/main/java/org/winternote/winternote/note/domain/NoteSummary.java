@@ -2,6 +2,7 @@ package org.winternote.winternote.note.domain;
 
 import java.io.File;
 
+import static org.winternote.winternote.application.property.PublicProperty.DELIMITER;
 import static org.winternote.winternote.note.domain.Note.NOTE_EXTENSION;
 
 public class NoteSummary {
@@ -23,6 +24,6 @@ public class NoteSummary {
     }
 
     public File transferToFile() {
-        return new File(getPath() + NOTE_EXTENSION);
+        return new File(getPath() + DELIMITER + getName() + NOTE_EXTENSION);
     }
 }
