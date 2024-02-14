@@ -1,7 +1,7 @@
 package org.winternote.winternote.project.service;
 
 import org.springframework.stereotype.Service;
-import org.winternote.winternote.model.logging.WinterLogger;
+import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.project.domain.Project;
 import org.winternote.winternote.project.persistence.ProjectPersistence;
 

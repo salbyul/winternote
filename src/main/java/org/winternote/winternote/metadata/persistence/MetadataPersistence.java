@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.winternote.winternote.common.annotation.Persistence;
 import org.winternote.winternote.metadata.exception.UndeletableMetadataException;
-import org.winternote.winternote.model.exception.InitialException;
-import org.winternote.winternote.model.exception.PollutedMetadataException;
-import org.winternote.winternote.model.logging.WinterLogger;
-import org.winternote.winternote.model.property.PrivateProperty;
+import org.winternote.winternote.application.initializer.exception.InitialException;
+import org.winternote.winternote.metadata.exception.PollutedMetadataException;
+import org.winternote.winternote.logging.WinterLogger;
+import org.winternote.winternote.application.property.PrivateProperty;
 import org.winternote.winternote.project.domain.Project;
 
 import java.io.*;
@@ -19,7 +19,7 @@ import java.util.Objects;
 
 import static org.winternote.winternote.metadata.persistence.MetadataElement.LOCATION;
 import static org.winternote.winternote.metadata.persistence.MetadataElement.RECENT_PROJECTS;
-import static org.winternote.winternote.model.property.PublicProperty.*;
+import static org.winternote.winternote.application.property.PublicProperty.*;
 
 @Persistence
 @DependsOn({"applicationManager"})

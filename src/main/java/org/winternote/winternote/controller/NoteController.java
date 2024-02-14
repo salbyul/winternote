@@ -12,14 +12,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.winternote.winternote.controller.node.plate.Plate;
 import org.winternote.winternote.controller.utils.AlertUtils;
-import org.winternote.winternote.model.logging.WinterLogger;
-import org.winternote.winternote.model.property.PrivateProperty;
+import org.winternote.winternote.logging.WinterLogger;
+import org.winternote.winternote.application.property.PrivateProperty;
 
 import java.io.IOException;
 
 import static javafx.scene.control.Alert.AlertType.WARNING;
 import static org.winternote.winternote.controller.utils.message.Message.UNKNOWN_ERROR;
-import static org.winternote.winternote.model.property.PublicProperty.*;
+import static org.winternote.winternote.application.property.PublicProperty.*;
 
 @Component
 public class NoteController extends AbstractController {

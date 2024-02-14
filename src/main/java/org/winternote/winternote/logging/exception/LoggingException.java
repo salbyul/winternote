@@ -1,4 +1,4 @@
-package org.winternote.winternote.model.exception;
+package org.winternote.winternote.logging.exception;
 
 public class LoggingException extends RuntimeException {
 

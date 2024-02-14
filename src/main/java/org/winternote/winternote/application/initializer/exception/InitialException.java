@@ -1,4 +1,4 @@
-package org.winternote.winternote.model.exception;
+package org.winternote.winternote.application.initializer.exception;
 
 public class InitialException extends RuntimeException {
 

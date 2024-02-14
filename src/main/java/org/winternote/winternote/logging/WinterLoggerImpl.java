@@ -1,9 +1,9 @@
-package org.winternote.winternote.model.logging;
+package org.winternote.winternote.logging;
 
 import org.springframework.stereotype.Component;
-import org.winternote.winternote.model.exception.InitialException;
-import org.winternote.winternote.model.exception.LoggingException;
-import org.winternote.winternote.model.property.PrivateProperty;
+import org.winternote.winternote.application.initializer.exception.InitialException;
+import org.winternote.winternote.logging.exception.LoggingException;
+import org.winternote.winternote.application.property.PrivateProperty;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.logging.*;
 
 import static java.util.logging.Level.*;
-import static org.winternote.winternote.model.property.PublicProperty.DELIMITER;
+import static org.winternote.winternote.application.property.PublicProperty.DELIMITER;
 
 @Component
 public class WinterLoggerImpl implements WinterLogger {

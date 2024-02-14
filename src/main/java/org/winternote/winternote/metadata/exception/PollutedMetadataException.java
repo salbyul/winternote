@@ -1,4 +1,4 @@
-package org.winternote.winternote.model.exception;
+package org.winternote.winternote.metadata.exception;
 
 import org.winternote.winternote.metadata.persistence.MetadataElement;
 

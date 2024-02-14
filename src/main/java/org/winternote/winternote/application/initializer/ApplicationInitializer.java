@@ -1,7 +1,7 @@
-package org.winternote.winternote.model.application.initializer;
+package org.winternote.winternote.application.initializer;
 
 import org.springframework.stereotype.Component;
-import org.winternote.winternote.model.property.PrivateProperty;
+import org.winternote.winternote.application.property.PrivateProperty;
 
 @Component
 public final class ApplicationInitializer implements Initializer {

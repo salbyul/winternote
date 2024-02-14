@@ -1,9 +1,9 @@
-package org.winternote.winternote.model.property;
+package org.winternote.winternote.application.property;
 
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 import org.springframework.stereotype.Component;
-import org.winternote.winternote.model.exception.UnsupportedOSException;
+import org.winternote.winternote.application.property.exception.UnsupportedOSException;
 
 @Component
 public class PrivatePropertyImpl implements PrivateProperty {

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.winternote.winternote.model.logging.WinterLogger;
+import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.note.domain.Note;
 import org.winternote.winternote.note.persistence.NotePersistence;
 import org.winternote.winternote.project.domain.Project;

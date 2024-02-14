@@ -8,8 +8,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.winternote.winternote.common.utils.FileUtils;
 import org.winternote.winternote.metadata.persistence.MetadataPersistence;
-import org.winternote.winternote.model.logging.WinterLogger;
-import org.winternote.winternote.model.property.PrivateProperty;
+import org.winternote.winternote.logging.WinterLogger;
+import org.winternote.winternote.application.property.PrivateProperty;
 import org.winternote.winternote.project.domain.Project;
 
 import static org.assertj.core.api.Assertions.*;

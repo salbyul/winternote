@@ -19,8 +19,8 @@ import org.winternote.winternote.common.exception.WinterException;
 import org.winternote.winternote.controller.utils.AlertUtils;
 import org.winternote.winternote.controller.utils.WindowUtils;
 import org.winternote.winternote.metadata.service.MetadataService;
-import org.winternote.winternote.model.logging.WinterLogger;
-import org.winternote.winternote.model.property.PrivateProperty;
+import org.winternote.winternote.logging.WinterLogger;
+import org.winternote.winternote.application.property.PrivateProperty;
 import org.winternote.winternote.project.domain.Project;
 import org.winternote.winternote.note.service.NoteService;
 import org.winternote.winternote.project.service.ProjectService;
@@ -30,7 +30,7 @@ import java.io.IOException;
 
 import static javafx.scene.control.Alert.AlertType.*;
 import static org.winternote.winternote.controller.utils.message.Message.*;
-import static org.winternote.winternote.model.property.PublicProperty.DELIMITER;
+import static org.winternote.winternote.application.property.PublicProperty.DELIMITER;
 
 @Component
 public class CreationController extends AbstractController {

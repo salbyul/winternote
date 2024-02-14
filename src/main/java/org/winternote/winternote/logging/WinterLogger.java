@@ -1,4 +1,4 @@
-package org.winternote.winternote.model.logging;
+package org.winternote.winternote.logging;
 
 public interface WinterLogger {
 

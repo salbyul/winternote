@@ -1,7 +1,7 @@
 package org.winternote.winternote.note.service;
 
 import org.springframework.stereotype.Service;
-import org.winternote.winternote.model.logging.WinterLogger;
+import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.note.domain.Note;
 import org.winternote.winternote.note.persistence.NotePersistence;
 import org.winternote.winternote.project.domain.Project;
@@ -9,7 +9,7 @@ import org.winternote.winternote.project.domain.Project;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.winternote.winternote.model.property.PublicProperty.DELIMITER;
+import static org.winternote.winternote.application.property.PublicProperty.DELIMITER;
 
 @Service
 public class NoteService {

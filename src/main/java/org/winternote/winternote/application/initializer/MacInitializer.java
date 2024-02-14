@@ -1,15 +1,15 @@
-package org.winternote.winternote.model.application.initializer;
+package org.winternote.winternote.application.initializer;
 
-import org.winternote.winternote.model.exception.InitialException;
-import org.winternote.winternote.model.property.PrivateProperty;
+import org.winternote.winternote.application.initializer.exception.InitialException;
+import org.winternote.winternote.application.property.PrivateProperty;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static org.winternote.winternote.model.application.initializer.ApplicationInitializer.*;
+import static org.winternote.winternote.application.initializer.ApplicationInitializer.*;
 import static org.winternote.winternote.metadata.persistence.MetadataElement.*;
-import static org.winternote.winternote.model.property.PublicProperty.*;
+import static org.winternote.winternote.application.property.PublicProperty.*;
 
 public class MacInitializer implements Initializer {
 

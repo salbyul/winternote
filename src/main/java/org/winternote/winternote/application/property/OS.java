@@ -1,6 +1,6 @@
-package org.winternote.winternote.model.property;
+package org.winternote.winternote.application.property;
 
-import org.winternote.winternote.model.exception.UnsupportedOSException;
+import org.winternote.winternote.application.property.exception.UnsupportedOSException;
 
 import java.util.Arrays;
 

@@ -3,9 +3,9 @@ package org.winternote.winternote.metadata.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.winternote.winternote.common.utils.FileUtils;
-import org.winternote.winternote.model.logging.WinterLogger;
+import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.metadata.persistence.MetadataPersistence;
-import org.winternote.winternote.model.property.PrivateProperty;
+import org.winternote.winternote.application.property.PrivateProperty;
 import org.winternote.winternote.project.domain.Project;
 
 @Service

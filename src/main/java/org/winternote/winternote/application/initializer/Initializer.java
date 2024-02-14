@@ -1,4 +1,4 @@
-package org.winternote.winternote.model.application.initializer;
+package org.winternote.winternote.application.initializer;
 
 public interface Initializer {
 

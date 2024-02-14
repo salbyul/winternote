@@ -14,7 +14,7 @@ import org.winternote.winternote.controller.Controller;
 
 import java.io.*;
 
-import static org.winternote.winternote.model.property.PublicProperty.*;
+import static org.winternote.winternote.application.property.PublicProperty.*;
 
 @SpringBootApplication
 public class WinterNoteApplication extends Application {

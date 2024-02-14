@@ -1,7 +1,7 @@
-package org.winternote.winternote.model.application;
+package org.winternote.winternote.application;
 
 import org.springframework.stereotype.Component;
-import org.winternote.winternote.model.application.initializer.Initializer;
+import org.winternote.winternote.application.initializer.Initializer;
 
 @Component
 public class ApplicationManager {
