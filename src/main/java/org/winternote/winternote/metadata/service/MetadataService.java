@@ -1,33 +1,61 @@
 package org.winternote.winternote.metadata.service;
 
-import org.winternote.winternote.common.service.Service;
-import org.winternote.winternote.model.logging.WinterLogger;
-import org.winternote.winternote.model.metadata.Metadata;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.winternote.winternote.common.utils.FileUtils;
+import org.winternote.winternote.logging.WinterLogger;
+import org.winternote.winternote.metadata.persistence.MetadataPersistence;
+import org.winternote.winternote.application.property.PrivateProperty;
 import org.winternote.winternote.project.domain.Project;
 
-public class MetadataService implements Service {
+@Service
+public class MetadataService {
 
-    private final Metadata metadata;
+    private final MetadataPersistence metadataPersistence;
+    private final PrivateProperty property;
     private final WinterLogger logger;
+    private final FileUtils fileUtils;
 
-    public MetadataService(final Metadata metadata, final WinterLogger logger) {
-        this.metadata = metadata;
+    @Autowired
+    public MetadataService(final MetadataPersistence metadataPersistence, final PrivateProperty property, final WinterLogger logger, final FileUtils fileUtils) {
+        this.metadataPersistence = metadataPersistence;
+        this.property = property;
         this.logger = logger;
+        this.fileUtils = fileUtils;
     }
 
+    /**
+     * Get recent location from the metadata file.
+     *
+     * @return Recent location.
+     */
     public String getRecentLocation() {
-        return metadata.getLocation();
+        String location = metadataPersistence.getLocation();
+        if (!fileUtils.existsFile(location)) {
+            return property.getApplicationPath();
+        }
+        return location;
     }
 
+    /**
+     * Add the project to the list of recent projects in the metadata file.
+     *
+     * @param project Project that will be added.
+     */
     public void addRecentProject(final Project project) {
-        metadata.addRecentProject(project);
+        metadataPersistence.addRecentProject(project);
         logger.logAddedRecentProjects(project.toString());
     }
 
+    /**
+     * Change recent location in the metadata file.
+     *
+     * @param newLocation New location path.
+     */
     public void changeLocation(final String newLocation) {
         String oldLocation = getRecentLocation();
         if (!oldLocation.equals(newLocation)) {
-            metadata.changeLocation(newLocation);
+            metadataPersistence.changeLocation(newLocation);
             logger.logChangedLocation(oldLocation, newLocation);
         }
     }

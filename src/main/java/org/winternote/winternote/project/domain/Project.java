@@ -32,4 +32,27 @@ public class Project {
     public String getPath() {
         return path;
     }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private String name;
+        private String path;
+
+        public Builder name(final String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder path(final String path) {
+            this.path = path;
+            return this;
+        }
+
+        public Project build() {
+            return new Project(name, path);
+        }
+    }
 }

@@ -13,12 +13,14 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 import org.winternote.winternote.common.exception.WinterException;
 import org.winternote.winternote.controller.utils.AlertUtils;
 import org.winternote.winternote.controller.utils.WindowUtils;
 import org.winternote.winternote.metadata.service.MetadataService;
-import org.winternote.winternote.model.application.ApplicationManager;
-import org.winternote.winternote.model.logging.WinterLogger;
+import org.winternote.winternote.logging.WinterLogger;
+import org.winternote.winternote.application.property.PrivateProperty;
 import org.winternote.winternote.project.domain.Project;
 import org.winternote.winternote.note.service.NoteService;
 import org.winternote.winternote.project.service.ProjectService;
@@ -28,15 +30,23 @@ import java.io.IOException;
 
 import static javafx.scene.control.Alert.AlertType.*;
 import static org.winternote.winternote.controller.utils.message.Message.*;
-import static org.winternote.winternote.model.property.PrivateProperty.*;
-import static org.winternote.winternote.model.property.PublicProperty.DELIMITER;
+import static org.winternote.winternote.application.property.PublicProperty.DELIMITER;
 
+@Component
 public class CreationController extends AbstractController {
-    private final WinterLogger logger = WinterLogger.instance();
 
-    private NoteService noteService;
-    private ProjectService projectService;
-    private MetadataService metadataService;
+    private static final String DEFAULT_TITLE = "untitled";
+    private final ApplicationContext context;
+    private final WinterLogger logger;
+    private final NoteService noteService;
+
+    private final ProjectService projectService;
+
+    private final MetadataService metadataService;
+
+    private final PrivateProperty property;
+    private final AlertUtils alertUtils;
+    private final WindowUtils windowUtils;
 
     @FXML
     private VBox screen;
@@ -50,10 +60,25 @@ public class CreationController extends AbstractController {
     @FXML
     private HBox buttonBox;
 
+    public CreationController(final ApplicationContext context,
+                              final WinterLogger logger,
+                              final NoteService noteService,
+                              final ProjectService projectService,
+                              final MetadataService metadataService,
+                              final PrivateProperty property,
+                              final AlertUtils alertUtils,
+                              final WindowUtils windowUtils) {
+        this.context = context;
+        this.logger = logger;
+        this.noteService = noteService;
+        this.projectService = projectService;
+        this.metadataService = metadataService;
+        this.property = property;
+        this.alertUtils = alertUtils;
+        this.windowUtils = windowUtils;
+    }
+
     public void initialize() {
-        noteService = ApplicationManager.getService(NoteService.class);
-        projectService = ApplicationManager.getService(ProjectService.class);
-        metadataService = ApplicationManager.getService(MetadataService.class);
         screen.setAlignment(Pos.CENTER);
         buttonBox.setAlignment(Pos.CENTER);
         title.onKeyPressedProperty().set(event -> {
@@ -62,24 +87,27 @@ public class CreationController extends AbstractController {
             }
         });
         path.setText(metadataService.getRecentLocation());
+        path.setEditable(false);
     }
 
     @FXML
     private void onCreateButtonClick() { // TODO need Transactional
-        Stage stage = NoteController.generateStage(title.getText());
         try {
             Project project = projectService.createProject(title.getText(), path.getText() + DELIMITER + title.getText());
             metadataService.addRecentProject(project);
             metadataService.changeLocation(path.getText());
-            noteService.createNote(project, "untitled");
+            noteService.createNote(project, DEFAULT_TITLE);
 
-            WindowUtils.closeAllWindows();
-            stage.show();
+            NoteController noteController = context.getBean(NoteController.class);
+            Stage noteStage = noteController.generateStage(DEFAULT_TITLE);
+
+            windowUtils.closeAllWindows();
+            noteStage.show();
         } catch (IOException e) {
-            AlertUtils.showAlert(WARNING, UNKNOWN_ERROR);
+            alertUtils.showAlert(WARNING, UNKNOWN_ERROR);
             logger.logException(e);
         } catch (WinterException e) {
-            AlertUtils.showAlert(INFORMATION, e.getMessage());
+            alertUtils.showAlert(INFORMATION, e.getMessage());
             logger.logException(e);
         }
     }
@@ -89,12 +117,7 @@ public class CreationController extends AbstractController {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Location to be saved");
         File choice;
-        try {
-            choice = showDirectoryChooser(directoryChooser, metadataService.getRecentLocation());
-        } catch (IllegalArgumentException e) { // The 'Location' of the metadata file is corrupted.
-            choice = showDirectoryChooser(directoryChooser, APPLICATION_PATH);
-            logger.logException(e);
-        }
+        choice = showDirectoryChooser(directoryChooser, metadataService.getRecentLocation());
         path.setText(choice.getPath());
     }
 
@@ -109,17 +132,23 @@ public class CreationController extends AbstractController {
         stage.close();
     }
 
-    protected static Stage generateStage() {
-        return AbstractController.generateStage(() -> {
+    public Stage generateStage() {
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(CreationController.class.getResource("creation-note.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), DISPLAY_WIDTH / 5, DISPLAY_HEIGHT / 4);
-            Stage newStage = new Stage();
-            newStage.setScene(scene);
-            newStage.initModality(Modality.APPLICATION_MODAL);
+            fxmlLoader.setControllerFactory(context::getBean);
+            Scene scene = new Scene(fxmlLoader.load(), property.getDisplayWidth() / 5, property.getDisplayHeight() / 4);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
 
-            Controller controller = fxmlLoader.getController();
-            controller.setStage(newStage);
-            return newStage;
-        });
+            CreationController creationController = fxmlLoader.getController();
+            creationController.setStage(stage);
+            return stage;
+        } catch (IOException e) {
+            alertUtils.showAlert(WARNING, UNKNOWN_ERROR);
+            logger.logException(e);
+            System.exit(1);
+        }
+        return null; // unreachable code
     }
 }

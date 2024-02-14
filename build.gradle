@@ -4,7 +4,10 @@ plugins {
     id 'org.javamodularity.moduleplugin' version '1.8.12'
     id 'org.openjfx.javafxplugin' version '0.0.13'
     id 'org.beryx.jlink' version '2.25.0'
+    id 'org.springframework.boot' version '3.2.2'
 }
+
+apply plugin: 'io.spring.dependency-management'
 
 group 'org.winternote'
 version '1.0-SNAPSHOT'
@@ -26,7 +29,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'org.winternote.winternote'
-    mainClass = 'org.winternote.winternote.WinterNoteApplication'
+    mainClass = 'org.winternote.winternote.Application'
 }
 
 javafx {
@@ -35,6 +38,9 @@ javafx {
 }
 
 dependencies {
+
+    // spring-boot
+    implementation 'org.springframework.boot:spring-boot-starter'
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")

@@ -94,7 +94,7 @@ class NoteTest {
         // given
         Note note = Note.builder()
                 .name("title")
-                .path("path")
+                .path("path/title")
                 .lines(List.of())
                 .build();
 
