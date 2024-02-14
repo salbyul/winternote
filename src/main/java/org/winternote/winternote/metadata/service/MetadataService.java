@@ -6,7 +6,7 @@ import org.winternote.winternote.common.utils.FileUtils;
 import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.metadata.persistence.MetadataPersistence;
 import org.winternote.winternote.application.property.PrivateProperty;
-import org.winternote.winternote.project.domain.Project;
+import org.winternote.winternote.note.domain.Note;
 
 @Service
 public class MetadataService {
@@ -38,13 +38,13 @@ public class MetadataService {
     }
 
     /**
-     * Add the project to the list of recent projects in the metadata file.
+     * Add the note to the list of recent notes in the metadata file.
      *
-     * @param project Project that will be added.
+     * @param note Note that will be added.
      */
-    public void addRecentProject(final Project project) {
-        metadataPersistence.addRecentProject(project);
-        logger.logAddedRecentProjects(project.toString());
+    public void addRecentNote(final Note note) {
+        metadataPersistence.addRecentNote(note);
+        logger.logAddedRecentNotes(note.getName(), note.getPath());
     }
 
     /**

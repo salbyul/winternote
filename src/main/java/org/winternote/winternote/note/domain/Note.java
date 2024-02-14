@@ -2,7 +2,6 @@ package org.winternote.winternote.note.domain;
 
 import org.winternote.winternote.note.exception.NoteCreationException;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +12,7 @@ public class Note {
     private final String name;
     private final String path;
     private final List<Line> lines;
-    private static final String NOTE_EXTENSION = ".md";
+    public static final String NOTE_EXTENSION = ".md";
 
     private Note(final String name, final String path, final List<Line> lines) {
         this.name = name;
@@ -47,15 +46,11 @@ public class Note {
         return Collections.unmodifiableList(lines);
     }
 
-    public File transferToFile() {
-        return new File(getPath() + NOTE_EXTENSION);
-    }
-
     public static class Builder {
 
         private String name;
         private String path;
-        private List<Line> lines;
+        private List<Line> lines = new ArrayList<>();
 
         public Builder name(final String name) {
             this.name = name;

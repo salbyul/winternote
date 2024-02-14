@@ -21,9 +21,8 @@ import org.winternote.winternote.controller.utils.WindowUtils;
 import org.winternote.winternote.metadata.service.MetadataService;
 import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.application.property.PrivateProperty;
-import org.winternote.winternote.project.domain.Project;
+import org.winternote.winternote.note.domain.Note;
 import org.winternote.winternote.note.service.NoteService;
-import org.winternote.winternote.project.service.ProjectService;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,15 +34,10 @@ import static org.winternote.winternote.application.property.PublicProperty.DELI
 @Component
 public class CreationController extends AbstractController {
 
-    private static final String DEFAULT_TITLE = "untitled";
     private final ApplicationContext context;
     private final WinterLogger logger;
     private final NoteService noteService;
-
-    private final ProjectService projectService;
-
     private final MetadataService metadataService;
-
     private final PrivateProperty property;
     private final AlertUtils alertUtils;
     private final WindowUtils windowUtils;
@@ -63,7 +57,6 @@ public class CreationController extends AbstractController {
     public CreationController(final ApplicationContext context,
                               final WinterLogger logger,
                               final NoteService noteService,
-                              final ProjectService projectService,
                               final MetadataService metadataService,
                               final PrivateProperty property,
                               final AlertUtils alertUtils,
@@ -71,7 +64,6 @@ public class CreationController extends AbstractController {
         this.context = context;
         this.logger = logger;
         this.noteService = noteService;
-        this.projectService = projectService;
         this.metadataService = metadataService;
         this.property = property;
         this.alertUtils = alertUtils;
@@ -93,13 +85,14 @@ public class CreationController extends AbstractController {
     @FXML
     private void onCreateButtonClick() { // TODO need Transactional
         try {
-            Project project = projectService.createProject(title.getText(), path.getText() + DELIMITER + title.getText());
-            metadataService.addRecentProject(project);
+            final String noteName = title.getText();
+            final String notePath = path.getText() + DELIMITER + title.getText();
+            Note note = noteService.createNote(noteName, notePath);
+            metadataService.addRecentNote(note);
             metadataService.changeLocation(path.getText());
-            noteService.createNote(project, DEFAULT_TITLE);
 
             NoteController noteController = context.getBean(NoteController.class);
-            Stage noteStage = noteController.generateStage(DEFAULT_TITLE);
+            Stage noteStage = noteController.generateStage(title.getText());
 
             windowUtils.closeAllWindows();
             noteStage.show();

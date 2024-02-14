@@ -8,7 +8,8 @@ import org.winternote.winternote.application.initializer.exception.InitialExcept
 import org.winternote.winternote.metadata.exception.PollutedMetadataException;
 import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.application.property.PrivateProperty;
-import org.winternote.winternote.project.domain.Project;
+import org.winternote.winternote.note.domain.Note;
+import org.winternote.winternote.note.domain.NoteSummary;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.winternote.winternote.metadata.persistence.MetadataElement.LOCATION;
-import static org.winternote.winternote.metadata.persistence.MetadataElement.RECENT_PROJECTS;
+import static org.winternote.winternote.metadata.persistence.MetadataElement.RECENT_NOTES;
 import static org.winternote.winternote.application.property.PublicProperty.*;
 
 @Persistence
@@ -26,14 +27,14 @@ import static org.winternote.winternote.application.property.PublicProperty.*;
 public class MetadataPersistence {
 
     private String location;
-    private final List<Project> projectList;
+    private final List<NoteSummary> recentNoteList;
     private final MetadataHandler metadataHandler;
 
     @Autowired
     public MetadataPersistence(final PrivateProperty property, final WinterLogger logger) {
         this.metadataHandler = new MetadataHandler(property.getApplicationPath() + DELIMITER + METADATA_NAME, logger);
         this.location = metadataHandler.readLocation();
-        this.projectList = metadataHandler.readRecentProjectList();
+        this.recentNoteList = metadataHandler.readRecentNoteSummaryList();
     }
 
     /**
@@ -50,18 +51,18 @@ public class MetadataPersistence {
      *
      * @return Project list.
      */
-    public List<Project> getProjectList() {
-        return Collections.unmodifiableList(this.projectList);
+    public List<NoteSummary> getRecentNoteList() {
+        return Collections.unmodifiableList(this.recentNoteList);
     }
 
     /**
-     * Write attributes of project in recent projects list of metadata.
+     * Write attributes of note in recent notes list of metadata.
      *
-     * @param project Project to be saved.
+     * @param note Note to be saved.
      */
-    public void addRecentProject(final Project project) {
+    public void addRecentNote(final Note note) {
         synchronized (this) {
-            metadataHandler.addRecentProject(project);
+            metadataHandler.addRecentNote(note);
             reload();
         }
     }
@@ -84,8 +85,8 @@ public class MetadataPersistence {
      */
     private void reload() {
         this.location = metadataHandler.readLocation();
-        this.projectList.clear();
-        this.projectList.addAll(metadataHandler.readRecentProjectList());
+        this.recentNoteList.clear();
+        this.recentNoteList.addAll(metadataHandler.readRecentNoteSummaryList());
     }
 
     private static class MetadataHandler {
@@ -124,53 +125,53 @@ public class MetadataPersistence {
             return locationLine.split(" ")[1];
         }
 
-        private List<Project> readRecentProjectList() {
-            boolean containsRecentProject = false;
-            int projectIndex = 0;
+        private List<NoteSummary> readRecentNoteSummaryList() {
+            boolean containsRecentNote = false;
+            int noteIndex = 0;
             for (int i = 0; i < lines.size(); i++) {
-                if (lines.get(i).startsWith(RECENT_PROJECTS.getValue())) {
-                    containsRecentProject = true;
-                    projectIndex = i + 1;
+                if (lines.get(i).startsWith(RECENT_NOTES.getValue())) {
+                    containsRecentNote = true;
+                    noteIndex = i + 1;
                     break;
                 }
             }
-            if (!containsRecentProject) {
-                throw new PollutedMetadataException("Metadata doesn't include \"recent projects\"", RECENT_PROJECTS);
+            if (!containsRecentNote) {
+                throw new PollutedMetadataException("Metadata doesn't include \"recent notes\"", RECENT_NOTES);
             }
-            List<Project> projectList = new ArrayList<>();
-            for (String line = lines.get(projectIndex); !line.equals("]"); line = lines.get(++projectIndex)) {
+            List<NoteSummary> recentNoteList = new ArrayList<>();
+            for (String line = lines.get(noteIndex); !line.equals("]"); line = lines.get(++noteIndex)) {
                 String[] split = line.trim().split(":");
                 String name = split[0];
                 String path = split[1].substring(0, split[1].length() - 1).trim();
-                projectList.add(new Project(name, path));
+                recentNoteList.add(new NoteSummary(name, path));
             }
-            return projectList;
+            return recentNoteList;
         }
 
         /**
-         * Write attributes of project in recent projects list of metadata.
+         * Write attributes of note in recent notes list of metadata.
          *
-         * @param project Project to be saved.
+         * @param note Note to be saved.
          */
-        public void addRecentProject(final Project project) {
+        public void addRecentNote(final Note note) {
             synchronized (this) {
-                String value = "\t" + project.toString() + ",";
+                String value = "\t" + note.getName() + ": " + note.getPath() + ",";
                 readAllLines();
 
-                boolean containsRecentProject = false;
-                int projectIndex = 0;
+                boolean containsRecentNote = false;
+                int noteIndex = 0;
                 for (int i = 0; i < lines.size(); i++) {
-                    if (lines.get(i).startsWith(RECENT_PROJECTS.getValue())) {
-                        containsRecentProject = true;
-                        projectIndex = i + 1;
+                    if (lines.get(i).startsWith(RECENT_NOTES.getValue())) {
+                        containsRecentNote = true;
+                        noteIndex = i + 1;
                         break;
                     }
                 }
-                if (!containsRecentProject) {
-                    throw new PollutedMetadataException("Metadata doesn't include \"recent projects\"", RECENT_PROJECTS);
+                if (!containsRecentNote) {
+                    throw new PollutedMetadataException("Metadata doesn't include \"recent notes\"", RECENT_NOTES);
                 }
 
-                lines.add(projectIndex, value);
+                lines.add(noteIndex, value);
                 deleteMetadata();
                 BufferedWriter writer = generateWriter();
                 try {

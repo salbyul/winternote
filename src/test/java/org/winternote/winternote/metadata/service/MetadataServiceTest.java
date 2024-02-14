@@ -10,7 +10,7 @@ import org.winternote.winternote.common.utils.FileUtils;
 import org.winternote.winternote.metadata.persistence.MetadataPersistence;
 import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.application.property.PrivateProperty;
-import org.winternote.winternote.project.domain.Project;
+import org.winternote.winternote.note.domain.Note;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -73,21 +73,21 @@ class MetadataServiceTest {
 
     @Test
     @DisplayName("Can add recent project.")
-    void addRecentProject() {
+    void addRecentNote() {
         // given
-        Project project = Project.builder()
+        Note note = Note.builder()
                 .name("name")
                 .path("path")
                 .build();
 
         // when
-        doNothing().when(metadataPersistence).addRecentProject(project);
-        doNothing().when(logger).logAddedRecentProjects(project.toString());
-        metadataService.addRecentProject(project);
+        doNothing().when(metadataPersistence).addRecentNote(note);
+        doNothing().when(logger).logAddedRecentNotes(note.getName(), note.getPath());
+        metadataService.addRecentNote(note);
 
         // then
-        verify(metadataPersistence, times(1)).addRecentProject(project);
-        verify(logger, times(1)).logAddedRecentProjects(project.toString());
+        verify(metadataPersistence, times(1)).addRecentNote(note);
+        verify(logger, times(1)).logAddedRecentNotes(note.getName(), note.getPath());
     }
 
     @Test

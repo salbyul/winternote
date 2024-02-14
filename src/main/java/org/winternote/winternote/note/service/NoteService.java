@@ -3,13 +3,10 @@ package org.winternote.winternote.note.service;
 import org.springframework.stereotype.Service;
 import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.note.domain.Note;
+import org.winternote.winternote.note.domain.NoteSummary;
 import org.winternote.winternote.note.persistence.NotePersistence;
-import org.winternote.winternote.project.domain.Project;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
-import static org.winternote.winternote.application.property.PublicProperty.DELIMITER;
 
 @Service
 public class NoteService {
@@ -25,18 +22,18 @@ public class NoteService {
     /**
      * Create a new note.
      *
-     * @param project  Project that will contain new note.
      * @param noteName Note name.
+     * @param path     Path the new note will be created.
+     * @return Created note.
      * @throws IOException Exception that may occur during the note creation process.
      */
-    public Note createNote(final Project project, final String noteName) throws IOException {
-        Note note = Note.builder()
-                .name(noteName)
-                .path(project.getPath() + DELIMITER + noteName)
-                .lines(new ArrayList<>())
+    public Note createNote(final String noteName, final String path) throws IOException {
+        NoteSummary noteSummary = new NoteSummary(noteName, path);
+        notePersistence.makeNote(noteSummary);
+        logger.logNewNote(noteName, path);
+        return Note.builder()
+                .name(noteSummary.getName())
+                .path(noteSummary.getPath())
                 .build();
-        notePersistence.makeNote(note);
-        logger.logNewNote(noteName, project.getName());
-        return note;
     }
 }
