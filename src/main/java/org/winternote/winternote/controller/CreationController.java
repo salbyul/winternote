@@ -21,26 +21,24 @@ import org.winternote.winternote.controller.utils.WindowUtils;
 import org.winternote.winternote.metadata.service.MetadataService;
 import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.application.property.PrivateProperty;
-import org.winternote.winternote.note.domain.Note;
-import org.winternote.winternote.note.service.NoteService;
+import org.winternote.winternote.note.process.NoteCreationProcess;
 
 import java.io.File;
 import java.io.IOException;
 
 import static javafx.scene.control.Alert.AlertType.*;
 import static org.winternote.winternote.controller.utils.message.Message.*;
-import static org.winternote.winternote.application.property.PublicProperty.DELIMITER;
 
 @Component
 public class CreationController extends AbstractController {
 
     private final ApplicationContext context;
     private final WinterLogger logger;
-    private final NoteService noteService;
     private final MetadataService metadataService;
     private final PrivateProperty property;
     private final AlertUtils alertUtils;
     private final WindowUtils windowUtils;
+    private final NoteCreationProcess noteCreationProcess;
 
     @FXML
     private VBox screen;
@@ -56,18 +54,18 @@ public class CreationController extends AbstractController {
 
     public CreationController(final ApplicationContext context,
                               final WinterLogger logger,
-                              final NoteService noteService,
                               final MetadataService metadataService,
                               final PrivateProperty property,
                               final AlertUtils alertUtils,
-                              final WindowUtils windowUtils) {
+                              final WindowUtils windowUtils,
+                              final NoteCreationProcess noteCreationProcess) {
         this.context = context;
         this.logger = logger;
-        this.noteService = noteService;
         this.metadataService = metadataService;
         this.property = property;
         this.alertUtils = alertUtils;
         this.windowUtils = windowUtils;
+        this.noteCreationProcess = noteCreationProcess;
     }
 
     public void initialize() {
@@ -83,13 +81,11 @@ public class CreationController extends AbstractController {
     }
 
     @FXML
-    private void onCreateButtonClick() { // TODO need Transactional
+    private void onCreateButtonClick() {
         try {
-            final String noteName = title.getText();
-            final String notePath = path.getText() + DELIMITER + title.getText();
-            Note note = noteService.createNote(noteName, notePath);
-            metadataService.addRecentNote(note);
-            metadataService.changeLocation(path.getText());
+            final String noteTitle = title.getText();
+            final String notePath = path.getText();
+            noteCreationProcess.createNewNote(noteTitle, notePath);
 
             NoteController noteController = context.getBean(NoteController.class);
             Stage noteStage = noteController.generateStage(title.getText());

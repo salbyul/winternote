@@ -23,6 +23,7 @@ module org.winternote.winternote {
     exports org.winternote.winternote.controller to spring.beans;
     exports org.winternote.winternote.common.utils to spring.beans;
     exports org.winternote.winternote.controller.utils to spring.beans;
+    exports org.winternote.winternote.note.process to spring.beans;
 
 
     opens org.winternote.winternote.controller to javafx.fxml;
