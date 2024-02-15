@@ -78,6 +78,9 @@ public class StarterController extends AbstractController {
         stage.show();
     }
 
+    /**
+     * Load a list of recent notes from metadata.
+     */
     public void loadRecentNoteList() {
         List<NoteSummary> recentNoteList = metadataService.getRecentNoteList();
         for (NoteSummary note : recentNoteList) {
