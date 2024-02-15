@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.layout.VBox?>
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:id="screen"
-      fx:controller="org.winternote.winternote.controller.StarterController">
-    <Button mnemonicParsing="false" text="New" onAction="#onNewButtonClick" fx:id="newButton"/>
-    <ScrollPane hbarPolicy="NEVER" prefHeight="211.0" prefWidth="427.0" fx:id="scrollPane">
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0"/>
+<VBox fx:id="screen" prefHeight="401.0" prefWidth="1202.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.winternote.winternote.controller.StarterController">
+    <Button fx:id="newButton" mnemonicParsing="false" onAction="#onNewButtonClick" text="New" />
+    <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER">
+        <VBox fx:id="noteList"/>
     </ScrollPane>
 </VBox>

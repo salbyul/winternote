@@ -46,6 +46,13 @@ public class Note {
         return Collections.unmodifiableList(lines);
     }
 
+    public static Note of(final NoteSummary noteSummary) {
+        return Note.builder()
+                .name(noteSummary.getName())
+                .path(noteSummary.getPath())
+                .build();
+    }
+
     public static class Builder {
 
         private String name;

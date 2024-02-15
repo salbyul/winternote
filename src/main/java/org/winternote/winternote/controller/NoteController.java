@@ -14,6 +14,7 @@ import org.winternote.winternote.controller.node.plate.Plate;
 import org.winternote.winternote.controller.utils.AlertUtils;
 import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.application.property.PrivateProperty;
+import org.winternote.winternote.note.domain.Note;
 
 import java.io.IOException;
 
@@ -28,6 +29,8 @@ public class NoteController extends AbstractController {
     private final PrivateProperty property;
     private final WinterLogger logger;
     private final AlertUtils alertUtils;
+
+    private Note note;
 
     @FXML
     private Text title;
@@ -45,8 +48,14 @@ public class NoteController extends AbstractController {
         this.alertUtils = alertUtils;
     }
 
-    protected void setTitle(final String title) {
+    private void setTitle(final String title) {
         this.title.setText(title);
+    }
+
+    private void setNote(final Note note) {
+        this.note = note;
+        setTitle(note.getName());
+        getStage().setTitle(APPLICATION_NAME + ": " + note.getName());
     }
 
     public void initialize() {
@@ -54,13 +63,12 @@ public class NoteController extends AbstractController {
         VBox.setVgrow(title, Priority.NEVER);
     }
 
-    public Stage generateStage(final String title) {
+    public Stage generateStage(final Note note) { // TODO get note path and title and after this method was invoked, load note.
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(NoteController.class.getResource("note.fxml"));
             fxmlLoader.setControllerFactory(context::getBean);
             Scene scene = new Scene(fxmlLoader.load(), property.getDisplayWidth(), property.getDisplayHeight());
             Stage stage = new Stage();
-            stage.setTitle(APPLICATION_NAME + ": " + title);
             stage.setScene(scene);
             stage.setOnCloseRequest(event -> {
                 StarterController starterController = context.getBean(StarterController.class);
@@ -70,7 +78,7 @@ public class NoteController extends AbstractController {
 
             NoteController noteController = fxmlLoader.getController();
             noteController.setStage(stage);
-            noteController.setTitle(title);
+            noteController.setNote(note);
             noteController.main.getChildren().add(new Plate());
             return stage;
         } catch (IOException e) {

@@ -18,9 +18,10 @@ public class NoteCreationProcess {
         this.metadataService = metadataService;
     }
 
-    public void createNewNote(final String title, final String path) throws IOException { // TODO need transaction
+    public Note createNewNote(final String title, final String path) throws IOException { // TODO need transaction
         Note note = noteService.createNote(title, path);
         metadataService.addRecentNote(note);
         metadataService.changeLocation(path);
+        return note;
     }
 }

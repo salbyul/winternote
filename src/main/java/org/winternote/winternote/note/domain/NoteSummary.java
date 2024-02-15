@@ -26,4 +26,12 @@ public class NoteSummary {
     public File transferToFile() {
         return new File(getPath() + DELIMITER + getName() + NOTE_EXTENSION);
     }
+
+    @Override
+    public String toString() {
+        return "NoteSummary{" +
+                "name='" + name + '\'' +
+                ", path='" + path + '\'' +
+                '}';
+    }
 }
