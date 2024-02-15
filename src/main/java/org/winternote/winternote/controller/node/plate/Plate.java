@@ -5,6 +5,8 @@ import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import org.winternote.winternote.controller.node.element.Element;
 
+import java.util.List;
+
 public class Plate extends VBox {
 
     public Plate() {
@@ -29,5 +31,11 @@ public class Plate extends VBox {
 
     public void listenToSeparation(final Element element, final int from) { // 커서 중간에 있을 경우
         element.separate(from);
+    }
+
+    public List<String> getContents() {
+        return getChildren().stream()
+                .map(n -> ((Element) n).getValue())
+                .toList();
     }
 }

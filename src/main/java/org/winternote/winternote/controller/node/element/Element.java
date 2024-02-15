@@ -25,6 +25,10 @@ public class Element extends HBox {
         copyChildren(children);
     }
 
+    public String getValue() {
+        return ((TextPiece) getChildren().get(0)).getText();
+    }
+
     private void copyChildren(final List<TextPiece> children) {
         for (TextPiece child : children) {
             TextPiece textPiece = new TextPiece(this, child.getText());

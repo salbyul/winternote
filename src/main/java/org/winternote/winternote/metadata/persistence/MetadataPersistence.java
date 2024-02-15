@@ -155,7 +155,7 @@ public class MetadataPersistence {
          */
         public void addRecentNote(final Note note) {
             synchronized (this) {
-                String value = "\t" + note.getName() + ": " + note.getPath() + ",";
+                String willBeAdded = "\t" + note.getName() + ": " + note.getLocation() + ",";
                 readAllLines();
 
                 boolean containsRecentNote = false;
@@ -171,7 +171,7 @@ public class MetadataPersistence {
                     throw new PollutedMetadataException("Metadata doesn't include \"recent notes\"", RECENT_NOTES);
                 }
 
-                lines.add(noteIndex, value);
+                lines.add(noteIndex, willBeAdded);
                 deleteMetadata();
                 BufferedWriter writer = generateWriter();
                 try {

@@ -8,30 +8,30 @@ import static org.winternote.winternote.note.domain.Note.NOTE_EXTENSION;
 public class NoteSummary {
 
     private final String name;
-    private final String path;
+    private final String location;
 
-    public NoteSummary(final String name, final String path) {
+    public NoteSummary(final String name, final String location) {
         this.name = name;
-        this.path = path;
+        this.location = location;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getPath() {
-        return path;
+    public String getLocation() {
+        return location;
     }
 
     public File transferToFile() {
-        return new File(getPath() + DELIMITER + getName() + NOTE_EXTENSION);
+        return new File(getLocation() + DELIMITER + getName() + NOTE_EXTENSION);
     }
 
     @Override
     public String toString() {
         return "NoteSummary{" +
                 "name='" + name + '\'' +
-                ", path='" + path + '\'' +
+                ", location='" + location + '\'' +
                 '}';
     }
 }

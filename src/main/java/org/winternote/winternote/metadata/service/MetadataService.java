@@ -47,7 +47,7 @@ public class MetadataService {
      */
     public void addRecentNote(final Note note) {
         metadataPersistence.addRecentNote(note);
-        logger.logAddedRecentNotes(note.getName(), note.getPath());
+        logger.logAddedRecentNotes(note.getName(), note.getLocation());
     }
 
     /**
