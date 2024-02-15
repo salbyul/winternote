@@ -98,7 +98,7 @@ public class StarterController extends AbstractController {
 
         ObservableList<Node> children = boxContent.getChildren();
         children.add(new Text(note.getName()));
-        children.add(new Text(note.getPath()));
+        children.add(new Text(note.getLocation()));
 
         // pane setting
         Pane pane = new Pane(boxContent);

@@ -142,8 +142,8 @@ public class MetadataPersistence {
             for (String line = lines.get(noteIndex); !line.equals("]"); line = lines.get(++noteIndex)) {
                 String[] split = line.trim().split(":");
                 String name = split[0];
-                String path = split[1].substring(0, split[1].length() - 1).trim();
-                recentNoteList.add(new NoteSummary(name, path));
+                String location = split[1].substring(0, split[1].length() - 1).trim();
+                recentNoteList.add(new NoteSummary(name, location));
             }
             return recentNoteList;
         }
@@ -155,7 +155,7 @@ public class MetadataPersistence {
          */
         public void addRecentNote(final Note note) {
             synchronized (this) {
-                String value = "\t" + note.getName() + ": " + note.getPath() + ",";
+                String willBeAdded = "\t" + note.getName() + ": " + note.getLocation() + ",";
                 readAllLines();
 
                 boolean containsRecentNote = false;
@@ -171,7 +171,7 @@ public class MetadataPersistence {
                     throw new PollutedMetadataException("Metadata doesn't include \"recent notes\"", RECENT_NOTES);
                 }
 
-                lines.add(noteIndex, value);
+                lines.add(noteIndex, willBeAdded);
                 deleteMetadata();
                 BufferedWriter writer = generateWriter();
                 try {

@@ -77,17 +77,17 @@ class MetadataServiceTest {
         // given
         Note note = Note.builder()
                 .name("name")
-                .path("path")
+                .location("path")
                 .build();
 
         // when
         doNothing().when(metadataPersistence).addRecentNote(note);
-        doNothing().when(logger).logAddedRecentNotes(note.getName(), note.getPath());
+        doNothing().when(logger).logAddedRecentNotes(note.getName(), note.getLocation());
         metadataService.addRecentNote(note);
 
         // then
         verify(metadataPersistence, times(1)).addRecentNote(note);
-        verify(logger, times(1)).logAddedRecentNotes(note.getName(), note.getPath());
+        verify(logger, times(1)).logAddedRecentNotes(note.getName(), note.getLocation());
     }
 
     @Test

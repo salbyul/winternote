@@ -14,9 +14,12 @@ import org.winternote.winternote.controller.node.plate.Plate;
 import org.winternote.winternote.controller.utils.AlertUtils;
 import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.application.property.PrivateProperty;
+import org.winternote.winternote.note.domain.Line;
 import org.winternote.winternote.note.domain.Note;
+import org.winternote.winternote.note.service.NoteService;
 
 import java.io.IOException;
+import java.util.List;
 
 import static javafx.scene.control.Alert.AlertType.WARNING;
 import static org.winternote.winternote.controller.utils.message.Message.UNKNOWN_ERROR;
@@ -29,6 +32,7 @@ public class NoteController extends AbstractController {
     private final PrivateProperty property;
     private final WinterLogger logger;
     private final AlertUtils alertUtils;
+    private final NoteService noteService;
 
     private Note note;
 
@@ -41,11 +45,16 @@ public class NoteController extends AbstractController {
     @FXML
     private VBox main;
 
-    public NoteController(final ApplicationContext context, final PrivateProperty property, final WinterLogger logger, final AlertUtils alertUtils) {
+    public NoteController(final ApplicationContext context,
+                          final PrivateProperty property,
+                          final WinterLogger logger,
+                          final AlertUtils alertUtils,
+                          final NoteService noteService) {
         this.context = context;
         this.property = property;
         this.logger = logger;
         this.alertUtils = alertUtils;
+        this.noteService = noteService;
     }
 
     private void setTitle(final String title) {
@@ -64,6 +73,7 @@ public class NoteController extends AbstractController {
     }
 
     private void loadNote(final Note note) {// TODO
+        noteService.loadNoteLines(note);
     }
 
     public Stage generateStage(final Note note) {
