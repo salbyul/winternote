@@ -61,6 +61,11 @@ public class Note {
                 .build();
     }
 
+    /**
+     * Replace lines to new lines.
+     *
+     * @param lines New lines.
+     */
     public void replaceLines(final List<Line> lines) {
         this.lines.clear();
         this.lines.addAll(lines);

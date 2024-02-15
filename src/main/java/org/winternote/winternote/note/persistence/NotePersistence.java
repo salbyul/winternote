@@ -40,6 +40,11 @@ public class NotePersistence {
         }
     }
 
+    /**
+     * Save the note after deleting it.
+     *
+     * @param note Note to be saved.
+     */
     public void save(final Note note) {
         List<Line> lines = note.getUnmodifiableLines();
         deleteNote(note.getPath());
@@ -63,6 +68,11 @@ public class NotePersistence {
         }
     }
 
+    /**
+     * Delete the note located notePath.
+     *
+     * @param notePath Path of the note to be deleted.
+     */
     public void deleteNote(final String notePath) {
         File file = new File(notePath);
         try {

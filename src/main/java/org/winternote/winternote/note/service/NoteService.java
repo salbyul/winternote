@@ -37,6 +37,11 @@ public class NoteService {
                 .build();
     }
 
+    /**
+     * Save a note.
+     *
+     * @param note Note to be saved.
+     */
     public void saveNote(final Note note) {
         notePersistence.save(note);
         logger.logSave(note.getName(), note.getLocation());
