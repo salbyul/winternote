@@ -63,7 +63,10 @@ public class NoteController extends AbstractController {
         VBox.setVgrow(title, Priority.NEVER);
     }
 
-    public Stage generateStage(final Note note) { // TODO get note path and title and after this method was invoked, load note.
+    private void loadNote(final Note note) {// TODO
+    }
+
+    public Stage generateStage(final Note note) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(NoteController.class.getResource("note.fxml"));
             fxmlLoader.setControllerFactory(context::getBean);
@@ -75,6 +78,7 @@ public class NoteController extends AbstractController {
                 Stage starterStage = starterController.generateStage();
                 starterStage.show();
             });
+            stage.setOnShowing(e -> loadNote(note));
 
             NoteController noteController = fxmlLoader.getController();
             noteController.setStage(stage);
