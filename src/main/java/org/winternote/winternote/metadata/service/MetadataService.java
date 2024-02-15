@@ -7,6 +7,9 @@ import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.metadata.persistence.MetadataPersistence;
 import org.winternote.winternote.application.property.PrivateProperty;
 import org.winternote.winternote.note.domain.Note;
+import org.winternote.winternote.note.domain.NoteSummary;
+
+import java.util.List;
 
 @Service
 public class MetadataService {
@@ -58,5 +61,9 @@ public class MetadataService {
             metadataPersistence.changeLocation(newLocation);
             logger.logChangedLocation(oldLocation, newLocation);
         }
+    }
+
+    public List<NoteSummary> getRecentNoteList() {
+        return metadataPersistence.getRecentNoteList();
     }
 }

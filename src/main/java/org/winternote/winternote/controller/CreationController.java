@@ -21,6 +21,7 @@ import org.winternote.winternote.controller.utils.WindowUtils;
 import org.winternote.winternote.metadata.service.MetadataService;
 import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.application.property.PrivateProperty;
+import org.winternote.winternote.note.domain.Note;
 import org.winternote.winternote.note.process.NoteCreationProcess;
 
 import java.io.File;
@@ -85,10 +86,10 @@ public class CreationController extends AbstractController {
         try {
             final String noteTitle = title.getText();
             final String notePath = path.getText();
-            noteCreationProcess.createNewNote(noteTitle, notePath);
+            Note newNote = noteCreationProcess.createNewNote(noteTitle, notePath);
 
             NoteController noteController = context.getBean(NoteController.class);
-            Stage noteStage = noteController.generateStage(title.getText());
+            Stage noteStage = noteController.generateStage(newNote);
 
             windowUtils.closeAllWindows();
             noteStage.show();
