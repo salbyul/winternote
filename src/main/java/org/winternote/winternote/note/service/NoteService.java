@@ -23,17 +23,27 @@ public class NoteService {
      * Create a new note.
      *
      * @param noteName Note name.
-     * @param path     Path the new note will be created.
+     * @param location location the new note will be created.
      * @return Created note.
      * @throws IOException Exception that may occur during the note creation process.
      */
-    public Note createNote(final String noteName, final String path) throws IOException {
-        NoteSummary noteSummary = new NoteSummary(noteName, path);
+    public Note createNote(final String noteName, final String location) throws IOException {
+        NoteSummary noteSummary = new NoteSummary(noteName, location);
         notePersistence.makeNote(noteSummary);
-        logger.logNewNote(noteName, path);
+        logger.logNewNote(noteName, location);
         return Note.builder()
                 .name(noteSummary.getName())
-                .path(noteSummary.getPath())
+                .path(noteSummary.getLocation())
                 .build();
+    }
+
+    /**
+     * Save a note.
+     *
+     * @param note Note to be saved.
+     */
+    public void saveNote(final Note note) {
+        notePersistence.save(note);
+        logger.logSave(note.getName(), note.getLocation());
     }
 }

@@ -26,7 +26,7 @@ class NoteTest {
 
         // then
         assertThat(note.getName()).isEqualTo("name");
-        assertThat(note.getPath()).isEqualTo("path");
+        assertThat(note.getLocation()).isEqualTo("path");
         assertThat(note.getLines()).isEmpty();
     }
 

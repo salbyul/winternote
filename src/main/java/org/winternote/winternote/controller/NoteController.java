@@ -3,6 +3,10 @@ package org.winternote.winternote.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -14,9 +18,12 @@ import org.winternote.winternote.controller.node.plate.Plate;
 import org.winternote.winternote.controller.utils.AlertUtils;
 import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.application.property.PrivateProperty;
+import org.winternote.winternote.note.domain.Line;
 import org.winternote.winternote.note.domain.Note;
+import org.winternote.winternote.note.service.NoteService;
 
 import java.io.IOException;
+import java.util.List;
 
 import static javafx.scene.control.Alert.AlertType.WARNING;
 import static org.winternote.winternote.controller.utils.message.Message.UNKNOWN_ERROR;
@@ -25,10 +32,13 @@ import static org.winternote.winternote.application.property.PublicProperty.*;
 @Component
 public class NoteController extends AbstractController {
 
+    private static final KeyCombination SAVE_SHORTCUT = new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN);
+
     private final ApplicationContext context;
     private final PrivateProperty property;
     private final WinterLogger logger;
     private final AlertUtils alertUtils;
+    private final NoteService noteService;
 
     private Note note;
 
@@ -40,12 +50,18 @@ public class NoteController extends AbstractController {
 
     @FXML
     private VBox main;
+    private Plate plate;
 
-    public NoteController(final ApplicationContext context, final PrivateProperty property, final WinterLogger logger, final AlertUtils alertUtils) {
+    public NoteController(final ApplicationContext context,
+                          final PrivateProperty property,
+                          final WinterLogger logger,
+                          final AlertUtils alertUtils,
+                          final NoteService noteService) {
         this.context = context;
         this.property = property;
         this.logger = logger;
         this.alertUtils = alertUtils;
+        this.noteService = noteService;
     }
 
     private void setTitle(final String title) {
@@ -58,12 +74,25 @@ public class NoteController extends AbstractController {
         getStage().setTitle(APPLICATION_NAME + ": " + note.getName());
     }
 
+    private void setPlate(final Plate plate) {
+        this.plate = plate;
+    }
+
     public void initialize() {
         main.setSpacing(20);
         VBox.setVgrow(title, Priority.NEVER);
     }
 
     private void loadNote(final Note note) {// TODO
+    }
+
+    private void saveNote() {
+        List<Line> lines = plate.getContents().stream()
+                .map(Line::new)
+                .toList();
+
+        note.replaceLines(lines);
+        noteService.saveNote(note);
     }
 
     public Stage generateStage(final Note note) {
@@ -79,11 +108,18 @@ public class NoteController extends AbstractController {
                 starterStage.show();
             });
             stage.setOnShowing(e -> loadNote(note));
+            stage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+                if (SAVE_SHORTCUT.match(event)) {
+                    saveNote();
+                }
+            });
 
             NoteController noteController = fxmlLoader.getController();
             noteController.setStage(stage);
             noteController.setNote(note);
-            noteController.main.getChildren().add(new Plate());
+            Plate newPlate = new Plate(); // TODO If a note is loaded, must be not 'new Plate()'.
+            noteController.setPlate(newPlate);
+            noteController.main.getChildren().add(newPlate);
             return stage;
         } catch (IOException e) {
             alertUtils.showAlert(WARNING, UNKNOWN_ERROR);

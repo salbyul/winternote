@@ -2,7 +2,7 @@ package org.winternote.winternote.controller.node.plate;
 
 public enum CursorPosition {
 
-    LAST, FIRST, MIDDLE;
+    FIRST, MIDDLE, LAST;
 
     public boolean isLast() {
         return this == LAST;
