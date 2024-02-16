@@ -9,10 +9,12 @@ public class NoteSummary {
 
     private final String name;
     private final String location;
+    private final String path;
 
     public NoteSummary(final String name, final String location) {
         this.name = name;
         this.location = location;
+        this.path = location + DELIMITER + name + NOTE_EXTENSION;
     }
 
     public String getName() {
@@ -21,6 +23,10 @@ public class NoteSummary {
 
     public String getLocation() {
         return location;
+    }
+
+    public String getPath() {
+        return path;
     }
 
     public File transferToFile() {

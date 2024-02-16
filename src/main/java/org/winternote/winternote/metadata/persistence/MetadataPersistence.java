@@ -89,6 +89,19 @@ public class MetadataPersistence {
         this.recentNoteList.addAll(metadataHandler.readRecentNoteSummaryList());
     }
 
+    /**
+     * Remove a note from the list of recent notes in the metadata file.
+     *
+     * @param note Note to be removed.
+     */
+    public void removeNoteFromRecentNoteList(final NoteSummary note) {
+        synchronized (this) {
+            String name = note.getName();
+            String noteLocation = note.getLocation();
+            metadataHandler.removeRecentNote(name, noteLocation);
+        }
+    }
+
     private static class MetadataHandler {
 
         private final WinterLogger logger;
@@ -173,16 +186,7 @@ public class MetadataPersistence {
 
                 lines.add(noteIndex, willBeAdded);
                 deleteMetadata();
-                BufferedWriter writer = generateWriter();
-                try {
-                    for (String line : lines) {
-                        writer.write(line + "\n");
-                    }
-                    writer.flush();
-                } catch (IOException e) {
-                    throw new InitialException(e);
-                }
-                close(writer);
+                saveMetadata();
             }
         }
 
@@ -218,16 +222,7 @@ public class MetadataPersistence {
                 String location = lines.get(locationIndex);
                 lines.set(locationIndex, location.split(": ")[0] + ": " + newLocation);
                 deleteMetadata();
-                BufferedWriter writer = generateWriter();
-                try {
-                    for (String line : lines) {
-                        writer.write(line + "\n");
-                    }
-                    writer.flush();
-                } catch (IOException e) {
-                    throw new InitialException(e);
-                }
-                close(writer);
+                saveMetadata();
             }
         }
 
@@ -251,6 +246,19 @@ public class MetadataPersistence {
             }
         }
 
+        private void saveMetadata() {
+            BufferedWriter writer = generateWriter();
+            try {
+                for (String line : lines) {
+                    writer.write(line + "\n");
+                }
+                writer.flush();
+            } catch (IOException e) {
+                throw new InitialException(e);
+            }
+            close(writer);
+        }
+
         private void deleteMetadata() {
             File file = new File(metadataPath);
             try {
@@ -258,6 +266,23 @@ public class MetadataPersistence {
             } catch (IOException e) {
                 logger.logException(e);
                 throw new UndeletableMetadataException("Failed to reload ConfigFile.");
+            }
+        }
+
+        /**
+         * Removes a note from the list of recent notes in the metadata file.
+         *
+         * @param name     Note name.
+         * @param location Note location.
+         */
+        public void removeRecentNote(final String name, final String location) {
+            synchronized (this) {
+                readAllLines();
+                List<String> toBeRemoved = lines.stream()
+                        .filter(line -> line.contains(name + ": " + location + ","))
+                        .toList();
+                lines.removeAll(toBeRemoved);
+                saveMetadata();
             }
         }
     }

@@ -63,7 +63,22 @@ public class MetadataService {
         }
     }
 
+    /**
+     * Returns a list of recent notes.
+     *
+     * @return Recent note list as NoteSummary.
+     */
     public List<NoteSummary> getRecentNoteList() {
         return metadataPersistence.getRecentNoteList();
+    }
+
+    /**
+     * Removes a note from the list of recent notes and log it.
+     *
+     * @param note Note to be removed.
+     */
+    public void removeNoteFromRecentNoteList(final NoteSummary note) {
+        metadataPersistence.removeNoteFromRecentNoteList(note);
+        logger.removeNoteFromRecentNoteList(note.getName(), note.getLocation());
     }
 }

@@ -60,28 +60,28 @@ public class WinterLoggerImpl implements WinterLogger {
     @Override
     public void logNewNote(final String noteName, final String path) {
         synchronized (this) {
-            logger.log(INFO, () -> "A new note called '%s' created at %s".formatted(noteName, path));
+            logger.log(INFO, () -> "A new note called '%s' created at %s.".formatted(noteName, path));
         }
     }
 
     @Override
     public void logAutoSave(final String noteName, final String path) {
         synchronized (this) {
-            logger.log(INFO, () -> "Auto saved '%s' at '%s'".formatted(noteName, path));
+            logger.log(INFO, () -> "Auto saved '%s' at '%s'.".formatted(noteName, path));
         }
     }
 
     @Override
     public void logSave(final String noteName, final String path) {
         synchronized (this) {
-            logger.log(INFO, () -> "Saved '%s' at '%s'".formatted(noteName, path));
+            logger.log(INFO, () -> "Saved '%s' at '%s'.".formatted(noteName, path));
         }
     }
 
     @Override
     public void logDeletedNote(final String noteName, final String path) {
         synchronized (this) {
-            logger.log(INFO, () -> "'%s' at '%s' deleted".formatted(noteName, path));
+            logger.log(INFO, () -> "'%s' at '%s' deleted.".formatted(noteName, path));
         }
     }
 
@@ -107,7 +107,14 @@ public class WinterLoggerImpl implements WinterLogger {
     @Override
     public void logChangedLocation(final String oldLocation, final String newLocation) {
         synchronized (this) {
-            logger.log(INFO, () -> "Changed location '%s' to '%s'".formatted(oldLocation, newLocation));
+            logger.log(INFO, () -> "Changed location '%s' to '%s'.".formatted(oldLocation, newLocation));
+        }
+    }
+
+    @Override
+    public void removeNoteFromRecentNoteList(final String noteName, final String noteLocation) {
+        synchronized (this) {
+            logger.log(INFO, () -> "Removed a note named '%s' (%s) from the list of recent notes in the metadata file.".formatted(noteName, noteLocation));
         }
     }
 

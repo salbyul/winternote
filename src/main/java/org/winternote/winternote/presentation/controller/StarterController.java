@@ -99,31 +99,41 @@ public class StarterController extends AbstractController {
      * @return Created a pane.
      */
     private Pane transferToPane(final NoteSummary note) {
-        // box setting
-        HBox boxContent = new HBox();
-        boxContent.setAlignment(Pos.CENTER_LEFT);
-        boxContent.setSpacing(10);
-        boxContent.setPadding(new Insets(10, 10, 10, 20));
-
-        ObservableList<Node> children = boxContent.getChildren();
-        children.add(new Text(note.getName()));
-        children.add(new Text(note.getLocation()));
+        HBox recentNoteBox = new HBox();
+        Button deleteButton = new Button("Delete");
+        Pane pane = new Pane(recentNoteBox);
 
         // pane setting
-        Pane pane = new Pane(boxContent);
         pane.setStyle("-fx-border-color: gray;");
         pane.setPrefWidth(scrollPane.getPrefWidth());
         pane.setMinHeight(scrollPane.getPrefHeight() / 5);
         pane.setMaxHeight(scrollPane.getPrefHeight() / 5);
-        boxContent.setPrefWidth(pane.getPrefWidth());
-        boxContent.setPrefHeight(pane.getPrefHeight());
-
         pane.setCursor(Cursor.HAND);
         pane.setOnMouseClicked(e -> {
             NoteController noteController = context.getBean(NoteController.class);
             Stage stage = noteController.generateStage(Note.of(note));
             getStage().close();
             stage.show();
+        });
+
+        // box setting
+        recentNoteBox.setAlignment(Pos.CENTER_LEFT);
+        recentNoteBox.setSpacing(10);
+        recentNoteBox.setPadding(new Insets(10, 10, 10, 20));
+        recentNoteBox.setPrefWidth(pane.getPrefWidth());
+        recentNoteBox.setPrefHeight(pane.getPrefHeight());
+        ObservableList<Node> children = recentNoteBox.getChildren();
+        children.add(new Text(note.getName()));
+        children.add(new Text(note.getLocation()));
+        children.add(deleteButton);
+
+        // delete button setting
+        deleteButton.setOnAction(e -> {
+            boolean result = alertUtils.showAlertHasResult(WARNING, "Are you sure you want to remove this note (%s) from recent notes list?%n(the actual file will not be removed)".formatted(note.getName()));
+            if (result) {
+                metadataService.removeNoteFromRecentNoteList(note);
+                noteList.getChildren().remove(pane);
+            }
         });
         return pane;
     }

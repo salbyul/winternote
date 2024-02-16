@@ -56,4 +56,12 @@ public interface WinterLogger {
      * @param newLocation New location.
      */
     void logChangedLocation(String oldLocation, String newLocation);
+
+    /**
+     * Logs when a note is removed from the recent notes list.
+     *
+     * @param noteName     The note name of the removed note.
+     * @param noteLocation The location of the removed note.
+     */
+    void removeNoteFromRecentNoteList(String noteName, String noteLocation);
 }
