@@ -143,4 +143,20 @@ class MetadataServiceTest {
         verify(metadataPersistence, times(1)).getRecentNoteList();
         assertThat(result).isEqualTo(list);
     }
+
+    @Test
+    @DisplayName("Remove a note from the list of recent notes in the metadata file")
+    void removeNoteFromRecentNoteList() {
+        // given
+        NoteSummary noteSummary = new NoteSummary("note", "location");
+
+        // when
+        doNothing().when(metadataPersistence).removeNoteFromRecentNoteList(noteSummary);
+        doNothing().when(logger).logRemoveNoteFromRecentNoteList(noteSummary.getName(), noteSummary.getLocation());
+        metadataService.removeNoteFromRecentNoteList(noteSummary);
+
+        // then
+        verify(metadataPersistence, times(1)).removeNoteFromRecentNoteList(noteSummary);
+        verify(logger, times(1)).logRemoveNoteFromRecentNoteList(noteSummary.getName(), noteSummary.getLocation());
+    }
 }
