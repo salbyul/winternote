@@ -1,4 +1,4 @@
-package org.winternote.winternote.controller;
+package org.winternote.winternote.controller.controller;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

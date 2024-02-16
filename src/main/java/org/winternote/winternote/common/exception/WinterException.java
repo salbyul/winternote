@@ -6,7 +6,7 @@ public class WinterException extends RuntimeException {
         super(message);
     }
 
-    public WinterException(final String message, final Exception e) {
-        super(message, e);
+    public WinterException(final String message, final Throwable throwable) {
+        super(message, throwable);
     }
 }

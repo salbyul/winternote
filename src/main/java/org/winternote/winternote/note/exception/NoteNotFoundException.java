@@ -4,21 +4,21 @@ import org.winternote.winternote.common.exception.WinterException;
 
 public class NoteNotFoundException extends WinterException {
 
-    private static final String DEFAULT_MESSAGE = "Can't find the note";
+    private static final String DEFAULT_MESSAGE = "Can't find the note.";
 
     public NoteNotFoundException() {
         super(DEFAULT_MESSAGE);
     }
 
-    public NoteNotFoundException(final Exception e) {
-        super(DEFAULT_MESSAGE, e);
-    }
-
-    public NoteNotFoundException(final String message, final Exception e) {
-        super(message, e);
+    public NoteNotFoundException(final Throwable throwable) {
+        super(DEFAULT_MESSAGE, throwable);
     }
 
     public NoteNotFoundException(final String message) {
         super(message);
+    }
+
+    public NoteNotFoundException(final String message, final Throwable throwable) {
+        super(message, throwable);
     }
 }

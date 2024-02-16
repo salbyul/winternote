@@ -48,4 +48,14 @@ public class NoteService {
         List<Line> lines = notePersistence.getNoteLines(note);
         note.replaceLines(lines);
     }
+
+    /**
+     * Save a note.
+     *
+     * @param note The note to be saved.
+     */
+    public void saveNote(final Note note) {
+        notePersistence.save(note);
+        logger.logSave(note.getName(), note.getLocation());
+    }
 }

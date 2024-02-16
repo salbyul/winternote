@@ -1,4 +1,4 @@
-package org.winternote.winternote.controller;
+package org.winternote.winternote.controller.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

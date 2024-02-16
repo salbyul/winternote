@@ -31,7 +31,7 @@ public class NoteSummary {
     public String toString() {
         return "NoteSummary{" +
                 "name='" + name + '\'' +
-                ", path='" + location + '\'' +
+                ", location='" + location + '\'' +
                 '}';
     }
 }

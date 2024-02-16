@@ -1,8 +1,9 @@
-package org.winternote.winternote.controller;
+package org.winternote.winternote.controller.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static javafx.scene.control.Alert.AlertType.WARNING;
+import static org.winternote.winternote.controller.Shortcut.SAVE_SHORTCUT;
 import static org.winternote.winternote.controller.utils.message.Message.UNKNOWN_ERROR;
 import static org.winternote.winternote.application.property.PublicProperty.*;
 
@@ -44,6 +46,7 @@ public class NoteController extends AbstractController {
 
     @FXML
     private VBox main;
+    private Plate plate;
 
     public NoteController(final ApplicationContext context,
                           final PrivateProperty property,
@@ -67,6 +70,10 @@ public class NoteController extends AbstractController {
         getStage().setTitle(APPLICATION_NAME + ": " + note.getName());
     }
 
+    private void setPlate(final Plate plate) {
+        this.plate = plate;
+    }
+
     public void initialize() {
         main.setSpacing(20);
         VBox.setVgrow(title, Priority.NEVER);
@@ -74,6 +81,19 @@ public class NoteController extends AbstractController {
 
     private void loadNote(final Note note) {// TODO
         noteService.loadNoteLines(note);
+        List<String> list = note.getUnmodifiableLines().stream()
+                .map(Line::getContent)
+                .toList();
+        plate.replaceLines(list);
+    }
+
+    private void saveNote() {
+        List<Line> lines = plate.getContents().stream()
+                .map(Line::new)
+                .toList();
+
+        note.replaceLines(lines);
+        noteService.saveNote(note);
     }
 
     public Stage generateStage(final Note note) {
@@ -89,11 +109,18 @@ public class NoteController extends AbstractController {
                 starterStage.show();
             });
             stage.setOnShowing(e -> loadNote(note));
+            stage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+                if (SAVE_SHORTCUT.match(event)) {
+                    saveNote();
+                }
+            });
 
             NoteController noteController = fxmlLoader.getController();
             noteController.setStage(stage);
             noteController.setNote(note);
-            noteController.main.getChildren().add(new Plate());
+            Plate newPlate = new Plate(); // TODO If a note is loaded, must be not 'new Plate()'.
+            noteController.setPlate(newPlate);
+            noteController.main.getChildren().add(newPlate);
             return stage;
         } catch (IOException e) {
             alertUtils.showAlert(WARNING, UNKNOWN_ERROR);

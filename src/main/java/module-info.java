@@ -28,4 +28,6 @@ module org.winternote.winternote {
 
     opens org.winternote.winternote.controller to javafx.fxml;
     opens org.winternote.winternote to javafx.fxml, spring.core;
+    exports org.winternote.winternote.controller.controller to spring.beans;
+    opens org.winternote.winternote.controller.controller to javafx.fxml;
 }
