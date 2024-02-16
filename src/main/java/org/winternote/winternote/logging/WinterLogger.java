@@ -63,5 +63,5 @@ public interface WinterLogger {
      * @param noteName     The note name of the removed note.
      * @param noteLocation The location of the removed note.
      */
-    void removeNoteFromRecentNoteList(String noteName, String noteLocation);
+    void logRemoveNoteFromRecentNoteList(String noteName, String noteLocation);
 }

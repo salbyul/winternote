@@ -112,7 +112,7 @@ public class WinterLoggerImpl implements WinterLogger {
     }
 
     @Override
-    public void removeNoteFromRecentNoteList(final String noteName, final String noteLocation) {
+    public void logRemoveNoteFromRecentNoteList(final String noteName, final String noteLocation) {
         synchronized (this) {
             logger.log(INFO, () -> "Removed a note named '%s' (%s) from the list of recent notes in the metadata file.".formatted(noteName, noteLocation));
         }

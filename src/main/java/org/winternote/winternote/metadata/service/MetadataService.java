@@ -79,6 +79,6 @@ public class MetadataService {
      */
     public void removeNoteFromRecentNoteList(final NoteSummary note) {
         metadataPersistence.removeNoteFromRecentNoteList(note);
-        logger.removeNoteFromRecentNoteList(note.getName(), note.getLocation());
+        logger.logRemoveNoteFromRecentNoteList(note.getName(), note.getLocation());
     }
 }
