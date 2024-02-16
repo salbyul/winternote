@@ -46,10 +46,6 @@ public class Note {
         return path;
     }
 
-    public List<Line> getLines() {
-        return lines;
-    }
-
     public List<Line> getUnmodifiableLines() {
         return Collections.unmodifiableList(lines);
     }

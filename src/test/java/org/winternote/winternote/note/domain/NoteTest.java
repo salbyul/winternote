@@ -27,7 +27,6 @@ class NoteTest {
         // then
         assertThat(note.getName()).isEqualTo("name");
         assertThat(note.getLocation()).isEqualTo("path");
-        assertThat(note.getLines()).isEmpty();
     }
 
     @ParameterizedTest
