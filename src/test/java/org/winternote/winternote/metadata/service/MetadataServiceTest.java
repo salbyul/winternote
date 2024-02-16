@@ -11,6 +11,9 @@ import org.winternote.winternote.metadata.persistence.MetadataPersistence;
 import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.application.property.PrivateProperty;
 import org.winternote.winternote.note.domain.Note;
+import org.winternote.winternote.note.domain.NoteSummary;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -124,5 +127,20 @@ class MetadataServiceTest {
         // then
         verify(metadataPersistence, times(0)).changeLocation(newLocation);
         verify(logger, times(0)).logChangedLocation(oldLocation, newLocation);
+    }
+
+    @Test
+    @DisplayName("Return list of NoteSummary")
+    void getRecentNoteList() {
+        // given
+        List<NoteSummary> list = List.of(new NoteSummary("name1", "location1"), new NoteSummary("name2", "location2"));
+
+        // when
+        when(metadataPersistence.getRecentNoteList()).thenReturn(list);
+        List<NoteSummary> result = metadataService.getRecentNoteList();
+
+        // then
+        verify(metadataPersistence, times(1)).getRecentNoteList();
+        assertThat(result).isEqualTo(list);
     }
 }
