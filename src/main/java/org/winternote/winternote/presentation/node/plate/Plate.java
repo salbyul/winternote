@@ -21,7 +21,6 @@ public class Plate extends VBox {
 
     public Plate() {
         super();
-        getChildren().add(new Element(this));
         setId("plate");
         this.setSpacing(DEFAULT_SPACING);
         addSizeHandler();
@@ -69,8 +68,12 @@ public class Plate extends VBox {
         separated[1].positionCaretAt(0);
     }
 
-    public void replaceLines(final List<String> list) { // TODO
-
+    public void replaceLines(final List<String> lines) {
+        getChildren().clear();
+        List<Element> list = lines.stream()
+                .map(line -> new Element(this, line))
+                .toList();
+        getChildren().addAll(list);
     }
     private void setFont(final Font font) {
         ObservableList<Node> children = getChildren();

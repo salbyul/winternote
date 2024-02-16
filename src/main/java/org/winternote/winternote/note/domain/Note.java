@@ -71,6 +71,12 @@ public class Note {
         this.lines.addAll(lines);
     }
 
+    public List<String> getLinesAsString() {
+        return lines.stream()
+                .map(Line::getContent)
+                .toList();
+    }
+
     public static class Builder {
 
         private String name;

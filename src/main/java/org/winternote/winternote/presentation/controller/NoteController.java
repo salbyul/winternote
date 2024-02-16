@@ -72,6 +72,7 @@ public class NoteController extends AbstractController {
 
     private void setPlate(final Plate plate) {
         this.plate = plate;
+        main.getChildren().add(plate);
     }
 
     public void initialize() {
@@ -79,12 +80,15 @@ public class NoteController extends AbstractController {
         VBox.setVgrow(title, Priority.NEVER);
     }
 
-    private void loadNote(final Note note) {// TODO
+    private void loadNote(final Note note) {
         noteService.loadNoteLines(note);
-        List<String> list = note.getUnmodifiableLines().stream()
-                .map(Line::getContent)
-                .toList();
-        plate.replaceLines(list);
+        List<String> lines = note.getLinesAsString();
+        if (lines.isEmpty()) {
+            plate.replaceLines(List.of(""));
+            return;
+        }
+        plate.replaceLines(note.getLinesAsString());
+        plate.requestFocus();
     }
 
     private void saveNote() {
@@ -94,6 +98,19 @@ public class NoteController extends AbstractController {
 
         note.replaceLines(lines);
         noteService.saveNote(note);
+    }
+
+    private void addSaveEventHandler() {
+        getStage().addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (SAVE_SHORTCUT.match(event)) {
+                saveNote();
+            }
+        });
+    }
+
+    private void close() {
+        this.plate = null;
+        this.note = null;
     }
 
     public Stage generateStage(final Note note) {
@@ -107,20 +124,15 @@ public class NoteController extends AbstractController {
                 StarterController starterController = context.getBean(StarterController.class);
                 Stage starterStage = starterController.generateStage();
                 starterStage.show();
+                close();
             });
             stage.setOnShowing(e -> loadNote(note));
-            stage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-                if (SAVE_SHORTCUT.match(event)) {
-                    saveNote();
-                }
-            });
 
             NoteController noteController = fxmlLoader.getController();
             noteController.setStage(stage);
             noteController.setNote(note);
-            Plate newPlate = new Plate(); // TODO If a note is loaded, must be not 'new Plate()'.
-            noteController.setPlate(newPlate);
-            noteController.main.getChildren().add(newPlate);
+            noteController.setPlate(new Plate());
+            addSaveEventHandler();
             return stage;
         } catch (IOException e) {
             alertUtils.showAlert(WARNING, UNKNOWN_ERROR);
