@@ -20,12 +20,14 @@ module org.winternote.winternote {
     exports org.winternote.winternote.application to spring.beans;
     exports org.winternote.winternote.metadata.persistence to spring.beans;
     exports org.winternote.winternote.metadata.service to spring.beans;
-    exports org.winternote.winternote.controller to spring.beans;
+    exports org.winternote.winternote.presentation to spring.beans;
     exports org.winternote.winternote.common.utils to spring.beans;
-    exports org.winternote.winternote.controller.utils to spring.beans;
+    exports org.winternote.winternote.presentation.utils to spring.beans;
     exports org.winternote.winternote.note.process to spring.beans;
 
 
-    opens org.winternote.winternote.controller to javafx.fxml;
+    opens org.winternote.winternote.presentation to javafx.fxml;
     opens org.winternote.winternote to javafx.fxml, spring.core;
+    exports org.winternote.winternote.presentation.controller to spring.beans;
+    opens org.winternote.winternote.presentation.controller to javafx.fxml;
 }

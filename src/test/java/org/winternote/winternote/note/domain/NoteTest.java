@@ -18,7 +18,7 @@ class NoteTest {
         // given
         Note note = Note.builder()
                 .name("name")
-                .path("path")
+                .location("path")
                 .lines(List.of())
                 .build();
 
@@ -27,7 +27,6 @@ class NoteTest {
         // then
         assertThat(note.getName()).isEqualTo("name");
         assertThat(note.getLocation()).isEqualTo("path");
-        assertThat(note.getLines()).isEmpty();
     }
 
     @ParameterizedTest
@@ -38,7 +37,7 @@ class NoteTest {
         // given
         Note.Builder builder = Note.builder()
                 .name(input)
-                .path("path")
+                .location("path")
                 .lines(List.of());
 
         // when
@@ -57,7 +56,7 @@ class NoteTest {
         // given
         Note.Builder builder = Note.builder()
                 .name("title")
-                .path(input)
+                .location(input)
                 .lines(List.of());
 
         // when
@@ -74,7 +73,7 @@ class NoteTest {
         // given
         Note note = Note.builder()
                 .name("title")
-                .path("path")
+                .location("path")
                 .lines(List.of())
                 .build();
         List<Line> unmodifiableLines = note.getUnmodifiableLines();

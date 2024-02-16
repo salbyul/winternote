@@ -6,7 +6,7 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.winternote.winternote.controller.StarterController;
+import org.winternote.winternote.presentation.controller.StarterController;
 
 @SpringBootApplication
 public class WinterNoteApplication extends Application {

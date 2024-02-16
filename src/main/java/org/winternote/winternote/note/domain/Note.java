@@ -21,13 +21,13 @@ public class Note {
         this.name = name;
         this.location = location;
         this.lines = new ArrayList<>(lines);
+        this.path = location + DELIMITER + name + NOTE_EXTENSION;
         if (Objects.isNull(name) || name.isEmpty() || name.isBlank()) {
             throw new NoteCreationException("The note title is empty.");
         }
         if (Objects.isNull(location) || location.isEmpty() || location.isBlank()) {
             throw new NoteCreationException("The note path is empty.");
         }
-        this.path = location + DELIMITER + name + NOTE_EXTENSION;
     }
 
     public static Builder builder() {
@@ -46,10 +46,6 @@ public class Note {
         return path;
     }
 
-    public List<Line> getLines() {
-        return lines;
-    }
-
     public List<Line> getUnmodifiableLines() {
         return Collections.unmodifiableList(lines);
     }
@@ -57,12 +53,12 @@ public class Note {
     public static Note of(final NoteSummary noteSummary) {
         return Note.builder()
                 .name(noteSummary.getName())
-                .path(noteSummary.getLocation())
+                .location(noteSummary.getLocation())
                 .build();
     }
 
     /**
-     * Replace lines to new lines.
+     * Replace these lines with new lines.
      *
      * @param lines New lines.
      */
@@ -71,10 +67,16 @@ public class Note {
         this.lines.addAll(lines);
     }
 
+    public List<String> getLinesAsString() {
+        return lines.stream()
+                .map(Line::getContent)
+                .toList();
+    }
+
     public static class Builder {
 
         private String name;
-        private String path;
+        private String location;
         private List<Line> lines = new ArrayList<>();
 
         public Builder name(final String name) {
@@ -82,8 +84,8 @@ public class Note {
             return this;
         }
 
-        public Builder path(final String path) {
-            this.path = path;
+        public Builder location(final String location) {
+            this.location = location;
             return this;
         }
 
@@ -93,7 +95,7 @@ public class Note {
         }
 
         public Note build() {
-            return new Note(name, path, lines);
+            return new Note(name, location, lines);
         }
     }
 }

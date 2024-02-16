@@ -1,4 +1,4 @@
-package org.winternote.winternote.controller;
+package org.winternote.winternote.presentation.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,8 +16,8 @@ import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.winternote.winternote.common.exception.WinterException;
-import org.winternote.winternote.controller.utils.AlertUtils;
-import org.winternote.winternote.controller.utils.WindowUtils;
+import org.winternote.winternote.presentation.utils.AlertUtils;
+import org.winternote.winternote.presentation.utils.WindowUtils;
 import org.winternote.winternote.metadata.service.MetadataService;
 import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.application.property.PrivateProperty;
@@ -28,7 +28,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static javafx.scene.control.Alert.AlertType.*;
-import static org.winternote.winternote.controller.utils.message.Message.*;
+import static org.winternote.winternote.presentation.utils.message.Message.*;
 
 @Component
 public class CreationController extends AbstractController {
@@ -81,6 +81,9 @@ public class CreationController extends AbstractController {
         path.setEditable(false);
     }
 
+    /**
+     * Creates a note file on device and show the note editor scene.
+     */
     @FXML
     private void onCreateButtonClick() {
         try {
@@ -102,6 +105,10 @@ public class CreationController extends AbstractController {
         }
     }
 
+    /**
+     * Shows the DirectoryChooser.
+     * The path set to the chosen directory.
+     */
     @FXML
     private void onBrowseButtonClick() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -111,11 +118,23 @@ public class CreationController extends AbstractController {
         path.setText(choice.getPath());
     }
 
+    /**
+     * Shows a directoryChooser.
+     *
+     * @param directoryChooser DirectoryChooser.
+     * @param path             The base path.
+     * @return Chosen directory.
+     */
     private File showDirectoryChooser(final DirectoryChooser directoryChooser, final String path) {
         directoryChooser.setInitialDirectory(new File(path));
         return directoryChooser.showDialog(getStage());
     }
 
+    /**
+     * Close the current scene.
+     *
+     * @param event Closing event.
+     */
     @FXML
     private void onCancelButtonClick(final ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

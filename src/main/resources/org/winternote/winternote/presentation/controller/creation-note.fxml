@@ -5,7 +5,7 @@
 <?import javafx.scene.text.*?>
 
 <VBox fx:id="screen" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.winternote.winternote.controller.CreationController">
+      fx:controller="org.winternote.winternote.presentation.controller.CreationController">
     <Text layoutX="256.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" textAlignment="CENTER"
           wrappingWidth="87.4609375">
         <font>

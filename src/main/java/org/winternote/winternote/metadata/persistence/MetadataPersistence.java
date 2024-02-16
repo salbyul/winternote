@@ -142,8 +142,8 @@ public class MetadataPersistence {
             for (String line = lines.get(noteIndex); !line.equals("]"); line = lines.get(++noteIndex)) {
                 String[] split = line.trim().split(":");
                 String name = split[0];
-                String path = split[1].substring(0, split[1].length() - 1).trim();
-                recentNoteList.add(new NoteSummary(name, path));
+                String location = split[1].substring(0, split[1].length() - 1).trim();
+                recentNoteList.add(new NoteSummary(name, location));
             }
             return recentNoteList;
         }

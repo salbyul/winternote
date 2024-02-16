@@ -1,4 +1,4 @@
-package org.winternote.winternote.controller.utils;
+package org.winternote.winternote.presentation.utils;
 
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;

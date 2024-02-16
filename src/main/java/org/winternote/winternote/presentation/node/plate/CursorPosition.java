@@ -1,4 +1,4 @@
-package org.winternote.winternote.controller.node.plate;
+package org.winternote.winternote.presentation.node.plate;
 
 public enum CursorPosition {
 

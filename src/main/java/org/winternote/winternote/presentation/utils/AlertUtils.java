@@ -1,8 +1,8 @@
-package org.winternote.winternote.controller.utils;
+package org.winternote.winternote.presentation.utils;
 
 import javafx.scene.control.Alert;
 import org.winternote.winternote.common.annotation.Utils;
-import org.winternote.winternote.controller.utils.message.Message;
+import org.winternote.winternote.presentation.utils.message.Message;
 
 @Utils
 public final class AlertUtils {

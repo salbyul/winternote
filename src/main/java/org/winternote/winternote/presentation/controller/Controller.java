@@ -1,4 +1,4 @@
-package org.winternote.winternote.controller;
+package org.winternote.winternote.presentation.controller;
 
 import javafx.stage.Stage;
 

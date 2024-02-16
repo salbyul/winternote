@@ -15,6 +15,11 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Objects;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 
 @Persistence
 public class NotePersistence {
@@ -90,6 +95,33 @@ public class NotePersistence {
             } catch (IOException e) {
                 logger.logException(e);
             }
+        }
+    }
+
+    /**
+     * Return specific note.
+     *
+     * @param note Note you want to read.
+     * @return Note.
+     */
+    public List<Line> getNoteLines(final Note note) {
+        List<Line> lines = new ArrayList<>();
+        try {
+            BufferedReader reader = generateReader(note);
+            reader.lines().forEach(line -> lines.add(new Line(line)));
+            reader.close();
+            return lines;
+        } catch (IOException e) {
+            logger.logException(e);
+            return lines;
+        }
+    }
+
+    private BufferedReader generateReader(final Note note) {
+        try {
+            return new BufferedReader(new FileReader(note.getPath()));
+        } catch (IOException e) {
+            throw new NoteNotFoundException(e);
         }
     }
 }
