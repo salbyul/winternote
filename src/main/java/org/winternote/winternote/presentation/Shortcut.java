@@ -1,4 +1,4 @@
-package org.winternote.winternote.controller;
+package org.winternote.winternote.presentation;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;

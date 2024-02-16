@@ -1,4 +1,4 @@
-package org.winternote.winternote.controller.controller;
+package org.winternote.winternote.presentation.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,8 +16,8 @@ import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.winternote.winternote.common.exception.WinterException;
-import org.winternote.winternote.controller.utils.AlertUtils;
-import org.winternote.winternote.controller.utils.WindowUtils;
+import org.winternote.winternote.presentation.utils.AlertUtils;
+import org.winternote.winternote.presentation.utils.WindowUtils;
 import org.winternote.winternote.metadata.service.MetadataService;
 import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.application.property.PrivateProperty;
@@ -28,7 +28,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static javafx.scene.control.Alert.AlertType.*;
-import static org.winternote.winternote.controller.utils.message.Message.*;
+import static org.winternote.winternote.presentation.utils.message.Message.*;
 
 @Component
 public class CreationController extends AbstractController {

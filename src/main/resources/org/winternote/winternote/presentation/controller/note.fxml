@@ -10,7 +10,7 @@
 
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
       prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.winternote.winternote.controller.controller.NoteController">
+      fx:controller="org.winternote.winternote.presentation.controller.NoteController">
    <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" fx:id="listPane"/>
    </ScrollPane>

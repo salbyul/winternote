@@ -1,4 +1,4 @@
-package org.winternote.winternote.controller.controller;
+package org.winternote.winternote.presentation.controller;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.winternote.winternote.WinterNoteApplication;
-import org.winternote.winternote.controller.utils.AlertUtils;
+import org.winternote.winternote.presentation.utils.AlertUtils;
 import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.application.property.PrivateProperty;
 import org.winternote.winternote.metadata.service.MetadataService;
@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static javafx.scene.control.Alert.AlertType.WARNING;
-import static org.winternote.winternote.controller.utils.message.Message.UNKNOWN_ERROR;
+import static org.winternote.winternote.presentation.utils.message.Message.UNKNOWN_ERROR;
 import static org.winternote.winternote.application.property.PublicProperty.*;
 
 @Component

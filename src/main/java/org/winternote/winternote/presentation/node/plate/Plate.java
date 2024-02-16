@@ -1,16 +1,16 @@
-package org.winternote.winternote.controller.node.plate;
+package org.winternote.winternote.presentation.node.plate;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import org.winternote.winternote.controller.node.element.Element;
+import org.winternote.winternote.presentation.node.element.Element;
 
 import java.util.List;
 
-import static org.winternote.winternote.controller.Shortcut.SIZE_DOWN_SHORTCUT;
-import static org.winternote.winternote.controller.Shortcut.SIZE_UP_SHORTCUT;
+import static org.winternote.winternote.presentation.Shortcut.SIZE_DOWN_SHORTCUT;
+import static org.winternote.winternote.presentation.Shortcut.SIZE_UP_SHORTCUT;
 
 public class Plate extends VBox {
 

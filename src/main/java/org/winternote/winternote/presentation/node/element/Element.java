@@ -1,10 +1,10 @@
-package org.winternote.winternote.controller.node.element;
+package org.winternote.winternote.presentation.node.element;
 
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
-import org.winternote.winternote.controller.node.plate.CursorPosition;
-import org.winternote.winternote.controller.node.plate.Plate;
+import org.winternote.winternote.presentation.node.plate.CursorPosition;
+import org.winternote.winternote.presentation.node.plate.Plate;
 
 public class Element extends TextField {
 

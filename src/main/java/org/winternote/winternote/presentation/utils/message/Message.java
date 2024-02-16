@@ -1,4 +1,4 @@
-package org.winternote.winternote.controller.utils.message;
+package org.winternote.winternote.presentation.utils.message;
 
 public enum Message {
 
