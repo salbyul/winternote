@@ -71,6 +71,9 @@ public class StarterController extends AbstractController {
         noteList.setSpacing(3);
     }
 
+    /**
+     * Shows a creation scene.
+     */
     @FXML
     private void onNewButtonClick() {
         CreationController controller = context.getBean(CreationController.class);
@@ -89,6 +92,12 @@ public class StarterController extends AbstractController {
         }
     }
 
+    /**
+     * Creates and returns a pane based on what is written in the note.
+     *
+     * @param note A note.
+     * @return Created a pane.
+     */
     private Pane transferToPane(final NoteSummary note) {
         // box setting
         HBox boxContent = new HBox();

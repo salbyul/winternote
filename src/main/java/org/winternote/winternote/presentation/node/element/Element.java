@@ -12,7 +12,6 @@ public class Element extends TextField {
 
     public Element(final Plate plate) {
         this.plate = plate;
-
         setFont(Font.font(20));
         onKeyPressedProperty().set(event -> {
             if (event.getCode().equals(KeyCode.ENTER)) {
@@ -26,6 +25,10 @@ public class Element extends TextField {
         textProperty().set(text);
     }
 
+    /**
+     * It is invoked if the enter key is pressed.
+     * Send a different signal depending on the caret position.
+     */
     private void signal() { // TextPiece
         int caretPosition = getCaretPosition();
         int length = getLength();
@@ -38,6 +41,12 @@ public class Element extends TextField {
         }
     }
 
+    /**
+     * Separate this element based on the caret position.
+     *
+     * @param index The caret position.
+     * @return Element array that separated.
+     */
     public Element[] separateAt(final int index) {
         String text = getText();
         setText(text.substring(0, index));
@@ -47,6 +56,11 @@ public class Element extends TextField {
         return separated;
     }
 
+    /**
+     * Position the caret at the index.
+     *
+     * @param index Index that caret will be positioned.
+     */
     public void positionCaretAt(final int index) {
         requestFocus();
         positionCaret(index);

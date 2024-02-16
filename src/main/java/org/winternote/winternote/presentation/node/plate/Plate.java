@@ -26,6 +26,9 @@ public class Plate extends VBox {
         addSizeHandler();
     }
 
+    /**
+     * Adds an event handler for font size.
+     */
     private void addSizeHandler() {
         addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (SIZE_UP_SHORTCUT.match(event) && displaySize < MAX_SIZE) {
@@ -38,6 +41,12 @@ public class Plate extends VBox {
         });
     }
 
+    /**
+     * Adds a new element based on the caret position.
+     *
+     * @param element  Element that sent a signal.
+     * @param position The caret position.
+     */
     public void listen(final Element element, final CursorPosition position) {
         ObservableList<Node> children = getChildren();
         int index = children.indexOf(element);
@@ -51,12 +60,25 @@ public class Plate extends VBox {
         }
     }
 
+    /**
+     * Returns an unmodifiable list of the elements contents.
+     *
+     * @return Unmodifiable list of the contents.
+     */
     public List<String> getContents() {
         return getChildren().stream()
                 .map(n -> ((Element) n).getText())
                 .toList();
     }
 
+    /**
+     * Separates the element to two from current caret.
+     * Then add two separated elements into the list of elements.
+     * The existing element will be replaced separated.
+     * Focus the second element of separated elements and position the caret at 0 of the second element.
+     *
+     * @param element The element to be separated.
+     */
     public void listenToSeparation(final Element element) {
         int caretPosition = element.getCaretPosition();
         Element[] separated = element.separateAt(caretPosition);
@@ -68,6 +90,11 @@ public class Plate extends VBox {
         separated[1].positionCaretAt(0);
     }
 
+    /**
+     * Replace these lines.
+     *
+     * @param lines Lines to be replaced.
+     */
     public void replaceLines(final List<String> lines) {
         getChildren().clear();
         List<Element> list = lines.stream()
@@ -75,6 +102,12 @@ public class Plate extends VBox {
                 .toList();
         getChildren().addAll(list);
     }
+
+    /**
+     * The font of elements is set to the font.
+     *
+     * @param font Font to be set.
+     */
     private void setFont(final Font font) {
         ObservableList<Node> children = getChildren();
         children.forEach(node -> ((Element) node).setFont(font));

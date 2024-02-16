@@ -64,12 +64,22 @@ public class NoteController extends AbstractController {
         this.title.setText(title);
     }
 
+    /**
+     * Sets the note and title.
+     *
+     * @param note The note.
+     */
     private void setNote(final Note note) {
         this.note = note;
         setTitle(note.getName());
         getStage().setTitle(APPLICATION_NAME + ": " + note.getName());
     }
 
+    /**
+     * Sets the plate.
+     *
+     * @param plate The plate.
+     */
     private void setPlate(final Plate plate) {
         this.plate = plate;
         main.getChildren().add(plate);
@@ -80,6 +90,11 @@ public class NoteController extends AbstractController {
         VBox.setVgrow(title, Priority.NEVER);
     }
 
+    /**
+     * Loads the note contents and replace lines of plate.
+     *
+     * @param note The note.
+     */
     private void loadNote(final Note note) {
         noteService.loadNoteLines(note);
         List<String> lines = note.getLinesAsString();
@@ -91,6 +106,9 @@ public class NoteController extends AbstractController {
         plate.requestFocus();
     }
 
+    /**
+     * Save note lines and transfer to a file from the contents of plate.
+     */
     private void saveNote() {
         List<Line> lines = plate.getContents().stream()
                 .map(Line::new)
@@ -100,6 +118,9 @@ public class NoteController extends AbstractController {
         noteService.saveNote(note);
     }
 
+    /**
+     * Add a save shortcut.
+     */
     private void addSaveEventHandler() {
         getStage().addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (SAVE_SHORTCUT.match(event)) {
@@ -108,6 +129,9 @@ public class NoteController extends AbstractController {
         });
     }
 
+    /**
+     * Free plate data and note data from memory.
+     */
     private void close() {
         this.plate = null;
         this.note = null;
