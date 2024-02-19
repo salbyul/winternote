@@ -46,8 +46,10 @@ public class MetadataService {
      * @param note Note that will be added.
      */
     public void addRecentNote(final Note note) {
-        metadataPersistence.addRecentNote(note);
-        logger.logAddedRecentNotes(note.getName(), note.getLocation());
+        boolean added = metadataPersistence.addRecentNote(note);
+        if (added) {
+            logger.logAddedRecentNotes(note.getName(), note.getLocation());
+        }
     }
 
     /**

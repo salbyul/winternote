@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.winternote.winternote.metadata.service.MetadataService;
 import org.winternote.winternote.presentation.node.plate.Plate;
 import org.winternote.winternote.presentation.utils.AlertUtils;
 import org.winternote.winternote.logging.WinterLogger;
@@ -35,6 +36,7 @@ public class NoteController extends AbstractController {
     private final WinterLogger logger;
     private final AlertUtils alertUtils;
     private final NoteService noteService;
+    private final MetadataService metadataService;
 
     private Note note;
 
@@ -52,12 +54,14 @@ public class NoteController extends AbstractController {
                           final PrivateProperty property,
                           final WinterLogger logger,
                           final AlertUtils alertUtils,
-                          final NoteService noteService) {
+                          final NoteService noteService,
+                          final MetadataService metadataService) {
         this.context = context;
         this.property = property;
         this.logger = logger;
         this.alertUtils = alertUtils;
         this.noteService = noteService;
+        this.metadataService = metadataService;
     }
 
     private void setTitle(final String title) {
@@ -151,6 +155,10 @@ public class NoteController extends AbstractController {
                 close();
             });
             stage.setOnShowing(e -> loadNote(note));
+            stage.setOnShown(e -> {
+                metadataService.addRecentNote(note);
+                metadataService.changeLocation(note.getLocation());
+            });
 
             NoteController noteController = fxmlLoader.getController();
             noteController.setStage(stage);

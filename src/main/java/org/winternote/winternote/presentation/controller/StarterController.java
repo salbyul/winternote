@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ import org.winternote.winternote.metadata.service.MetadataService;
 import org.winternote.winternote.note.domain.Note;
 import org.winternote.winternote.note.domain.NoteSummary;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -51,7 +53,14 @@ public class StarterController extends AbstractController {
     @FXML
     private VBox noteList;
 
-    public StarterController(final ApplicationContext context, final PrivateProperty property, final WinterLogger logger, final AlertUtils alertUtils, final MetadataService metadataService) {
+    @FXML
+    private Button openButton;
+
+    public StarterController(final ApplicationContext context,
+                             final PrivateProperty property,
+                             final WinterLogger logger,
+                             final AlertUtils alertUtils,
+                             final MetadataService metadataService) {
         this.context = context;
         this.property = property;
         this.logger = logger;
@@ -126,6 +135,35 @@ public class StarterController extends AbstractController {
             stage.show();
         });
         return pane;
+    }
+
+    /**
+     * Open a note.
+     */
+    @FXML
+    public void onOpenButtonClick() {
+        File file = showNoteChooser(metadataService.getRecentLocation());
+        Note note = Note.of(file);
+        NoteController noteController = context.getBean(NoteController.class);
+        Stage stage = noteController.generateStage(note);
+        getStage().close();
+        stage.show();
+    }
+
+    /**
+     * Shows a fileChooser.
+     *
+     * @param path The base path.
+     * @return Chosen Note.
+     */
+    private File showNoteChooser(final String path) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select a note you want to open.");
+        fileChooser.setInitialDirectory(new File(path));
+        ObservableList<FileChooser.ExtensionFilter> extensionFilters = fileChooser.getExtensionFilters();
+        extensionFilters.clear();
+        extensionFilters.add(new FileChooser.ExtensionFilter("note files", "*.md"));
+        return fileChooser.showOpenDialog(getStage());
     }
 
     public Stage generateStage() {

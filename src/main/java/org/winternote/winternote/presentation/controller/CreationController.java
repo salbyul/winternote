@@ -16,13 +16,13 @@ import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.winternote.winternote.common.exception.WinterException;
+import org.winternote.winternote.note.service.NoteService;
 import org.winternote.winternote.presentation.utils.AlertUtils;
 import org.winternote.winternote.presentation.utils.WindowUtils;
 import org.winternote.winternote.metadata.service.MetadataService;
 import org.winternote.winternote.logging.WinterLogger;
 import org.winternote.winternote.application.property.PrivateProperty;
 import org.winternote.winternote.note.domain.Note;
-import org.winternote.winternote.note.process.NoteCreationProcess;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class CreationController extends AbstractController {
     private final PrivateProperty property;
     private final AlertUtils alertUtils;
     private final WindowUtils windowUtils;
-    private final NoteCreationProcess noteCreationProcess;
+    private final NoteService noteService;
 
     @FXML
     private VBox screen;
@@ -59,14 +59,14 @@ public class CreationController extends AbstractController {
                               final PrivateProperty property,
                               final AlertUtils alertUtils,
                               final WindowUtils windowUtils,
-                              final NoteCreationProcess noteCreationProcess) {
+                              final NoteService noteService) {
         this.context = context;
         this.logger = logger;
         this.metadataService = metadataService;
         this.property = property;
         this.alertUtils = alertUtils;
         this.windowUtils = windowUtils;
-        this.noteCreationProcess = noteCreationProcess;
+        this.noteService = noteService;
     }
 
     public void initialize() {
@@ -88,8 +88,9 @@ public class CreationController extends AbstractController {
     private void onCreateButtonClick() {
         try {
             final String noteTitle = title.getText();
-            final String notePath = path.getText();
-            Note newNote = noteCreationProcess.createNewNote(noteTitle, notePath);
+            final String noteLocation = path.getText();
+            Note newNote = noteService.createNote(noteTitle, noteLocation);
+
 
             NoteController noteController = context.getBean(NoteController.class);
             Stage noteStage = noteController.generateStage(newNote);

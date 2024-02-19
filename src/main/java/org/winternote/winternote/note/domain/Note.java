@@ -2,6 +2,7 @@ package org.winternote.winternote.note.domain;
 
 import org.winternote.winternote.note.exception.NoteCreationException;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,10 +51,31 @@ public class Note {
         return Collections.unmodifiableList(lines);
     }
 
+    /**
+     * Returns a Note from NoteSummary.
+     *
+     * @param noteSummary NoteSummary.
+     * @return Note.
+     */
     public static Note of(final NoteSummary noteSummary) {
         return Note.builder()
                 .name(noteSummary.getName())
                 .location(noteSummary.getLocation())
+                .build();
+    }
+
+    /**
+     * Returns a note from a file.
+     *
+     * @param file File.
+     * @return Note.
+     */
+    public static Note of(final File file) {
+        String name = file.getName().substring(0, file.getName().length() - NOTE_EXTENSION.length());
+        String location = file.getPath().substring(0, file.getPath().length() - file.getName().length() - 1);
+        return Note.builder()
+                .name(name)
+                .location(location)
                 .build();
     }
 

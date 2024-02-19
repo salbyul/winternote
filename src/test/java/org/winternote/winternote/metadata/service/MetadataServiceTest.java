@@ -84,13 +84,31 @@ class MetadataServiceTest {
                 .build();
 
         // when
-        doNothing().when(metadataPersistence).addRecentNote(note);
+        when(metadataPersistence.addRecentNote(note)).thenReturn(true);
         doNothing().when(logger).logAddedRecentNotes(note.getName(), note.getLocation());
         metadataService.addRecentNote(note);
 
         // then
         verify(metadataPersistence, times(1)).addRecentNote(note);
         verify(logger, times(1)).logAddedRecentNotes(note.getName(), note.getLocation());
+    }
+
+    @Test
+    @DisplayName("If duplicated note add to recent notes list.")
+    void addDuplicatedNoteToRecentNote() {
+        // given
+        Note note = Note.builder()
+                .name("name")
+                .location("path")
+                .build();
+
+        // when
+        when(metadataPersistence.addRecentNote(note)).thenReturn(false);
+        metadataService.addRecentNote(note);
+
+        // then
+        verify(metadataPersistence, times(1)).addRecentNote(note);
+        verify(logger, times(0)).logAddedRecentNotes(any(), any());
     }
 
     @Test

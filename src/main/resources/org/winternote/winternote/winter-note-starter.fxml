@@ -5,6 +5,7 @@
 
 <VBox fx:id="screen" prefHeight="401.0" prefWidth="1202.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.winternote.winternote.presentation.controller.StarterController">
     <Button fx:id="newButton" mnemonicParsing="false" onAction="#onNewButtonClick" text="New" />
+    <Button fx:id="openButton" mnemonicParsing="false" onAction="#onOpenButtonClick" text="Open" />
     <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER">
         <VBox fx:id="noteList"/>
     </ScrollPane>
