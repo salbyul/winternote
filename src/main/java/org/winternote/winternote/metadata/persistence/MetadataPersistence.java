@@ -13,10 +13,7 @@ import org.winternote.winternote.note.domain.NoteSummary;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static org.winternote.winternote.metadata.persistence.MetadataElement.LOCATION;
 import static org.winternote.winternote.metadata.persistence.MetadataElement.RECENT_NOTES;
@@ -59,11 +56,16 @@ public class MetadataPersistence {
      * Write attributes of note in recent notes list of metadata.
      *
      * @param note Note to be saved.
+     * @return When added, true.
      */
-    public void addRecentNote(final Note note) {
+    public boolean addRecentNote(final Note note) {
         synchronized (this) {
-            metadataHandler.addRecentNote(note);
-            reload();
+            boolean added = metadataHandler.addRecentNote(note);
+            if (added) {
+                reload();
+                return true;
+            }
+            return false;
         }
     }
 
@@ -153,7 +155,7 @@ public class MetadataPersistence {
          *
          * @param note Note to be saved.
          */
-        public void addRecentNote(final Note note) {
+        public boolean addRecentNote(final Note note) {
             synchronized (this) {
                 String willBeAdded = "\t" + note.getName() + ": " + note.getLocation() + ",";
                 readAllLines();
@@ -172,6 +174,13 @@ public class MetadataPersistence {
                 }
 
                 lines.add(noteIndex, willBeAdded);
+                for (int i = noteIndex + 1; i < lines.size(); i++) {
+                    String line = lines.get(i);
+                    if (line.startsWith(willBeAdded)) {
+                        lines.remove(i);
+                        break;
+                    }
+                }
                 deleteMetadata();
                 BufferedWriter writer = generateWriter();
                 try {
@@ -183,6 +192,7 @@ public class MetadataPersistence {
                     throw new InitialException(e);
                 }
                 close(writer);
+                return true;
             }
         }
 
