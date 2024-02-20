@@ -9,21 +9,11 @@ public enum MarkdownSyntax {
         public boolean correspondWith(final String line) {
             return false;
         }
-
-        @Override
-        public String extractContent(final String line) {
-            return line;
-        }
     },
     HEADING1 {
         @Override
         public boolean correspondWith(final String line) {
             return line.matches("(?m)^#(?!#)(.*)");
-        }
-
-        @Override
-        public String extractContent(final String line) {
-            return line.substring(2);
         }
     },
     HEADING2 {
@@ -31,21 +21,11 @@ public enum MarkdownSyntax {
         public boolean correspondWith(final String line) {
             return line.matches("(?m)^#{2}(?!#)(.*)");
         }
-
-        @Override
-        public String extractContent(final String line) {
-            return line.substring(3);
-        }
     },
     HEADING3 {
         @Override
         public boolean correspondWith(final String line) {
             return line.matches("(?m)^#{3}(?!#)(.*)");
-        }
-
-        @Override
-        public String extractContent(final String line) {
-            return line.substring(4);
         }
     },
     HEADING4 {
@@ -53,21 +33,11 @@ public enum MarkdownSyntax {
         public boolean correspondWith(final String line) {
             return line.matches("(?m)^#{4}(?!#)(.*)");
         }
-
-        @Override
-        public String extractContent(final String line) {
-            return line.substring(5);
-        }
     },
     HEADING5 {
         @Override
         public boolean correspondWith(final String line) {
             return line.matches("(?m)^#{5}(?!#)(.*)");
-        }
-
-        @Override
-        public String extractContent(final String line) {
-            return line.substring(6);
         }
     },
     HEADING6 {
@@ -75,32 +45,23 @@ public enum MarkdownSyntax {
         public boolean correspondWith(final String line) {
             return line.matches("(?m)^#{6}(?!#)(.*)");
         }
-
-        @Override
-        public String extractContent(final String line) {
-            return line.substring(7);
-        }
     },
     BLOCKQUOTE {
         @Override
         public boolean correspondWith(final String line) {
             return line.matches("(^> ?.+?)((\\r?\\n\\r?\\n\\w)|\\Z)");
         }
-
-        @Override
-        public String extractContent(final String line) {
-            return line.substring(2);
-        }
     },
     ORDERED_LIST {
         @Override
         public boolean correspondWith(final String line) {
-            return line.matches("\\s*\\d.*");
+            return line.matches("\\s*\\d.\\s.*");
         }
-
+    },
+    UNORDERED_LIST {
         @Override
-        public String extractContent(final String line) {
-            return line;
+        public boolean correspondWith(final String line) {
+            return line.matches("\\s*-\\s.*");
         }
     };
 
@@ -111,14 +72,6 @@ public enum MarkdownSyntax {
      * @return Returns true if 'line' corresponds to a specific Markdown syntax, false otherwise.
      */
     public abstract boolean correspondWith(String line);
-
-    /**
-     * Extracts the actual value excluding Markdown syntax.
-     *
-     * @param line Line.
-     * @return The actual value.
-     */
-    public abstract String extractContent(String line);
 
     /**
      * Returns the Markdown syntax equivalent to 'line'.
@@ -141,7 +94,6 @@ public enum MarkdownSyntax {
      */
     public static MarkdownContent getContentFromString(final String line) {
         MarkdownSyntax syntax = getSyntaxFromString(line);
-        String value = syntax.extractContent(line);
-        return new MarkdownContent(syntax, value);
+        return new MarkdownContent(syntax, line);
     }
 }

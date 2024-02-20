@@ -67,38 +67,45 @@ public class DrawingPaper extends VBox {
                 return text;
             });
             nodeMap.put(HEADING1, value -> {
-                Text text = new Text(value);
+                String newValue = value.substring(2);
+                Text text = new Text(newValue);
                 text.setFont(Font.font(HEADING_ONE_SIZE));
                 return text;
             });
             nodeMap.put(HEADING2, value -> {
-                Text text = new Text(value);
+                String newValue = value.substring(3);
+                Text text = new Text(newValue);
                 text.setFont(Font.font(HEADING_TWO_SIZE));
                 return text;
             });
             nodeMap.put(HEADING3, value -> {
-                Text text = new Text(value);
+                String newValue = value.substring(4);
+                Text text = new Text(newValue);
                 text.setFont(Font.font(HEADING_THREE_SIZE));
                 return text;
             });
             nodeMap.put(HEADING4, value -> {
-                Text text = new Text(value);
+                String newValue = value.substring(5);
+                Text text = new Text(newValue);
                 text.setFont(Font.font(HEADING_FOUR_SIZE));
                 return text;
             });
             nodeMap.put(HEADING5, value -> {
-                Text text = new Text(value);
+                String newValue = value.substring(6);
+                Text text = new Text(newValue);
                 text.setFont(Font.font(HEADING_FIVE_SIZE));
                 return text;
             });
             nodeMap.put(HEADING6, value -> {
-                Text text = new Text(value);
+                String newValue = value.substring(7);
+                Text text = new Text(newValue);
                 text.setFont(Font.font(HEADING_SIX_SIZE));
                 return text;
             });
             nodeMap.put(BLOCKQUOTE, value -> {
+                String newValue = value.substring(2);
                 AnchorPane box = new AnchorPane();
-                Text text = new Text(value);
+                Text text = new Text(newValue);
                 HBox textBox = new HBox();
 
                 // text setting
@@ -129,6 +136,12 @@ public class DrawingPaper extends VBox {
             });
             nodeMap.put(ORDERED_LIST, value -> {
                 Text text = new Text(value);
+                text.setFont(Font.font(PLAIN_SIZE));
+                return text;
+            });
+            nodeMap.put(UNORDERED_LIST, value -> {
+                String newValue = value.substring(0, value.indexOf("- ")) + "· " + value.substring(value.indexOf("- ") + 2);
+                Text text = new Text(newValue);
                 text.setFont(Font.font(PLAIN_SIZE));
                 return text;
             });
