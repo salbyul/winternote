@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -12,6 +13,7 @@ import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.winternote.winternote.metadata.service.MetadataService;
+import org.winternote.winternote.presentation.node.drawingpaper.DrawingPaper;
 import org.winternote.winternote.presentation.node.plate.Plate;
 import org.winternote.winternote.presentation.utils.AlertUtils;
 import org.winternote.winternote.logging.WinterLogger;
@@ -47,8 +49,12 @@ public class NoteController extends AbstractController {
     private AnchorPane listPane;
 
     @FXML
-    private VBox main;
+    private VBox editor;
     private Plate plate;
+    private DrawingPaper drawingPaper;
+
+    @FXML
+    private HBox main;
 
     public NoteController(final ApplicationContext context,
                           final PrivateProperty property,
@@ -86,12 +92,27 @@ public class NoteController extends AbstractController {
      */
     private void setPlate(final Plate plate) {
         this.plate = plate;
-        main.getChildren().add(plate);
+        editor.getChildren().add(plate);
     }
 
     public void initialize() {
-        main.setSpacing(20);
+        listPane.setPrefWidth(property.getDisplayWidth() * 0.1);
+        listPane.setPrefHeight(property.getDisplayHeight());
+        main.setPrefWidth(property.getDisplayWidth() * 0.9);
+        main.setPrefHeight(property.getDisplayHeight());
         VBox.setVgrow(title, Priority.NEVER);
+        initializeEditor();
+    }
+
+    private void initializeEditor() {
+        editor.setSpacing(20);
+        editor.setPrefWidth(main.getPrefWidth() / 2);
+    }
+
+    private void initializeDrawingPaper() {
+        this.drawingPaper = new DrawingPaper(this.plate);
+        drawingPaper.setPrefWidth(main.getPrefWidth() / 2);
+        main.getChildren().add(drawingPaper);
     }
 
     /**
@@ -108,6 +129,7 @@ public class NoteController extends AbstractController {
         }
         plate.replaceLines(note.getLinesAsString());
         plate.requestFocus();
+        initializeDrawingPaper();
     }
 
     /**
