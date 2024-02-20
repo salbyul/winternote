@@ -25,6 +25,9 @@ public class DrawingPaper extends VBox {
         drawing();
     }
 
+    /**
+     * Take text from a plate and draw Markdown.
+     */
     private void drawing() {
         List<Line> lines = plate.getContents().stream()
                 .map(Line::new)
