@@ -1,8 +1,10 @@
 package org.winternote.winternote.presentation.node.drawingpaper;
 
 import javafx.collections.ObservableList;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Separator;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -145,6 +147,7 @@ public class DrawingPaper extends VBox {
                 text.setFont(Font.font(PLAIN_SIZE));
                 return text;
             });
+            nodeMap.put(HORIZONTAL_RULE, value -> new Separator(Orientation.HORIZONTAL));
         }
 
         private static Node generate(final MarkdownSyntax syntax, final String value) {

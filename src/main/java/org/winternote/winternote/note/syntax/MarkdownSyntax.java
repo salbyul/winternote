@@ -63,6 +63,12 @@ public enum MarkdownSyntax {
         public boolean correspondWith(final String line) {
             return line.matches("\\s*-\\s.*");
         }
+    },
+    HORIZONTAL_RULE {
+        @Override
+        public boolean correspondWith(final String line) {
+            return line.matches("-{3,}") || line.matches("_{3,}") || line.matches("\\*{3,}");
+        }
     };
 
     /**
