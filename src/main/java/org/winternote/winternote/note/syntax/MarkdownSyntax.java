@@ -80,6 +80,17 @@ public enum MarkdownSyntax {
         public String extractContent(final String line) {
             return line.substring(7);
         }
+    },
+    BLOCKQUOTE {
+        @Override
+        public boolean correspondWith(final String line) {
+            return line.startsWith("> ");
+        }
+
+        @Override
+        public String extractContent(final String line) {
+            return line.substring(2);
+        }
     };
 
     /**

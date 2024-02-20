@@ -1,7 +1,10 @@
 package org.winternote.winternote.presentation.node.drawingpaper;
 
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -92,6 +95,37 @@ public class DrawingPaper extends VBox {
                 Text text = new Text(value);
                 text.setFont(Font.font(HEADING_SIX_SIZE));
                 return text;
+            });
+            nodeMap.put(BLOCKQUOTE, value -> {
+                AnchorPane box = new AnchorPane();
+                Text text = new Text(value);
+                HBox textBox = new HBox();
+
+                // text setting
+                text.setFont(Font.font(PLAIN_SIZE));
+
+                // box setting
+                box.getChildren().add(textBox);
+                box.setPrefHeight(text.getFont().getSize() * 3);
+                StringBuilder sb = new StringBuilder();
+                box.setStyle(sb
+                        .append("-fx-padding: 0 0 0 10;")
+                        .append("-fx-background-color: #CCCCCC;")
+                        .toString()
+                );
+                AnchorPane.setTopAnchor(textBox, 0.0);
+                AnchorPane.setBottomAnchor(textBox, 0.0);
+                AnchorPane.setLeftAnchor(textBox, 0.0);
+                AnchorPane.setRightAnchor(textBox, 0.0);
+
+                // textBox setting
+                textBox.setStyle("-fx-background-color: #F9F9F9;");
+                textBox.setPrefWidth(box.getWidth());
+                textBox.setPrefHeight(box.getPrefHeight());
+                textBox.getChildren().add(text);
+                textBox.setAlignment(Pos.CENTER_LEFT);
+
+                return box;
             });
         }
 
