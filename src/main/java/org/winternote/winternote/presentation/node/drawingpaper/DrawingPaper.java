@@ -30,6 +30,7 @@ public class DrawingPaper extends VBox {
                 .map(Line::new)
                 .toList();
         ObservableList<Node> children = getChildren();
+        children.clear();
         lines.forEach(line -> {
             MarkdownContent content = getContentFromString(line.getContent());
             children.add(
