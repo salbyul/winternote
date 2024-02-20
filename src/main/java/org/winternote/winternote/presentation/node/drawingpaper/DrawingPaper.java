@@ -127,6 +127,11 @@ public class DrawingPaper extends VBox {
 
                 return box;
             });
+            nodeMap.put(ORDERED_LIST, value -> {
+                Text text = new Text(value);
+                text.setFont(Font.font(PLAIN_SIZE));
+                return text;
+            });
         }
 
         private static Node generate(final MarkdownSyntax syntax, final String value) {

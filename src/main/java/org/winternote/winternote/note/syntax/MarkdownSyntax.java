@@ -18,7 +18,7 @@ public enum MarkdownSyntax {
     HEADING1 {
         @Override
         public boolean correspondWith(final String line) {
-            return line.startsWith("# ");
+            return line.matches("(?m)^#(?!#)(.*)");
         }
 
         @Override
@@ -29,7 +29,7 @@ public enum MarkdownSyntax {
     HEADING2 {
         @Override
         public boolean correspondWith(final String line) {
-            return line.startsWith("## ");
+            return line.matches("(?m)^#{2}(?!#)(.*)");
         }
 
         @Override
@@ -40,7 +40,7 @@ public enum MarkdownSyntax {
     HEADING3 {
         @Override
         public boolean correspondWith(final String line) {
-            return line.startsWith("### ");
+            return line.matches("(?m)^#{3}(?!#)(.*)");
         }
 
         @Override
@@ -51,7 +51,7 @@ public enum MarkdownSyntax {
     HEADING4 {
         @Override
         public boolean correspondWith(final String line) {
-            return line.startsWith("#### ");
+            return line.matches("(?m)^#{4}(?!#)(.*)");
         }
 
         @Override
@@ -62,7 +62,7 @@ public enum MarkdownSyntax {
     HEADING5 {
         @Override
         public boolean correspondWith(final String line) {
-            return line.startsWith("##### ");
+            return line.matches("(?m)^#{5}(?!#)(.*)");
         }
 
         @Override
@@ -73,7 +73,7 @@ public enum MarkdownSyntax {
     HEADING6 {
         @Override
         public boolean correspondWith(final String line) {
-            return line.startsWith("###### ");
+            return line.matches("(?m)^#{6}(?!#)(.*)");
         }
 
         @Override
@@ -84,12 +84,23 @@ public enum MarkdownSyntax {
     BLOCKQUOTE {
         @Override
         public boolean correspondWith(final String line) {
-            return line.startsWith("> ");
+            return line.matches("(^> ?.+?)((\\r?\\n\\r?\\n\\w)|\\Z)");
         }
 
         @Override
         public String extractContent(final String line) {
             return line.substring(2);
+        }
+    },
+    ORDERED_LIST {
+        @Override
+        public boolean correspondWith(final String line) {
+            return line.matches("\\s*\\d.*");
+        }
+
+        @Override
+        public String extractContent(final String line) {
+            return line;
         }
     };
 
